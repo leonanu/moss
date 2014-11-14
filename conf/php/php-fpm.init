@@ -1,0 +1,224 @@
+#!/bin/bash
+######################################################
+## Modify by adam.li@ismole.com at 2012-07-20 14:48 ##
+## Compatible with RedHat/CentOS Debian/Ubuntu SUSE ##
+######################################################
+
+# Support chkconfig on RedHat/CentOS Linux
+# chkconfig:   2345 70 70
+# description: PHP FastCGI Server
+# processname: php-fpm
+# config:      /usr/local/php/etc/php-fpm.conf
+# pidfile:     /var/run/php-fpm.pid
+
+# Support Linux Standard Base Core Specification 3.2
+### BEGIN INIT INFO
+# Provides:          php-fpm
+# Required-Start:    $local_fs $syslog $network
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 S 1 6
+# Short-Description: start/stop php-fpm daemon
+# Description:       php-fpm is fastcgi deamon
+### END INIT INFO
+
+#debug
+#set -x
+#check unbound variables 
+#set -u
+# scripts PATH enviroment
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+# disable core dump
+ulimit -c 0
+# script return value
+RETVAL=0
+# php-fpm general config
+PROG='php-fpm'
+SYMLINK=$(readlink -f /usr/local/php)
+BASEDIR=${SYMLINK:-/usr/local/php}
+DAEMON="${BASEDIR}/sbin/$PROG"
+CONF="${BASEDIR}/etc/php-fpm.conf"
+PIDFILE="/var/run/${PROG}.pid"
+LOCKFILE="/var/lock/$PROG"
+# php-fpm start timeout milliscond
+STARTTIME=10000
+# php-fpm stop timeout milliscond
+STOPTIME=10000
+
+#Common Function
+color_msg(){
+    local COLOR=$1
+    local MSG=$2
+    OFFSET="\033[60G"
+    NORMAL="\033[0m"
+    case $COLOR in
+        red)
+            COLOR="\033[1;40;31m"
+            ;;
+        green)
+            COLOR="\033[1;40;32m"
+            ;;
+        yellow)
+            COLOR="\033[1;40;33m"
+            ;;
+        *)
+            COLOR="\033[0m"
+            ;;
+    esac
+    echo -en "$OFFSET [$COLOR $MSG $NORMAL"
+    echo     "]"
+}
+
+configtest() {
+    echo -n "Configtest $PROG : "
+    $DAEMON --fpm-config $CONF -t
+    if [ $? -eq 0 ]; then
+        color_msg green SUCCESS
+    else
+        color_msg red FAILED && exit 1
+    fi
+}
+
+start() {
+    echo -n "Starting $PROG : "
+    PROC_PID=$(pgrep -P 1 -u root ^$PROG)
+    if [ -n "$PROC_PID" ]; then
+        echo -n "is already running."
+        color_msg yellow WARNING
+    else
+        $DAEMON --fpm-config $CONF >/dev/null 2>&1
+        if [  $? -eq 0 ]; then
+            color_msg green SUCCESS && touch $LOCKFILE
+        else
+            color_msg red FAILED && exit 1
+        fi
+    fi
+}
+
+stop() {
+    echo -n "Stopping $PROG : "
+    PROC_PID=$(pgrep -P 1 -u root ^$PROG)
+    if [ -z "$PROC_PID" ]; then
+        echo -n "is not running."
+        color_msg yellow WARNING
+    else
+        kill -TERM ${PROC_PID} >/dev/null 2>&1
+        while [ "$STOPTIME" -gt 0 ]; do
+            kill -0 ${PROC_PID} >/dev/null 2>&1 || break
+            STOPTIME=$(($STOPTIME-1))
+            echo -n "." && sleep 0.001s
+        done
+        if [ "$STOPTIME" -le 0 ]; then
+            color_msg red TIMEOUT && exit 1
+        else
+            color_msg green SUCCESS
+            rm -f $PIDFILE $LOCKFILE
+        fi
+    fi
+}
+
+restart() {
+    echo -n $"Restart $PROG : "
+    echo
+    echo -en "\t" && stop
+    echo -en "\t" && start
+}
+
+reload() {
+    echo -n "Reload service $PROG : "
+    PROC_PID=$(pgrep -P 1 -u root ^$PROG)
+    if [ -z "$PROC_PID" ]; then
+        echo -n "is not running."
+        color_msg yellow WARNING
+    else
+        kill -USR2 ${PROC_PID}
+        if [ $? -eq 0 ]; then
+            color_msg green SUCCESS
+        else
+            color_msg red FAILED && exit 1
+        fi
+    fi
+}
+
+status() {
+    PROC_PID=$(pgrep -P 1 -u root ^$PROG)
+    if [ -z "$PROC_PID" ];then
+        echo "$PROG is stopped"
+        exit 3
+    else
+        echo "$PROG (pid $PROC_PID) is running..."
+        exit 0
+    fi
+}
+
+quit() {
+    echo -n "Gracefully shuttding down $PROG : "
+    PROC_PID=$(pgrep -P 1 -u root ^$PROG)
+    if [ -z "$PROC_PID" ]; then
+        echo -n "is not running."
+        color_msg yellow WARNING
+    else
+        kill -QUIT ${PROC_PID}
+        while [ "$STOPTIME" -gt 0 ]; do
+            kill -0 ${PROC_PID} >/dev/null 2>&1 || break
+            STOPTIME=$(($STOPTIME-1))
+            echo -n "." && sleep 0.001s
+        done
+        if [ "$STOPTIME" -le 0 ]; then
+            color_msg red TIMEOUT && exit 1
+        else
+            color_msg green SUCCESS
+            rm -f $PIDFILE $LOCKFILE
+        fi
+    fi
+}
+
+logrotate() {
+    echo -n "Re-opening $PROG log file : "
+    PROC_PID=$(pgrep -P 1 -u root ^$PROG)
+    if [ -z "$PROC_PID" ]; then
+        echo -n "is not running."
+        color_msg yellow WARNING
+    else
+        kill -USR1 ${PROC_PID} 
+        if [ $? -eq 0 ]; then
+            color_msg green SUCCESS
+        else
+            color_msg red FAILED && exit 1
+        fi
+    fi
+}
+
+case "$1" in
+    configtest)
+        configtest
+        ;;
+    start)
+        configtest
+        start    
+        ;;
+    stop)
+        stop
+	   ;;
+    restart|try-restart)
+        configtest
+        restart
+        ;;
+    reload|force-reload)
+        configtest
+        reload
+        ;;
+    status)
+        status
+        ;;
+    quit)
+        quit
+	   ;;
+    logrotate)
+        logrotate
+        ;;
+    *)
+        echo "Usage: $0 {configtest|start|stop|quit|status|reload|restart|logrotate}"
+        exit 1
+        ;;
+esac

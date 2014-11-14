@@ -1,0 +1,8 @@
+RSA Public Key Direcotry
+
+You can put user's RSA public keys in this directory.
+
+* The key file must named as USERNAME.pub e.g. tony.pub;
+* The username must same as set in moss.conf;
+* All file that are not ended by .pub will be ignored by installation;
+* DO NOT delete this directory even it is empty;

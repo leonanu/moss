@@ -1,0 +1,213 @@
+#!/bin/bash
+######################################################
+## Modify by adam.li@ismole.com at 2012-07-20 15:08 ##
+## Compatible with RedHat/CentOS Debian/Ubuntu SUSE ##
+######################################################
+
+# Support chkconfig on RedHat/CentOS
+# chkconfig:    2345 64 36
+# description:  A very fast and reliable SQL database engine.
+# processname:  mysqld
+# config:       /etc/my.cnf
+# pidfile:      /var/run/mysqld.pid
+
+# Support Linux Standard Base Core Specification 3.2
+### BEGIN INIT INFO
+# Provides: mysql
+# Required-Start:    $local_fs $syslog $network
+# Required-Stop:     $local_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 S 1 6
+# Short-Description: start and stop MySQL
+# Description:       MySQL is a very fast and reliable SQL database engine.
+### END INIT INFO
+
+#debug
+#set -x
+#check unbound variables 
+#set -u
+# script PATH enviroment
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+# disable core dump
+ulimit -c 0
+# script retuen value
+RETVAL=0
+# mysql genaral config
+PROG="mysqld"
+SYMLINK="$(readlink -f /usr/local/mysql)"
+BASEDIR=${SYMLINK:-/usr/local/mysql}
+BINDIR="${BASEDIR}/bin"
+DAEMON="${BINDIR}/mysqld_safe"
+CONF="/etc/my.conf"
+LOCKFILE="/var/lock/$PROG"
+# start or stop mysql will be terminated because of timeout
+STARTTIME=600
+STOPTIME=600
+#TCMALLOC="/usr/local/tcmalloc"
+#--malloc-lib=$TCMALLOC
+
+#Common Function
+color_msg(){
+    local COLOR=$1
+    local MSG=$2
+    OFFSET="\033[60G"
+    NORMAL="\033[0m"
+    case $COLOR in
+        red)
+            COLOR="\033[1;40;31m"
+            ;;
+        green)
+            COLOR="\033[1;40;32m"
+            ;;
+        yellow)
+            COLOR="\033[1;40;33m"
+            ;;
+        *)
+            COLOR="\033[0m"
+            ;;
+    esac
+    echo -en "$OFFSET [$COLOR $MSG $NORMAL"
+    echo     "]"
+}
+
+##get mysqld section parameters
+get_mysql_option(){
+    result=$($BINDIR/my_print_defaults mysqld | sed -n "s/^--$1=//p")
+    [ -z "$result" ] && result="$2"
+}
+
+get_mysql_option plugin-dir "${BASEDIR}/lib/plugin"
+PLUGINDIR="$result"
+get_mysql_option datadir "/var/lib/mysql"
+DATADIR="$result"
+get_mysql_option bind-address "127.0.0.1"
+BINDADDR="$result"
+get_mysql_option port "3306"
+PORT="$result"
+get_mysql_option socket "/tmp/mysql.sock"
+SOCKET="$result"
+get_mysql_option log-error "${DATADIR}/${HOSTNAME}.err"
+ERRLOG="$result"
+get_mysql_option pid-file "${DATADIR}/${HOSTNAME}.pid"
+PIDFILE="$result"
+
+
+initdb(){
+    if [ ! -d "$DATADIR/mysql" ]; then
+        [ ! -d "$DATADIR" ] && mkdir -p $DATADIR
+        chown mysql:mysql $DATADIR
+        chmod 0750 $DATADIR
+        echo -n "Initialize $PROG databases : "
+        cd ${BASEDIR} && scripts/mysql_install_db --datadir="$DATADIR" --skip-name-resolve --user=mysql >/dev/null 2>&1
+        if [ $? -eq 0 ];then
+            color_msg green SUCESS
+        else
+            color_msg red FAILED && exit 1
+        fi
+    fi
+}
+
+start(){
+    echo -n "Starting $PROG : "
+    PROC_PID=$(pgrep -u mysql ^$PROG)
+    if [ -n "${PROC_PID}" ]; then
+        echo -n "is already running."
+        color_msg yellow WARNING
+    else
+        initdb
+        chown -R mysql:mysql $DATADIR
+        chmod 0750 $DATADIR
+        $DAEMON --basedir="$BASEDIR" --datadir="$DATADIR" --socket="$SOCKET" \
+        --log-error="$ERRLOG" --pid-file="$PIDFILE"  --user=mysql >/dev/null 2>&1 &
+        PROC_PID=$!
+        while [ "$STARTTIME" -gt 0 ]; do
+            kill -0 ${PROC_PID} >/dev/null 2>&1 && ${BINDIR}/mysqladmin --socket="$SOCKET" ping >/dev/null 2>&1 && break
+            STARTTIME=$(($STARTTIME-1))
+            echo -n "." && sleep 1s
+        done
+
+        if [ "$STARTTIME" -le 0 ]; then
+            color_msg red TIMEOUT && exit 1
+        else
+            color_msg green SUCCESS && touch $LOCKFILE
+        fi
+    fi
+}
+
+stop() {
+    echo -n "Stopping $PROG : "
+    PROC_PID=$(pgrep -u mysql ^$PROG)
+    if [ -z "$PROC_PID" ]; then
+        echo -n "is not running."
+        color_msg yellow WARNING
+    else
+        kill ${PROC_PID}
+        while [ "$STOPTIME" -gt 0 ]; do
+            kill -0 $PROC_PID >/dev/null 2>&1 || break
+            STOPTIME=$(($STOPTIME-1))
+            echo -n "." && sleep 1s
+        done
+
+        if [ "$STOPTIME" -le 0 ]; then
+            color_msg red TIMEOUT && exit 1
+        else
+            color_msg green SUCCESS && rm -f $LOCKFILE
+        fi
+    fi
+}
+
+restart() {
+    echo -n "Restart $PROG : "
+    echo
+    echo -en "\t" && stop
+    echo -en "\t" && start
+}
+
+reload() {
+    echo -n "Reloading $PROG : "
+    PROC_PID=$(pgrep -u mysql ^$PROG)
+    if [ -z "$PROC_PID" ]; then
+        echo -n "is not running."
+        color_msg yellow WARNING
+    else
+        kill -HUP ${PROC_PID} >/dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            color_msg green SUCCESS
+        else
+            color_msg red FAILED && exit 1
+        fi
+    fi
+}
+
+status() {
+    PROC_PID=$(pgrep -u mysql ^$PROG)
+    if [ -z "$PROC_PID" ];then
+        echo "$PROG is stopped"
+        exit 3
+    else
+        echo "$PROG (pid $PROC_PID) is running..."
+        exit 0
+    fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart|try-restart)
+        restart
+        ;;
+    reload|force-reload)
+        reload
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+        ;;
+esac

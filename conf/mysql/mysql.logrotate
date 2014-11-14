@@ -1,0 +1,25 @@
+/var/log/mysql/*.log {
+    daily
+    rotate 90
+    ifempty
+    #compress
+    dateext
+    dateformat -%Y%m%d
+    missingok
+    nomail
+    noolddir
+    sharedscripts
+    postrotate
+        FILE_DATE=$(/bin/date +'%Y%m%d')
+        REAL_DATE=$(/bin/date --date '1 days ago' +'%Y%m%d')
+        LOG_FILE='errors slow mysql'
+        for I in $LOG_FILE;do
+            /bin/mv /var/log/mysql/${I}.log-${FILE_DATE} /var/log/mysql/${I}.log-${REAL_DATE}
+        done
+        /usr/local/mysql/bin/mysqladmin ping && /usr/local/mysql/bin/mysqladmin flush-logs
+        for I in $LOG_FILE;do
+            /bin/tar czf /var/log/mysql/${I}.log-${REAL_DATE}.tar.gz /var/log/mysql/${I}.log-${REAL_DATE}
+            /bin/rm -f /var/log/mysql/${I}.log-${REAL_DATE}
+        done
+    endscript
+}

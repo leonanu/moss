@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# varnish Control the Varnish Cache
+#
+# chkconfig: - 90 10
+# description: Varnish is a high-perfomance HTTP accelerator
+# processname: varnishd
+# config: /usr/local/varnish/etc/varnish.conf
+# pidfile: /var/run/varnishd.pid
+#
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+BINFILE="/usr/local/varnish/sbin/varnishd"
+PROG="varnishd"
+
+RETVAL=0
+
+CFGFILE="/usr/local/varnish/etc/varnish/varnish.conf"
+PIDFILE="/usr/local/varnish/var/varnish/varnish.pid"
+LOCKFILE="/var/lock/varnish.lock"
+RELOAD_EXEC="/usr/local/varnish/bin/varnishreload"
+
+. /etc/rc.d/init.d/functions
+
+[[ -e ${CFGFILE} ]] && . ${CFGFILE}
+
+start() {
+        IS_EXIST=`ps -A -oppid,pid,cmd | grep sbin/${PROG} | grep -v grep`
+        [[ -n "${IS_EXIST}" ]] && echo "The process of ${PROG} has been running." && exit 1
+
+        [[ ! -x ${BINFILE} ]] && echo ${BINFILE} has no found && exit 5
+        [[ ! -f ${CFGFILE} ]] && echo ${CFGFILE} has no found && exit 6
+
+        echo -n "Starting Varnish Cache......"
+
+        ulimit -n ${NFILES:-131072}
+        ulimit -l ${MEMLOCK:-82000}
+        ulimit -u ${NPROCS:-unlimited}
+
+        if [[ "${DAEMON_OPTS}X" == "X" ]]; then
+                  echo -n "Please setting DAEMON_OPTS options in ${CFGFILE}"
+                  RETVAL=6
+        else
+                  [[ -d `dirname $VARNISH_STORAGE_FILE` ]] || mkdir -p `dirname $VARNISH_STORAGE_FILE`
+                  chown -R varnish:varnish `dirname $VARNISH_STORAGE_FILE`
+
+                  ${BINFILE} -P ${PIDFILE} $DAEMON_OPTS #>/dev/null 2>&1
+                  RETVAL=$?
+                  echo
+                  [[ $RETVAL -eq 0 ]] && touch ${LOCKFILE} && echo_success
+        fi
+
+        return $RETVAL
+}
+
+stop() {
+        echo -n "Stopping Varnish Cache......"
+        /bin/kill -QUIT ${PROG}
+        RETVAL=$?
+        echo
+        [[ $RETVAL -eq 0 ]] && rm -f ${LOCKFILE} && echo_success
+
+        return $RETVAL
+}
+
+restart() {
+        stop
+        sleep 1
+        start
+}
+
+reload() {
+        [[ "$RELOAD_VCL" = "1" ]] && $RELOAD_EXEC || restart
+
+        RETVAL=$?
+        echo
+        return $RETVAL
+}
+
+configtest() {
+        if [[ -f ${CFGFILE} ]]; then
+                  ${BINFILE} -f ${CFGFILE} -C -n /tmp >/dev/null 2>&1
+                  RETVAL=$?
+                  [[ $? -eq 0 ]] && echo "The syntax is ok." || echo "Thesyntax is error."
+        else
+                  RETVAL=$?
+                  echo "The config file: ${CFGFILE} is no exists."
+        fi
+
+        return $RETVAL
+}
+
+case "$1" in
+start|stop|restart|reload|configtest)
+        $1
+        ;;
+
+*)
+        echo "Usage: $0 {start|stop|restart|reload|configtest}"
+        exit2
+esac
+
+exit $RETVAL

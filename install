@@ -1,0 +1,293 @@
+#!/bin/bash
+######################################################
+## Written by Nanu (nanu@qq.com)                    ##
+######################################################
+
+# Debug
+#set -x
+#set -u
+#set -e
+
+# Version
+readonly VER='1.6.1'
+if [ $1 == '-v' ] 2>/dev/null;then
+    echo $VER
+    exit 0
+fi
+
+## Pre-set Global readonly variables
+readonly TOP_DIR="$(cd $(dirname $0);pwd)"
+
+## Debug
+#exec 1>${TOP_DIR}/stdout.log
+#exec 2>${TOP_DIR}/stderr.log
+
+## Global Readonly Variables
+readonly DATE=$(date +%Y%m%d-%H-%M)
+readonly ARCH=$(uname -i)
+readonly STORE_DIR="${TOP_DIR}/src"
+readonly INST_LOG="/var/log/moss.log"
+readonly CHECK_MD5=1
+readonly INST_CONF=1
+readonly HOME='/var/empty'
+readonly PATH='/usr/bin:/bin:/usr/sbin:/sbin'
+
+## Import Moos settings
+source ${TOP_DIR}/etc/moss.conf 2>/dev/null
+
+## Shell Environment
+export HOME PATH
+alias cp='cp'
+alias mv='mv'
+alias rm='rm'
+alias grep='grep --color'
+
+## Include common functions
+source ${TOP_DIR}/common/functions.sh
+
+## Check Privilege
+[ $(id -u) -ne 0 ] && fail_msg "You must be root!"
+
+## Check Architecture
+[ "$ARCH" != 'x86_64' ] && fail_msg "Moos didn't support $ARCH, please install x86_64!"
+
+## Check OS
+OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
+[ "${OS_VER}" -lt 6 ] && fail_msg "Moss didn't support OS: ${OS_VER}, please install CentOS-6.x-x86_64!"
+
+## Check Install Directory
+[ ! -d $INST_DIR ] && mkdir -p $INST_DIR
+
+## Weclcome
+succ_msg "\n=================================================================================================="
+succ_msg "Welcome to Moos ${VER}\n\n"
+succ_msg "Moos ia a Linux WEB application environment deployment system.\n"
+warn_msg "Support Options:"
+warn_msg "./install init\t\tInitial & optimize CentOS system only."
+warn_msg "./install lb\t\tInstall KeepAlived + LVS."
+warn_msg "./install cache\tInstall Squid or Varnish web cache proxy."
+warn_msg "./install web\t\tInstall Nginx web server and PHP FastCGI."
+warn_msg "./install db\t\tInstall MySQL database server."
+warn_msg "./install nosql\tInstall Redis and memcached NoSQL database."
+warn_msg "./install zagent\tInstall Zabbix agent."
+warn_msg "./install ntp\t\tInstall NTP server."
+warn_msg "./install -v\t\tDisplay version.\n"
+warn_msg "Please edit ${TOP_DIR}/etc/moss.conf to modify some settings. "
+succ_msg "==================================================================================================\n"
+read -p "Press any key to continue."
+
+if [ ! -f "${TOP_DIR}/etc/moss.conf" ];then
+    fail_msg "${TOP_DIR}/etc/moss.conf is not found!"
+fi
+
+## Check basic config
+[ -z ${OS_HOSTNAME} ] && fail_msg "You have to set OS_HOSTNAME in ${TOP_DIR}/etc/moss.conf!"
+[ -z ${OS_ROOT_PASSWD} ] && fail_msg "You have to set OS_ROOT_PASSWD in ${TOP_DIR}/etc/moss.conf!"
+
+## Import packages information list
+if [ $1 == 'init' ] 2>/dev/null;then
+    succ_msg "Initial and optimize system. Skip download packages."
+    SKIP_PKGLIST=1
+elif [ $1 == 'ntp' ] 2>/dev/null;then
+    succ_msg "Setup NTP server. Skip download packages."
+    SKIP_PKGLIST=1
+else
+    SKIP_PKGLIST=0
+    if [ $PGM == 'local' ];then
+        succ_msg "Using local packages directory."
+        sleep 1
+    elif [ $PGM == 'remote' ];then
+        if [ -f "${STORE_DIR}/packages.info" ];then
+            warn_msg "Old packages.info found. Downloading lastest version..."
+            sleep 1
+            rm -f ${STORE_DIR}/packages.info
+        fi
+        succ_msg "Fetching packages.info from remote server..."
+        wget -c -t10 -nH -T900 ${DOWN_URL}/packages.info -P ${STORE_DIR}
+        if [ $? -eq 0 ]; then
+            succ_msg "packages.info download OK!"
+            sleep 1
+        else
+            fail_msg "packages.info download error!"
+        fi
+    else
+        fail_msg "Package Get Mode (PGM) error! Check ${TOP_DIR}/etc/moss.conf!"
+    fi
+fi
+
+if [ ${SKIP_PKGLIST} -ne 1 ];then
+    if [ ! -f "${STORE_DIR}/packages.info" ];then
+        fail_msg "packages.info not found! It should be placed in ${STORE_DIR}!"
+    else
+        source ${STORE_DIR}/packages.info
+    fi
+fi
+
+## Install development libs
+install_dev () {
+    source ${TOP_DIR}/common/install_dev.sh
+}
+
+## Config System
+sysconfig () {
+    source ${TOP_DIR}/common/config_sys.sh
+    source ${TOP_DIR}/common/root.pub.sh
+}
+
+## Build development library
+install_libs () {
+    source ${TOP_DIR}/compile/zlib.sh
+    source ${TOP_DIR}/compile/openssl.sh
+    source ${TOP_DIR}/compile/cares.sh
+    source ${TOP_DIR}/compile/curl.sh
+    source ${TOP_DIR}/compile/libxml2.sh
+    source ${TOP_DIR}/compile/pcre.sh
+    source ${TOP_DIR}/compile/libmcrypt.sh
+}
+
+## KeepAlived & LVS
+lb () {
+    source ${TOP_DIR}/compile/keepalived.sh
+}
+
+## Proxy Cache
+cache () {
+    PCS=0
+    while [ $PCS == 0 ]; do
+        warn_msg "\n==========================="
+        warn_msg "Prxoy-Cache Installation "
+        warn_msg "1 - Squid;"
+        warn_msg "2 - Varnish;"
+        warn_msg "===========================\n"
+        PCM=1
+        read -p "Select 1 or 2:" PCM
+
+        if [ $PCM -eq 1 2>/dev/null ]; then
+            source ${TOP_DIR}/compile/squid.sh
+            PCS=1
+        elif [ $PCM -eq 2 2>/dev/null ]; then
+            source ${TOP_DIR}/compile/varnish.sh
+            PCS=1
+        else
+            warn_msg "Invalid option. Type 1 or 2 to continue."
+        fi
+    done
+    unset PCM PCS
+}
+
+## Nginx
+web () {
+    source ${TOP_DIR}/compile/nginx.sh
+}
+
+### PHP
+php () {
+    source ${TOP_DIR}/compile/php.sh
+    if [ $ISXCACHE -eq 1 ];then
+        source ${TOP_DIR}/compile/xcache.sh
+    fi
+    if [ $ISREDIS -eq 1 ];then
+        source ${TOP_DIR}/compile/pecl_redis.sh
+    fi
+    if [ $ISMEMCACHE -eq 1 ];then
+        source ${TOP_DIR}/compile/pecl_memcache.sh
+    fi
+    if [ $ISMEMCACHED -eq 1 ];then
+        source ${TOP_DIR}/compile/libmemcached.sh
+        source ${TOP_DIR}/compile/pecl_memcached.sh
+    fi
+    if [ $ISGEARMAN -eq 1 ];then
+        source ${TOP_DIR}/compile/gearman.sh
+        source ${TOP_DIR}/compile/pecl_gearman.sh
+    fi
+    if [ $ISXHPROF -eq 1 ];then
+        source ${TOP_DIR}/compile/pecl_xhprof.sh
+    fi
+}
+
+## MySQL
+db () {
+    source ${TOP_DIR}/compile/mysql.sh
+    source ${TOP_DIR}/compile/percona-xtrabackup.sh
+}
+
+## NoSQL
+nosql () {
+    source ${TOP_DIR}/compile/redis.sh
+    source ${TOP_DIR}/compile/libevent.sh
+    source ${TOP_DIR}/compile/memcached.sh
+}
+
+## Zabbix Agent
+zagent () {
+    source ${TOP_DIR}/compile/zabbix_agent.sh
+}
+
+## NTP Server
+ntp () {
+    source ${TOP_DIR}/common/ntpd.sh
+}
+
+case "$1" in
+    init)
+        install_dev
+        sysconfig
+        ;;
+    lb)
+        install_dev
+        sysconfig
+        install_libs
+        lb
+        ;;
+    cache)
+        install_dev
+        sysconfig
+        install_libs
+        cache 
+        ;;
+    web)
+        install_dev
+        sysconfig
+        install_libs
+        web
+        php
+        ;;
+    db)
+        [ -z ${MYSQL_ROOT_PASS} ] && fail_msg "You MUST set MYSQL_ROOT_PASS in ${TOP_DIR}/etc/moss.conf!"
+        [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MYSQL_MULADMIN_PASS in ${TOP_DIR}/etc/moss.conf!"
+        install_dev
+        sysconfig
+        db
+        ;;
+    nosql)
+        install_dev
+        sysconfig
+        nosql 
+        ;;
+    init)
+        install_dev
+        sysconfig
+        ;;
+    zagent)
+        [ -z ${ZABBIX_SERVER_IP} ] && fail_msg "You MUST set ZABBIX_SERVER_IP in ${TOP_DIR}/etc/moss.conf!"
+        install_dev
+        sysconfig
+        zagent
+        ;;
+    ntp)
+        install_dev
+        sysconfig
+        ntp
+        ;;
+    *)
+       fail_msg "You must specify an installation option!\nUseage: init|lb|cache|web|db|nosql|zagent|ntp\nFor example: ./install.sh web\n"
+       exit 1
+    ;;
+esac
+
+
+## Close I/O redirection
+#exec 1>&-
+#exec 2>&-
+
+succ_msg 'Moos has been installed on your system!'

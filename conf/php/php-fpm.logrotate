@@ -1,0 +1,25 @@
+/var/log/php/*.log {
+    daily
+    rotate 90
+    ifempty
+    #compress
+    dateext
+    dateformat -%Y%m%d
+    missingok
+    nomail
+    noolddir
+    sharedscripts
+    postrotate
+        FILE_DATE=$(/bin/date +'%Y%m%d')
+        REAL_DATE=$(/bin/date --date '1 days ago' +'%Y%m%d')
+        LOG_FILE='errors fpm_error www_fpm_error www.slow'
+        for I in $LOG_FILE;do
+            /bin/mv /var/log/php/${I}.log-${FILE_DATE} /var/log/php/${I}.log-${REAL_DATE}
+        done
+        /etc/rc.d/init.d/php-fpm restart
+        for I in $LOG_FILE;do
+            /bin/tar czf /var/log/php/${I}.log-${REAL_DATE}.tar.gz /var/log/php/${I}.log-${REAL_DATE}
+            /bin/rm -f /var/log/php/${I}.log-${REAL_DATE}
+        done
+    endscript
+}

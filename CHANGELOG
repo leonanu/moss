@@ -1,0 +1,123 @@
+Moos Changelog
+
+!	Security fix and improve
+*	Common bug fix and improve
++	Feature add
+-	Feature remove
+
+
+1.6.1
+=====
+2014-11-12
+* Fix group sa users' sudo privilege, add 'vi' command;
+
+
+1.6.0
+=====
+2014-11-07
++ Support get software list and packages from local or file server.
+  You could set package get mode by edit moss.conf.
+  'local' -  Package list and all packages are stored in ./src direcotry and
+             will be used by moss during installation;
+  'remote' - Download package list and all packages from a remote file server;
++ Support change CentOS and EPEL to faster YUM source;
++ Add memcache and memcached;
++ Add SaltStack minion;
+* Upgrade Nginx to version 1.6.2, and optimize compile parameter;
+* Upgrade PHP to version 5.5.18 and optimize compile parameter;
+* Upgrade KeepAlived to version 1.2.13;
+* Upgrade MySQL to version 5.6.21;
+* Upgrade Percona XtraBackup to version 2.2.5;
+* Upgrade Redis to version 2.8.17;
+* Upgrade Varnish to version 3.0.6;
+* Upgrade OpenSSL to version 1.0.1j;
+* Upgrade PCRE to version 8.36;
+* Upgrade XCache to version 3.2.0;
+* Upgrade Zabbix to version 2.4.1;
+* Update NTP time servers;
+* Support set SSH authentication method in moss.conf;
+* Support control SSH root login in moss.conf;
+* Prompt user when some configuration or files were not exist;
+* Optimize netfilter ip_conntrack;
+* Enhance Zabbix agent installation;
+* Zabbix agent support Zabbix offical MySQL template;
+* Fix MySQL database backup cron job;
+
+
+
+1.5.0
+=====
+2014-05-31
+! Add anti-ClickJacking HTTP header in Nginx configuration;
+* Upgrade Redis to version 2.8.9;
+* Upgrade PECL Redis to version 2.2.5;
+* Upgrade MySQL server to version 5.6.17;
+* Upgrade Percona-Xtrabackup to version 2.1.9;
+* Add cache control HTTP header for PHP and static request in Nginx;
+* Replace PECL APC PHP OPCode cache by XCache version 3.1.0;
+* Improve OS user creation and RSA SSH public key policy;
+* Fix can not install MySQL server on some systems;
+* Use mysqlnd instead of individual MySQL libs;
+* Fix some minor bugs;
++ Add Vim syntax hilight support for Nginx configuration file;
++ Add MySQL server monitor script for Zabbix;
+- Remove PECL APC;
+- Remove memcache & memcached;
+
+
+1.4.1
+=====
+2014-05-05
+* Upgrade PHP to version 5.4.28;
+* Optimize php.ini to fit for production environment;
+* Remove default passwords in config file;
+* Empty passwords check before start installation;
+* Minor improve;
+
+
+1.4.0
+=====
+2014-04-30
+* Upgrade Nginx to version 1.6.0;
+* Upgrade CURL to version 7.36.0;
+* Upgrade PCRE to version 8.35;
+* Optimize Nginx compile parameters;
+* Optimize OpenSSL compile parameters;
+* Minor bug fix;
++ Support PHP PECL extension select by setting options in config file;
+
+
+1.3.7
+=====
+2014-04-25
+* Optimize Nginx client_body and fastcgi settings;
+
+
+1.3.6
+=====
+2014-04-12
+! Imporve MySQL account security by remove null username and password accounts.
+  All default accounts are removed except root@localhost and root@127.0.0.1..;
+* Configure to fit for multi-mysqld by adding mysqladmin account;
+* Remove MySQL default database 'test';
+
+
+1.3.5
+=====
+2014-04-11
+* Upgrade Nginx to version 1.4.7;
+* Fix some minor bugs;
+* Adjust TUI;
++ Support '-v' parameter;
+
+
+1.3.4
+=====
+2014-04-09
+! Upgrade OpenSSL to version 1.0.1g to fix CVE-2014-0160 security issue;
+* Update sudoer command policy;
+
+
+Before 1.3.4
+============
+Due to develope enviroment reason, Moos before version 1.3.4 has no changelog.

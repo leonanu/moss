@@ -1,0 +1,25 @@
+/var/log/nginx/*.log {
+    daily
+    rotate 365
+    ifempty
+    #compress
+    dateext
+    dateformat -%Y%m%d
+    missingok
+    nomail
+    noolddir
+    sharedscripts
+    postrotate
+        /bin/kill -USR1 $(cat /var/run/nginx.pid)
+        FILE_DATE=$(/bin/date +'%Y%m%d')
+        REAL_DATE=$(/bin/date --date '1 days ago' +'%Y%m%d')
+        LOG_FILE='access error'
+        for I in $LOG_FILE;do
+            /bin/mv /var/log/nginx/${I}.log-${FILE_DATE} /var/log/nginx/${I}.log-${REAL_DATE}
+        done
+        for I in $LOG_FILE;do
+            /bin/tar czf /var/log/nginx/${I}.log-${REAL_DATE}.tar.gz /var/log/nginx/${I}.log-${REAL_DATE}
+            /bin/rm -f /var/log/nginx/${I}.log-${REAL_DATE}
+        done
+    endscript
+}
