@@ -9,7 +9,7 @@
 #set -e
 
 # Version
-readonly VER='1.6.1'
+readonly VER='1.6.2'
 if [ $1 == '-v' ] 2>/dev/null;then
     echo $VER
     exit 0

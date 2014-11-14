@@ -83,6 +83,8 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     ## create mysqladmin user account
     /usr/local/mysql/bin/mysql -uroot -p${MYSQL_ROOT_PASS} -e "GRANT SHUTDOWN ON *.* TO '${MYSQL_MULADMIN_USER}'@'localhost' IDENTIFIED BY '${MYSQL_MULADMIN_PASS}'; FLUSH PRIVILEGES;"
     /usr/local/mysql/bin/mysql -uroot -p${MYSQL_ROOT_PASS} -e "GRANT SHUTDOWN ON *.* TO '${MYSQL_MULADMIN_USER}'@'127.0.0.1' IDENTIFIED BY '${MYSQL_MULADMIN_PASS}'; FLUSH PRIVILEGES;"
+    /usr/local/mysql/bin/mysql -uroot -p${MYSQL_ROOT_PASS} -e "GRANT RELOAD ON *.* TO '${MYSQL_MULADMIN_USER}'@'localhost' IDENTIFIED BY '${MYSQL_MULADMIN_PASS}'; FLUSH PRIVILEGES;"
+    /usr/local/mysql/bin/mysql -uroot -p${MYSQL_ROOT_PASS} -e "GRANT RELOAD ON *.* TO '${MYSQL_MULADMIN_USER}'@'127.0.0.1' IDENTIFIED BY '${MYSQL_MULADMIN_PASS}'; FLUSH PRIVILEGES;"
 
     ## remove database 'test'
     /usr/local/mysql/bin/mysql -uroot -p${MYSQL_ROOT_PASS} -e 'DROP DATABASE test;'
