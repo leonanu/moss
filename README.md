@@ -17,4 +17,5 @@ You could set up a L.N.M.P based environment easily by Moss. Inlcude all feature
 * Install: Run ```./install {init|lb|cache|web|php|db|nosql|ntp|zagent} ```
 
 ## Support
-Nanu (nanu@inanu.net)
+Site: http://leonanu.github.io/moss/
+Mail: nanu@inanu.net
