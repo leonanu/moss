@@ -7,8 +7,9 @@ Moos Changelog
 
 1.6.2
 =====
-2014-11-DD
+2014-MM-DD
 * Fix MySQL logs rotate;
+- Remove puppet;
 
 
 1.6.1

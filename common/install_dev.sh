@@ -66,7 +66,6 @@ pcre-devel
 popt-devel
 protobuf-c-devel
 protobuf-devel
-puppet
 readline-devel
 rsync
 screen
