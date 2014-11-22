@@ -9,6 +9,7 @@ Moos Changelog
 =====
 2014-MM-DD
 * Fix MySQL logs rotate;
+* Add SaltStack minion. According to user configure;
 - Remove puppet;
 
 
