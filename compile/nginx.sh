@@ -62,7 +62,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
 ## for install config files
         succ_msg "Begin to install ${SRC_DIR} config files"
         ## user add
-        id www >/dev/null 2>&1 || useradd www -u 1001 -M -s /sbin/nologin -d /www/wwwroot
+        id www >/dev/null 2>&1 || useradd www -u 1001 -M -s /sbin/nologin
         ## document root
         [ ! -d "${NGX_DOCROOT}" ] && mkdir -m 0755 -p ${NGX_DOCROOT}
         chown -R www:www ${NGX_DOCROOT}
