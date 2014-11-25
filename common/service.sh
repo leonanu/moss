@@ -5,7 +5,7 @@ if ! grep '^SERVICES$' ${INST_LOG} > /dev/null 2>&1 ;then
         chkconfig --level 35 $SRV off
     done
 
-    for SRV in 'crond nginx php-fpm mysql redis';do
+    for SRV in 'auditd crond nginx php-fpm mysql redis';do
         service $SRV start
         chkconfig --level 35 $SRV on
     done

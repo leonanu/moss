@@ -16,6 +16,7 @@ Moos Changelog
 * Nginx stub_status and PHP FastCGI status allow from all by default;
 * Enhance Nginx 'moss' access log format;
 * Turn PHP 'log_errors' on;
+* Trun auditd service on by default;
 - Remove puppet;
 
 
