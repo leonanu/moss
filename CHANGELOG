@@ -10,6 +10,8 @@ Moos Changelog
 2014-MM-DD
 * Fix MySQL logs rotate;
 * Add SaltStack minion. According to user configure;
+* Add Zabbix Nginx status monitor configuration and script;
+* Enhance Zabbix agent configuration;
 - Remove puppet;
 
 
