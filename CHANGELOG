@@ -14,6 +14,7 @@ Moos Changelog
 * Enhance Zabbix agent configuration;
 * Nginx stub_status and PHP FastCGI status all from all by default;
 * Enhance Nginx 'moss' access log format;
+* Turn PHP 'log_errors' on;
 - Remove puppet;
 
 
