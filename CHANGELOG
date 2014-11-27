@@ -12,7 +12,7 @@ Moos Changelog
 * Add SaltStack minion. According to user configure;
 * Add Zabbix Nginx status monitor configuration and script;
 * Enhance Zabbix agent configuration;
-* Nginx stub_status and PHP FastCGI status all from all by default;
+* Nginx stub_status and PHP FastCGI status allow from all by default;
 * Enhance Nginx 'moss' access log format;
 * Turn PHP 'log_errors' on;
 - Remove puppet;
