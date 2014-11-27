@@ -76,7 +76,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
         chown -R www:www ${INST_DIR}/${SRC_DIR}/var
         ## conf
         install -m 0644 ${TOP_DIR}/conf/nginx/nginx.conf ${INST_DIR}/${SRC_DIR}/conf/nginx.conf
-        install -m 0644 ${TOP_DIR}/conf/nginx/vhosts.conf ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
+        install -m 0644 ${TOP_DIR}/conf/nginx/vhost.conf ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
         sed -i "s#.*ng_server_name.*#server_name    ${NGX_HOSTNAME};#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
         sed -i "s#.*ng_root.*#    root    ${NGX_DOCROOT};#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
         sed -i "s#.*ng_access_log.*#    access_log    ${NGX_LOGDIR}/access.log moss buffer=4k;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
