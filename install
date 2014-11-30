@@ -59,6 +59,7 @@ OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
 [ ! -d $INST_DIR ] && mkdir -p $INST_DIR
 
 ## Weclcome
+clear
 succ_msg "\n=================================================================================================="
 cat ${TOP_DIR}/etc/banner
 succ_msg "Welcome to Moos ${VER}\n"
