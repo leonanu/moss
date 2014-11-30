@@ -7,7 +7,7 @@ Moos Changelog
 
 1.6.2
 =====
-2014-MM-DD
+2014-11-30
 * Fix MySQL logs rotate;
 * Fix www user home directory location;
 * Add SaltStack minion. According to user configure;
