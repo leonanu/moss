@@ -60,11 +60,12 @@ OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
 
 ## Weclcome
 succ_msg "\n=================================================================================================="
-succ_msg "Welcome to Moos ${VER}\n\n"
+cat ${TOP_DIR}/etc/banner
+succ_msg "Welcome to Moos ${VER}\n"
 succ_msg "Moos ia a Linux WEB application environment deployment system.\n"
 warn_msg "Support Options:"
 warn_msg "./install init\t\tInitial & optimize CentOS system only."
-warn_msg "./install lb\t\tInstall KeepAlived + LVS."
+warn_msg "./install lb\t\tInstall KeepAlived."
 warn_msg "./install cache\tInstall Squid or Varnish web cache proxy."
 warn_msg "./install web\t\tInstall Nginx web server and PHP FastCGI."
 warn_msg "./install db\t\tInstall MySQL database server."
@@ -72,8 +73,8 @@ warn_msg "./install nosql\tInstall Redis and memcached NoSQL database."
 warn_msg "./install zagent\tInstall Zabbix agent."
 warn_msg "./install ntp\t\tInstall NTP server."
 warn_msg "./install -v\t\tDisplay version.\n"
-warn_msg "Please edit ${TOP_DIR}/etc/moss.conf to modify some settings. "
-succ_msg "==================================================================================================\n"
+warn_msg "Please edit ${TOP_DIR}/etc/moss.conf to modify some settings."
+succ_msg "\n==================================================================================================\n"
 read -p "Press any key to continue."
 
 if [ ! -f "${TOP_DIR}/etc/moss.conf" ];then
