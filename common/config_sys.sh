@@ -132,7 +132,7 @@ EOF
     tzdata-update
     ## config system service
 
-    for SVC in crond sshd sysstat auditd;do
+    for SVC in auditd crond sshd sysstat;do
         chkconfig $SVC on 2>/dev/null
         service $SVC start 2>/dev/null
     done

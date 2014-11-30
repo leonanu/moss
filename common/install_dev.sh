@@ -104,11 +104,12 @@ openldap-devel
 EOF
 )
 
-if [ ${INST_SALT} -eq 1 ];then
-    yum install salt-minion -y
-    chkconfig --level 3 salt-minion on
-    service salt-minion start
-fi
+yum install salt-minion -y
+[ -f "/etc/salt/minion" ] && rm -f /etc/salt/minion
+install -m 0644 ${TOP_DIR}/conf/saltstack/minion /etc/salt/minion
+sed -i "s#^master.*#master=${SALT_MASTER}#" /etc/salt/minion
+chkconfig --level 3 salt-minion on
+service salt-minion start
 ## record installed tag
     echo 'INST_DEV' >> ${INST_LOG}
 else
