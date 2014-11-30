@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Moss : The Automatic Services Environment Deploy System For CentOS">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Moss</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/leonanu/moss">View on GitHub</a>
+
+          <h1 id="project_title">Moss</h1>
+          <h2 id="project_tagline">The Automatic Services Environment Deploy System For CentOS</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/leonanu/moss/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/leonanu/moss/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="moss" class="anchor" href="#moss" aria-hidden="true"><span class="octicon octicon-link"></span></a>Moss</h1>
+
+<p>Moss is an automatic services environment deploy system For CentOS.</p>
+
+<p>You could set up a L.N.M.P based environment easily by Moss. Inlcude all features below:</p>
+
+<ul>
+<li>
+<strong>Optimize</strong> - Automatic optimize CentOS system. Change to faster YUM repository mirror, add EPEL repository mirror, optimize kernel TCP settings, vi improved, sudo policy, SSH optimize;</li>
+<li>
+<strong>Security</strong> - Turn off unused services, disable SSH password authentication, add users with SSH RSA keys accroding to user configuration;</li>
+<li>
+<strong>Services</strong> - Automatic install Nginx/PHP FastCGI/PECL modules(Redis, Memcache, Memcached, XCache, Xhprof)/MySQL/Percona Xtrabackup/Redis/Memcached/KeepAlived/Squid/Varnish/Zabbix ...;</li>
+<li>
+<strong>Performance</strong> - All serives were set to optimized settings, you could use it in production environment directly;</li>
+<li>
+<strong>Maintenance</strong> - User configure file support. Automatic set up database backup policy, logs rotate policy and all service were added to SysV service;</li>
+<li>
+<strong>Develop</strong> - You could develop Moss easily. All features in Moss were designed by modules, you can add or remove modules to fit your need;</li>
+</ul>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<ul>
+<li>Configure: Edit configuration file in ./etc/moos.conf. Change settings to fit your need.</li>
+<li>Package Repository: Moss support both download packages from a repository and get from local directory(./src). Set in ./etc/moss.conf</li>
+<li>Install: Run <code>./install {init|lb|cache|web|php|db|nosql|ntp|zagent}</code>
+</li>
+</ul>
+
+<h2>
+<a id="support" class="anchor" href="#support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support</h2>
+
+<p>Nanu (<a href="mailto:nanu@inanu.net">nanu@inanu.net</a>)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Moss maintained by <a href="https://github.com/leonanu">leonanu</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
