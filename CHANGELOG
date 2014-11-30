@@ -17,6 +17,7 @@ Moos Changelog
 * Enhance Nginx 'moss' access log format;
 * Turn PHP 'log_errors' on;
 * Trun auditd service on by default;
+* Enhance vimrc settings;
 - Remove puppet;
 
 
