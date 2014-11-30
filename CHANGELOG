@@ -5,6 +5,7 @@ Moos Changelog
 +	Feature add
 -	Feature remove
 
+
 1.6.2
 =====
 2014-11-30
@@ -57,7 +58,6 @@ Moos Changelog
 * Enhance Zabbix agent installation;
 * Zabbix agent support Zabbix offical MySQL template;
 * Fix MySQL database backup cron job;
-
 
 
 1.5.0
