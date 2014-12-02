@@ -8,7 +8,7 @@
 #exec 2>${TOP_DIR}/stderr.log
 
 # Version
-readonly VER='1.6.2'
+readonly VER='1.6.3'
 if [ $1 == '-v' ] 2>/dev/null;then
     echo $VER
     exit 0
@@ -16,10 +16,6 @@ fi
 
 ## Pre-set Global readonly variables
 readonly TOP_DIR="$(cd $(dirname $0);pwd)"
-
-## Debug
-#exec 1>${TOP_DIR}/stdout.log
-#exec 2>${TOP_DIR}/stderr.log
 
 ## Global Readonly Variables
 ## !!! DO NOT Modify These Settings !!!
@@ -52,7 +48,7 @@ source ${TOP_DIR}/common/functions.sh
 OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
 [ "${OS_VER}" -lt 6 ] && fail_msg "Moss didn't support OS: ${OS_VER}, please install CentOS-6.x-x86_64!"
 
-## Check Moss Configuration file
+## Check Moss Configuration File
 if [ ! -f "${TOP_DIR}/etc/moss.conf" ];then
     fail_msg "${TOP_DIR}/etc/moss.conf is not found!"
 fi
@@ -70,14 +66,14 @@ succ_msg "Website: https://github.com/leonanu/moss/\n"
 ## Moss Options
 warn_msg "Please Select Moss Installation Option "
 warn_msg "================================================"
-warn_msg "1 - Initial & optimize CentOS system only;"
-warn_msg "2 - Install KeepAlived;"
-warn_msg "3 - Install Squid or Varnish web cache proxy;"
-warn_msg "4 - Install Nginx web server and PHP FastCGI;"
-warn_msg "5 - Install MySQL database server;"
-warn_msg "6 - Install Redis and memcached NoSQL database;"
-warn_msg "7 - Install Zabbix agent;"
-warn_msg "8 - Install NTP server;"
+warn_msg "1  - Initial & optimize CentOS system only;"
+warn_msg "2  - Install KeepAlived;"
+warn_msg "3  - Install Squid or Varnish web cache proxy;"
+warn_msg "4  - Install Nginx web server and PHP FastCGI;"
+warn_msg "5  - Install MySQL database server;"
+warn_msg "6  - Install Redis and memcached NoSQL database;"
+warn_msg "7  - Install Zabbix agent;"
+warn_msg "8  - Install NTP server;"
 warn_msg "================================================\n"
 MOSS_OPT=1
 read -p "Select an Insatll Option (Ctrl+C to quit):" MOSS_OPT
@@ -257,14 +253,13 @@ case "${MOSS_OPT}" in
     ;;
 esac
 
-
-## Close Standard I/O Redirection
-#exec 1>&-
-#exec 2>&-
-
 ## Set Flag When First Run Finished
 if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
     echo 'MOSSED' >> ${INST_LOG}
 fi
 
 succ_msg 'Moos has been installed on your system!'
+
+## Close I/O redirection
+#exec 1>&-
+#exec 2>&-
