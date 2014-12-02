@@ -1,5 +1,5 @@
 #!/bin/bash
-#### mysql-5.5.x
+#### mysql-5.6.x
 if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
 
 ## handle source packages
