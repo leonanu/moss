@@ -62,6 +62,35 @@ file_proc(){
     esac
 }
 
+get_pkginfo () {
+    if [ $PGM == 'local' ];then
+        succ_msg "Using local packages directory."
+        sleep 1
+    elif [ $PGM == 'remote' ];then
+        if [ -f "${STORE_DIR}/packages.info" ];then
+            warn_msg "Old packages.info found. Downloading lastest version..."
+            sleep 1
+            rm -f ${STORE_DIR}/packages.info
+        fi
+        succ_msg "Fetching packages.info from remote server..."
+        wget -c -t10 -nH -T900 ${DOWN_URL}/packages.info -P ${STORE_DIR}
+        if [ $? -eq 0 ]; then
+            succ_msg "packages.info download OK!"
+            sleep 1
+        else
+            fail_msg "packages.info download error!"
+        fi
+    else
+        fail_msg "Package Get Mode (PGM) error! Check ${TOP_DIR}/etc/moss.conf!"
+    fi
+
+    if [ ! -f "${STORE_DIR}/packages.info" ];then
+        fail_msg "packages.info not found! It should be placed in ${STORE_DIR}!"
+    else
+        source ${STORE_DIR}/packages.info
+    fi
+}
+
 get_file(){
     if [ ${PGM} == 'remote' ];then
         if [ ! -e "${STORE_DIR}/$SRC" ]; then

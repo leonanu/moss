@@ -146,5 +146,5 @@ EOF
 ## record installed tag
     echo 'CONFIG_SYS' >> ${INST_LOG}
 else
-    succ_msg "The current system has been alraedy process and optimized!"
+    succ_msg "The current system has been alraedy conifgured and optimized!"
 fi
