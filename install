@@ -76,7 +76,7 @@ warn_msg "7  - Install Zabbix agent;"
 warn_msg "8  - Install NTP server;"
 warn_msg "================================================\n"
 MOSS_OPT=1
-read -p "Select an Insatll Option (Ctrl+C to quit):" MOSS_OPT
+read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
 
 ## Import Moos Settings
 source ${TOP_DIR}/etc/moss.conf 2>/dev/null
