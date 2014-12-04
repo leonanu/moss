@@ -57,7 +57,7 @@ fi
 clear
 cat ${TOP_DIR}/etc/banner
 succ_msg "Welcome to Moos ${VER}\n"
-succ_msg "Moos ia a Linux WEB application environment deployment system."
+succ_msg "Moss ia a Linux WEB application environment deployment system."
 succ_msg "You need to edit ${TOP_DIR}/etc/moss.conf to modify some settings.\n"
 succ_msg "Author: Nanu"
 succ_msg "Contact: nanu@inanu.net"
