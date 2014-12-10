@@ -30,9 +30,9 @@ yum install -y net-snmp-devel libcurl-devel OpenIPMI-devel sqlite-devel libssh2-
     install -m 0644 ${TOP_DIR}/conf/zabbix_agent/zabbix_agentd.conf ${INST_DIR}/${SRC_DIR}/etc/zabbix_agent.conf
     install -m 0644 ${TOP_DIR}/conf/zabbix_agent/zabbix_agentd.conf ${INST_DIR}/${SRC_DIR}/etc/zabbix_agentd.conf 
     install -m 0644 ${TOP_DIR}/conf/zabbix_agent/mysql.conf ${INST_DIR}/${SRC_DIR}/etc/zabbix_agentd.conf.d/mysql.conf
-    install -m 0644 ${TOP_DIR}/conf/zabbix_agent/mysql.conf ${INST_DIR}/${SRC_DIR}/etc/zabbix_agentd.conf.d/nginx.conf
+    install -m 0644 ${TOP_DIR}/conf/zabbix_agent/nginx.conf ${INST_DIR}/${SRC_DIR}/etc/zabbix_agentd.conf.d/nginx.conf
     install -m 0755 ${TOP_DIR}/conf/zabbix_agent/mysql.sh ${INST_DIR}/${SRC_DIR}/share/zabbix/externalscripts/mysql.sh
-    install -m 0755 ${TOP_DIR}/conf/zabbix_agent/mysql.sh ${INST_DIR}/${SRC_DIR}/share/zabbix/externalscripts/nginx.sh
+    install -m 0755 ${TOP_DIR}/conf/zabbix_agent/nginx.sh ${INST_DIR}/${SRC_DIR}/share/zabbix/externalscripts/nginx.sh
     sed -i "s#^Server=.*#Server=$ZABBIX_SERVER_IP#" ${INST_DIR}/${SRC_DIR}/etc/zabbix_agent.conf
     sed -i "s#^Server=.*#Server=$ZABBIX_SERVER_IP#" ${INST_DIR}/${SRC_DIR}/etc/zabbix_agentd.conf
     sed -i "s#^ServerActive.*#ServerActive=$ZABBIX_SERVER_IP#" ${INST_DIR}/${SRC_DIR}/etc/zabbix_agent.conf
