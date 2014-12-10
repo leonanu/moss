@@ -13,6 +13,7 @@ YYYY-MM-DD
 + Add vim and wget packages check and install;
 * Fix root's mailbox fill up with ntpdate time sync message;
 ! Fix Zabbix Agent can not be started;
+! Fix SlatStack Minion can not be started;
 To be continued.
 
 
