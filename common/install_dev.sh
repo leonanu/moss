@@ -78,6 +78,7 @@ time
 traceroute
 tree
 unzip
+vim
 vim-enhanced
 wget
 which

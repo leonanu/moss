@@ -90,6 +90,9 @@ if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
     [ -z ${OS_ROOT_PASSWD} ] && fail_msg "You have to set OS_ROOT_PASSWD in ${TOP_DIR}/etc/moss.conf!"
 fi
 
+# Check wget command
+yum install -y wget
+
 ## Install development libs
 install_dev () {
     source ${TOP_DIR}/common/install_dev.sh

@@ -10,6 +10,7 @@ Moos Changelog
 =====
 YYYY-MM-DD
 * New Moss installation TUI;
++ Add vim and wget packages check and install;
 To be continued.
 
 
