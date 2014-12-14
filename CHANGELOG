@@ -11,6 +11,7 @@ Moos Changelog
 YYYY-MM-DD
 * New Moss installation TUI;
 + Add vim and wget packages check and install;
+* Fix root's mailbox fill up with ntpdate time sync message;
 To be continued.
 
 

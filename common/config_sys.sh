@@ -28,7 +28,7 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0644 ${TOP_DIR}/conf/ntp/ntp_client.conf /etc/ntp.conf
     echo '' >> /var/spool/cron/root
     echo '# Time Sync' >> /var/spool/cron/root
-    echo '*/30 * * * * /usr/sbin/ntpdate cn.pool.ntp.org;/sbin/hwclock -w > /dev/null 2>&1' >> /var/spool/cron/root
+    echo '*/30 * * * * /usr/sbin/ntpdate cn.pool.ntp.org > /dev/null 2>&1;/sbin/hwclock -w > /dev/null 2>&1' >> /var/spool/cron/root
     chown root:root /var/spool/cron/root
     chmod 600 /var/spool/cron/root
     /etc/rc.d/init.d/ntpd stop
