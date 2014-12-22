@@ -14,7 +14,7 @@ You could set up a L.N.M.P based environment easily by Moss. Inlcude all feature
 ## Install
 * Configure: Edit configuration file in ./etc/moos.conf. Change settings to fit your need.
 * Package Repository: Moss support both download packages from a repository and get from local directory(./src). Set in ./etc/moss.conf
-* Install: Run ```./install {init|lb|cache|web|php|db|nosql|ntp|zagent} ```
+* Install: Login with root and run ```./install ```
 
 ## Support
 * Site: http://leonanu.github.io/moss/
