@@ -102,6 +102,7 @@ gmp
 gmp-devel
 openldap
 openldap-devel
+perl-Time-HiRes
 EOF
 )
 

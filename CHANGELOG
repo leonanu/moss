@@ -10,6 +10,7 @@ Moos Changelog
 =====
 2015-MM-DD
 + Add server tools;
+* Fix Percona Xtrabackup script run fail;
 
 
 1.6.3
