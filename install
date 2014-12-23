@@ -86,10 +86,10 @@ source ${TOP_DIR}/etc/moss.conf 2>/dev/null
 [ ! -d $INST_DIR ] && mkdir -p $INST_DIR
 
 ## Check Basic Config
-if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
+#if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
     #[ -z ${OS_HOSTNAME} ] && fail_msg "You have to set OS_HOSTNAME in ${TOP_DIR}/etc/moss.conf!"
     #[ -z ${OS_ROOT_PASSWD} ] && fail_msg "You have to set OS_ROOT_PASSWD in ${TOP_DIR}/etc/moss.conf!"
-fi
+#fi
 
 # Check wget command
 yum install -y wget
