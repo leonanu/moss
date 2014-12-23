@@ -8,13 +8,19 @@ Moos Changelog
 
 1.6.3
 =====
-YYYY-MM-DD
+2014-12-24
 * New Moss installation TUI;
 + Add vim and wget packages check and install;
 * Fix root's mailbox fill up with ntpdate time sync message;
 ! Fix Zabbix Agent can not be started;
-! Fix SlatStack Minion can not be started;
+! Fix SaltStack Minion can not be started;
 * Remove Zabbix Agent 3rd-templates;
+* Moss did not require set OS root password. If didn't set, Moss will keep
+  current root password and continue install;
+* Moss did not require set OS hostname. If didn't set, Moss will keep current
+  hostname and continue install;
+* Support install Nginx standalone by installation mode 4;
+* Merry X'mas :-)
 To be continued.
 
 

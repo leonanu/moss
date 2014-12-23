@@ -69,11 +69,12 @@ warn_msg "================================================"
 warn_msg "1  - Initial & optimize CentOS system only;"
 warn_msg "2  - Install KeepAlived;"
 warn_msg "3  - Install Squid or Varnish web cache proxy;"
-warn_msg "4  - Install Nginx web server and PHP FastCGI;"
-warn_msg "5  - Install MySQL database server;"
-warn_msg "6  - Install Redis and memcached NoSQL database;"
-warn_msg "7  - Install Zabbix agent;"
-warn_msg "8  - Install NTP server;"
+warn_msg "4  - Install Nginx web server standalone;"
+warn_msg "5  - Install Nginx web server and PHP FastCGI;"
+warn_msg "6  - Install MySQL database server;"
+warn_msg "7  - Install Redis and memcached NoSQL database;"
+warn_msg "8  - Install Zabbix agent;"
+warn_msg "9  - Install NTP server;"
 warn_msg "================================================\n"
 MOSS_OPT=1
 read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
@@ -86,8 +87,8 @@ source ${TOP_DIR}/etc/moss.conf 2>/dev/null
 
 ## Check Basic Config
 if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
-    [ -z ${OS_HOSTNAME} ] && fail_msg "You have to set OS_HOSTNAME in ${TOP_DIR}/etc/moss.conf!"
-    [ -z ${OS_ROOT_PASSWD} ] && fail_msg "You have to set OS_ROOT_PASSWD in ${TOP_DIR}/etc/moss.conf!"
+    #[ -z ${OS_HOSTNAME} ] && fail_msg "You have to set OS_HOSTNAME in ${TOP_DIR}/etc/moss.conf!"
+    #[ -z ${OS_ROOT_PASSWD} ] && fail_msg "You have to set OS_ROOT_PASSWD in ${TOP_DIR}/etc/moss.conf!"
 fi
 
 # Check wget command
@@ -217,7 +218,14 @@ case "${MOSS_OPT}" in
         install_libs
         cache 
         ;;
-    4) # WEB
+    4) # WEB Server Only
+        get_pkginfo
+        install_dev
+        sysconfig
+        install_libs
+        web
+        ;;
+    5) # WEB
         get_pkginfo
         install_dev
         sysconfig
@@ -225,7 +233,7 @@ case "${MOSS_OPT}" in
         web
         php
         ;;
-    5) # MySQL
+    6) # MySQL
         [ -z ${MYSQL_ROOT_PASS} ] && fail_msg "You MUST set MYSQL_ROOT_PASS in ${TOP_DIR}/etc/moss.conf!"
         [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MYSQL_MULADMIN_PASS in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
@@ -233,20 +241,20 @@ case "${MOSS_OPT}" in
         sysconfig
         db
         ;;
-    6) # NoSQL
+    7) # NoSQL
         get_pkginfo
         install_dev
         sysconfig
         nosql 
         ;;
-    7) # Zabbix Agent
+    8) # Zabbix Agent
         [ -z ${ZABBIX_SERVER_IP} ] && fail_msg "You MUST set ZABBIX_SERVER_IP in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_dev
         sysconfig
         zagent
         ;;
-    8) # NTP
+    9) # NTP
         install_dev
         sysconfig
         ntp

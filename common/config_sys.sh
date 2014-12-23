@@ -3,11 +3,13 @@
 if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
 
     ## set hostname
-    SYS_HOSTNAME=$(hostname)
-    if [ $OS_HOSTNAME != $SYS_HOSTNAME ]; then
-        hostname $OS_HOSTNAME
-        sed -i "s#HOSTNAME.*#HOSTNAME=${OS_HOSTNAME}#" /etc/sysconfig/network
-        sed -i "s#127.*#& ${OS_HOSTNAME}#" /etc/hosts
+    if [ ! -z "$OS_HOSTNAME" ];then
+        SYS_HOSTNAME=$(hostname)
+        if [ $OS_HOSTNAME != $SYS_HOSTNAME ]; then
+            hostname $OS_HOSTNAME
+            sed -i "s#HOSTNAME.*#HOSTNAME=${OS_HOSTNAME}#" /etc/sysconfig/network
+            sed -i "s#127.*#& ${OS_HOSTNAME}#" /etc/hosts
+        fi
     fi
 
     ## config system files
@@ -34,7 +36,9 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
     /etc/rc.d/init.d/ntpd stop
 
     ## DELEGATING
-    echo $OS_ROOT_PASSWD | passwd --stdin root
+    if [ ! -z "$OS_ROOT_PASSWD" ];then
+        echo $OS_ROOT_PASSWD | passwd --stdin root
+    fi
 
     ## pubkey directory counting.
     PUBKEY_DIR=$(ls -l ${TOP_DIR}/etc/rsa_public_keys/*.pub 2>/dev/null| grep -v 'total' | grep -v 'root.pub' | wc -l)
