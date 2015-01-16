@@ -88,7 +88,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     ## log
     [ ! -d "/usr/local/etc/logrotate" ] && mkdir -m 0755 -p /usr/local/etc/logrotate
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.logrotate /usr/local/etc/logrotate/nginx
-    sed -i "s#/var/log/nginx#${NGX_LOGDIR}#" /usr/local/etc/logrotate/nginx
+    sed -i "s#/var/log/nginx#${NGX_LOGDIR}#g" /usr/local/etc/logrotate/nginx
     [ ! -d "${INST_DIR}/${SRC_DIR}/logs" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/logs
     [ ! -d "/var/log/nginx" ] && mkdir -m 0755 -p /var/log/nginx
     chown -R www:www ${INST_DIR}/${SRC_DIR}/logs

@@ -10,7 +10,9 @@ Moos Changelog
 =====
 2015-MM-DD
 + Add server tools;
++ Log rotate will keep last 30 days logs, old logs will be deleted;
 * Fix Percona Xtrabackup script run fail;
+* Fix Nginx log rotate bug which it always rotate log to /var/log/nginx;
 
 
 1.6.3
