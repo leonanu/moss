@@ -10,7 +10,7 @@
 # Version
 readonly VER='1.6.4dev'
 if [ $1 = '-v' ] 2>/dev/null;then
-    echo $VER
+    echo Moss-${VER}
     exit 0
 fi
 
