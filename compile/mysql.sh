@@ -50,10 +50,10 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
 
     ## Set MySQL root password
     #MYSQL_ROOT_PASS0=0
-    #while [ $MYSQL_ROOT_PASS0 == 0 ]; do
+    #while [ $MYSQL_ROOT_PASS0 -eq 0 ]; do
     #    read -p "Please set MySQL root password:" MYSQL_ROOT_PASS1
     #    read -p "Input the root password again :" MYSQL_ROOT_PASS2
-    #    if [ $MYSQL_ROOT_PASS1 == $MYSQL_ROOT_PASS2 ]; then
+    #    if [ $MYSQL_ROOT_PASS1 = $MYSQL_ROOT_PASS2 ]; then
     #        MYSQL_ROOT_PASS0=1
     #    else
     #        warn_msg "The two password you input are not matched!"

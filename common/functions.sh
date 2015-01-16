@@ -63,10 +63,10 @@ file_proc(){
 }
 
 get_pkginfo () {
-    if [ $PGM == 'local' ];then
+    if [ $PGM = 'local' ];then
         succ_msg "Using local packages directory."
         sleep 1
-    elif [ $PGM == 'remote' ];then
+    elif [ $PGM = 'remote' ];then
         if [ -f "${STORE_DIR}/packages.info" ];then
             warn_msg "Old packages.info found. Downloading lastest version..."
             sleep 1
@@ -92,7 +92,7 @@ get_pkginfo () {
 }
 
 get_file(){
-    if [ ${PGM} == 'remote' ];then
+    if [ ${PGM} = 'remote' ];then
         if [ ! -e "${STORE_DIR}/$SRC" ]; then
             wget -c -t10 -nH -T900 ${DOWN_URL}/$SRC -P ${STORE_DIR}
             if [ $? -eq 0 ]; then

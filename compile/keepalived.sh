@@ -36,17 +36,17 @@ read -p "Press any key to continue."
 ## for install config files
     succ_msg "Begin to install ${SRC_DIR} config files"
     KA_ROLE_TMP=0
-    while [ ${KA_ROLE_TMP} == 0 ]; do
+    while [ ${KA_ROLE_TMP} -eq 0 ]; do
         warn_msg "\n==========================="
         warn_msg "KeepAlived Server Type "
         warn_msg "m - Master;"
         warn_msg "s - Standby;"
         warn_msg "===========================\n"
         read -p "Select m or s:" KA_ROLE
-        if [ $KA_ROLE == m 2>/dev/null ]; then
+        if [ $KA_ROLE = 'm' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/keepalived/keepalived-master.conf ${INST_DIR}/${SRC_DIR}/etc/keepalived.conf
             KA_ROLE_TMP=1
-        elif [ $KA_ROLE == s 2>/dev/null ]; then
+        elif [ $KA_ROLE = 's' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/keepalived/keepalived-standby.conf ${INST_DIR}/${SRC_DIR}/etc/keepalived.conf
             KA_ROLE_TMP=1
         else
