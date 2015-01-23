@@ -11,6 +11,7 @@ Moos Changelog
 2015-MM-DD
 + Add server tools;
 + Log rotate will keep last 30 days logs, old logs will be deleted;
++ Before install a service, Moss will check if it has been running on host;
 * Fix Percona Xtrabackup script run fail;
 * Fix Nginx log rotate bug which it always rotate log to /var/log/nginx;
 
