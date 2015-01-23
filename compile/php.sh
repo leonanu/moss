@@ -1,6 +1,12 @@
 #!/bin/bash
 if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
 
+## check proc
+    proc_exist php-fpm
+    if [ ${PROC_FOUND} -eq 1 ];then
+        fail_msg "PHP FactCGI is running on this host!"
+    fi
+
 ## handle source packages
     file_proc ${PHP_SRC}
     get_file
@@ -109,6 +115,13 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
         chkconfig --level 35 php-fpm on
         ## start
         service php-fpm start
+        sleep 3
+
+## check proc
+    proc_exist php-fpm
+    if [ ${PROC_FOUND} -eq 0 ];then
+        fail_msg "PHP FactCGI fail to start!"
+    fi
 
 ## record installed tag
     echo 'PHP' >> ${INST_LOG}

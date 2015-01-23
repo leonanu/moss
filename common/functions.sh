@@ -198,3 +198,24 @@ compile(){
 
     unset PRE_CONFIG CONFIG MAKE MAKE_TEST INSTALL SYMLINK LDFLAGS CPPFLAGS
 }
+
+proc_exist(){
+    unset PROC_FOUND
+    local PROC_NAME=$1
+    PROC_PID=$(pgrep -P 1 ${PROC_NAME})
+
+    if [ -z ${PROC_PID} ];then
+        PROC_FOUND=0
+    else
+        PROC_FOUND=1
+    fi
+    
+    if [ ${PROC_NAME} = 'nginx' ];then
+        HTTP_PORT_USE=$(netstat -nlp | grep ':80 ')
+        if [ -z ${HTTP_PORT_USE} ];then
+            PROC_FOUND=0
+        else
+            PROC_FOUND=1
+        fi
+    fi
+}

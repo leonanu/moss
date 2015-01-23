@@ -2,6 +2,12 @@
 ## Caution : if you update your system and kernel is update to new version , you need to recompile keepalived when you use ipvsadm (lvs).
 if ! grep '^KEEPALIVED$' ${INST_LOG} > /dev/null 2>&1 ;then
 
+## check proc
+    proc_exist keepalived
+    if [ ${PROC_FOUND} -eq 1 ];then
+        fail_msg "KeepAlived is running on this host!"
+    fi
+
 warn_msg "\n=========================================================="
 warn_msg "             KeepAlived with LVS CAUTION !                "
 warn_msg "If you update Linux kernel to a new version. You have to"
@@ -62,6 +68,13 @@ read -p "Press any key to continue."
     chkconfig --level 35 keepalived on
     ## start
     service keepalived start
+    sleep 3
+
+## check proc
+    proc_exist keepalived
+    if [ ${PROC_FOUND} -eq 0 ];then
+        fail_msg "KeepAlived fail to start!"
+    fi
 
 ## record installed tag
     echo 'KEEPALIVED' >> ${INST_LOG}

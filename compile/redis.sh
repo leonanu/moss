@@ -2,6 +2,12 @@
 #### redis-2.8.x
 if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
 
+## check proc
+    proc_exist redis
+    if [ ${PROC_FOUND} -eq 1 ];then
+        fail_msg "Redis is running on this host!"
+    fi
+
 ## handle source packages
     file_proc ${REDIS_SRC}
     get_file
@@ -54,7 +60,14 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     chkconfig --level 35 redis on
     ## start
     service redis start
+    sleep 3
     unset SYMLINK
+
+## check proc
+    proc_exist redis
+    if [ ${PROC_FOUND} -eq 0 ];then
+        fail_msg "Redis fail to start!"
+    fi
 
 ## record installed tag
     echo 'REDIS' >> ${INST_LOG}

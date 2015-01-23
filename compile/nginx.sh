@@ -2,6 +2,12 @@
 ## nginx-1.2.x
 if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
 
+## check proc
+    proc_exist nginx
+    if [ ${PROC_FOUND} -eq 1 ];then
+        fail_msg "There already have HTTP server running!"
+    fi
+
 ## prepare packages source depend on Nginx
     file_proc ${PCRE_SRC}
     get_file
@@ -111,6 +117,13 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     chkconfig --level 35 nginx on
     ## start
     service nginx start
+    sleep 3
+
+## check proc
+    proc_exist nginx
+    if [ ${PROC_FOUND} -eq 0 ];then
+        fail_msg "Nginx fail to start!"
+    fi
 
 ## record installed tag    
     echo 'NGINX' >> ${INST_LOG}
