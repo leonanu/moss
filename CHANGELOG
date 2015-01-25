@@ -14,6 +14,7 @@ Moos Changelog
 + Before install a service, Moss will check if it has been running on host;
 * Fix Percona Xtrabackup script run fail;
 * Fix Nginx log rotate bug which it always rotate log to /var/log/nginx;
+* Reduce installation time when select mode 4 (Install Nginx only);
 
 
 1.6.3

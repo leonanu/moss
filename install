@@ -222,7 +222,6 @@ case "${MOSS_OPT}" in
         get_pkginfo
         install_dev
         sysconfig
-        install_libs
         web
         ;;
     5) # WEB
