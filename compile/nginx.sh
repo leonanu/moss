@@ -5,7 +5,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
 ## check proc
     proc_exist nginx
     if [ ${PROC_FOUND} -eq 1 ];then
-        fail_msg "There already have HTTP server running!"
+        fail_msg "There already have Nginx running!"
     fi
 
 ## prepare packages source depend on Nginx

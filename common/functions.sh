@@ -210,12 +210,12 @@ proc_exist(){
         PROC_FOUND=1
     fi
     
-    if [ ${PROC_NAME} = 'nginx' ];then
-        HTTP_PORT_USE=$(netstat -nlp | grep ':80 ')
-        if [ -z ${HTTP_PORT_USE} ];then
-            PROC_FOUND=0
-        else
-            PROC_FOUND=1
-        fi
-    fi
+    #if [ ${PROC_NAME} = 'nginx' ];then
+    #    HTTP_PORT_USE=$(netstat -nlp | grep ':80 ')
+    #    if [ -z "${HTTP_PORT_USE}" ];then
+    #        PROC_FOUND=0
+    #    else
+    #        PROC_FOUND=1
+    #    fi
+    #fi
 }
