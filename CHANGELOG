@@ -8,7 +8,7 @@ Moos Changelog
 
 1.6.4
 =====
-2015-MM-DD
+2015-02-24
 + Add server tools;
 + Log rotate will keep last 30 days logs, old logs will be deleted;
 + Before install a service, Moss will check if it has been running on host;
