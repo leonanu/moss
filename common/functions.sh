@@ -63,10 +63,10 @@ file_proc(){
 }
 
 get_pkginfo () {
-    if [ $PGM == 'local' ];then
+    if [ $PGM = 'local' ];then
         succ_msg "Using local packages directory."
         sleep 1
-    elif [ $PGM == 'remote' ];then
+    elif [ $PGM = 'remote' ];then
         if [ -f "${STORE_DIR}/packages.info" ];then
             warn_msg "Old packages.info found. Downloading lastest version..."
             sleep 1
@@ -92,7 +92,7 @@ get_pkginfo () {
 }
 
 get_file(){
-    if [ ${PGM} == 'remote' ];then
+    if [ ${PGM} = 'remote' ];then
         if [ ! -e "${STORE_DIR}/$SRC" ]; then
             wget -c -t10 -nH -T900 ${DOWN_URL}/$SRC -P ${STORE_DIR}
             if [ $? -eq 0 ]; then
@@ -197,4 +197,25 @@ compile(){
     cd ${STORE_DIR} && rm -rf "${STORE_DIR}/${SRC_DIR}"
 
     unset PRE_CONFIG CONFIG MAKE MAKE_TEST INSTALL SYMLINK LDFLAGS CPPFLAGS
+}
+
+proc_exist(){
+    unset PROC_FOUND
+    local PROC_NAME=$1
+    PROC_PID=$(pgrep -P 1 ${PROC_NAME})
+
+    if [ -z ${PROC_PID} ];then
+        PROC_FOUND=0
+    else
+        PROC_FOUND=1
+    fi
+    
+    #if [ ${PROC_NAME} = 'nginx' ];then
+    #    HTTP_PORT_USE=$(netstat -nlp | grep ':80 ')
+    #    if [ -z "${HTTP_PORT_USE}" ];then
+    #        PROC_FOUND=0
+    #    else
+    #        PROC_FOUND=1
+    #    fi
+    #fi
 }

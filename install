@@ -8,9 +8,9 @@
 #exec 2>${TOP_DIR}/stderr.log
 
 # Version
-readonly VER='1.6.3'
-if [ $1 == '-v' ] 2>/dev/null;then
-    echo $VER
+readonly VER='1.6.4dev'
+if [ $1 = '-v' ] 2>/dev/null;then
+    echo Moss-${VER}
     exit 0
 fi
 
@@ -124,7 +124,7 @@ lb () {
 ## Proxy Cache
 cache () {
     PCS=0
-    while [ $PCS == 0 ]; do
+    while [ $PCS -eq 0 ]; do
         warn_msg "\n==========================="
         warn_msg "Prxoy-Cache Installation "
         warn_msg "1 - Squid;"
@@ -222,7 +222,6 @@ case "${MOSS_OPT}" in
         get_pkginfo
         install_dev
         sysconfig
-        install_libs
         web
         ;;
     5) # WEB

@@ -1,6 +1,6 @@
 /var/log/php/*.log {
     daily
-    rotate 90
+    rotate 30
     ifempty
     #compress
     dateext
@@ -21,5 +21,6 @@
             /bin/tar czf /var/log/php/${I}.log-${REAL_DATE}.tar.gz /var/log/php/${I}.log-${REAL_DATE}
             /bin/rm -f /var/log/php/${I}.log-${REAL_DATE}
         done
+        /bin/find /var/log/php -mtime +30 | xargs rm -rf
     endscript
 }

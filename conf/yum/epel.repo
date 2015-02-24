@@ -1,6 +1,10 @@
 [epel]
 name=Extra Packages for Enterprise Linux 6 - $basearch
-baseurl=http://mirror.bit.edu.cn/fedora/epel/6/$basearch
+baseurl=http://mirrors.aliyun.com/epel/$releasever/$basearch
+        http://mirrors.sohu.com/fedora-epel/$releasever/$basearch
+        http://mirrors.yun-idc.com/epel/$releasever/$basearch
+        http://mirror.bit.edu.cn/fedora/epel/$releasever/$basearch
+        http://mirrors.ustc.edu.cn/epel/$releasever/$basearch
 #mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
 failovermethod=priority
 enabled=1
@@ -9,7 +13,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
 
 [epel-debuginfo]
 name=Extra Packages for Enterprise Linux 6 - $basearch - Debug
-baseurl=http://mirror.bit.edu.cn/fedora/epel/6/$basearch/debug
+baseurl=http://mirrors.aliyun.com/epel/$releasever/$basearch/debug
+        http://mirrors.ustc.edu.cn/epel/$releasever/$basearch/debug
 #mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-debug-6&arch=$basearch
 failovermethod=priority
 enabled=0
@@ -18,8 +23,8 @@ gpgcheck=0
 
 [epel-source]
 name=Extra Packages for Enterprise Linux 6 - $basearch - Source
-baseurl=http://mirror.bit.edu.cn/fedora/epel/6/SRPMS
-#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-source-6&arch=$basearch
+#baseurl=http://mirrors.aliyun.com/epel/$releasever/$basearch/debug
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-source-6&arch=$basearch
 failovermethod=priority
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6

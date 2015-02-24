@@ -2,6 +2,12 @@
 #### mysql-5.6.x
 if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
 
+## check proc
+    proc_exist mysqld
+    if [ ${PROC_FOUND} -eq 1 ];then
+        fail_msg "MySQL is running on this host!"
+    fi
+
 ## handle source packages
     file_proc ${MYSQL_SRC}
     get_file
@@ -47,13 +53,20 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     chkconfig --level 35 mysqld on
     ## start
     service mysqld start
+    sleep 3
+
+## check proc
+    proc_exist mysqld
+    if [ ${PROC_FOUND} -eq 0 ];then
+        fail_msg "MySQL failed to start!"
+    fi
 
     ## Set MySQL root password
     #MYSQL_ROOT_PASS0=0
-    #while [ $MYSQL_ROOT_PASS0 == 0 ]; do
+    #while [ $MYSQL_ROOT_PASS0 -eq 0 ]; do
     #    read -p "Please set MySQL root password:" MYSQL_ROOT_PASS1
     #    read -p "Input the root password again :" MYSQL_ROOT_PASS2
-    #    if [ $MYSQL_ROOT_PASS1 == $MYSQL_ROOT_PASS2 ]; then
+    #    if [ $MYSQL_ROOT_PASS1 = $MYSQL_ROOT_PASS2 ]; then
     #        MYSQL_ROOT_PASS0=1
     #    else
     #        warn_msg "The two password you input are not matched!"

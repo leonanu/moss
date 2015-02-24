@@ -8,7 +8,7 @@ export HOME=/var/empty
 DATE=$(date +%Y%m%d)
 RM_DATE=$(date --date '10 days ago' +'%Y%m%d')
 
-DATA_DIR=${XTRABACKUP_BACKUP_DIR}
+BACKUP_DIR=${XTRABACKUP_BACKUP_DIR}
 
 [ ! -d ${BACKUP_DIR} ] && mkdir -p ${BACKUP_DIR}
 

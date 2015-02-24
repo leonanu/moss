@@ -2,6 +2,12 @@
 #### redis-2.8.x
 if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
 
+## check proc
+    proc_exist redis
+    if [ ${PROC_FOUND} -eq 1 ];then
+        fail_msg "Redis is running on this host!"
+    fi
+
 ## handle source packages
     file_proc ${REDIS_SRC}
     get_file
@@ -26,19 +32,19 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     chown redis:redis -R ${RDS_DATA_DIR}
     ## conf
     RD_ROLE_TMP=0
-    while [ ${RD_ROLE_TMP} == 0 ]; do
+    while [ ${RD_ROLE_TMP} -eq 0 ]; do
         warn_msg "\n==========================="
         warn_msg "Redis Server Type "
         warn_msg "m - Master;"
         warn_msg "s - Slave;"
         warn_msg "===========================\n"
         read -p "Select m or s:" RD_ROLE
-        if [ $RD_ROLE == m 2>/dev/null ]; then
+        if [ $RD_ROLE = 'm' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/redis/redis-master.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#logfile.*#logfile $RDS_DATA_DIR/redis.log#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             RD_ROLE_TMP=1
-        elif [ $RD_ROLE == s 2>/dev/null ]; then
+        elif [ $RD_ROLE = 's' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/redis/redis-slave.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#logfile.*#logfile $RDS_DATA_DIR/redis.log#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
@@ -54,7 +60,14 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     chkconfig --level 35 redis on
     ## start
     service redis start
+    sleep 3
     unset SYMLINK
+
+## check proc
+    proc_exist redis
+    if [ ${PROC_FOUND} -eq 0 ];then
+        fail_msg "Redis fail to start!"
+    fi
 
 ## record installed tag
     echo 'REDIS' >> ${INST_LOG}
