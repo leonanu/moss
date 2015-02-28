@@ -57,6 +57,7 @@ mlocate
 mtr
 ntp
 ntpdate
+ntsysv
 openssh-clients
 openssl-devel
 patch
@@ -69,6 +70,7 @@ protobuf-devel
 readline-devel
 rsync
 screen
+setuptool
 strace
 sudo
 sysstat
@@ -100,8 +102,6 @@ perl-DBD-MySQL
 graphviz
 gmp
 gmp-devel
-openldap
-openldap-devel
 perl-Time-HiRes
 EOF
 )
