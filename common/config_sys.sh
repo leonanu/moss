@@ -20,6 +20,7 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
     ## Vim settings
     echo "alias vi='vim'" >> /etc/bashrc
     echo "alias grep='grep --color'" >> /etc/bashrc
+    echo "alias dstat='dstat -cdlmnpsy'" >> /etc/bashrc
     echo 'syntax on' >> /etc/vimrc 
     echo 'set ruler' >> /etc/vimrc
     echo 'set nobackup' >> /etc/vimrc
