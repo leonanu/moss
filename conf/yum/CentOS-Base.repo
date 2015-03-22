@@ -29,13 +29,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 name=CentOS-$releasever - Updates
 #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra
 #baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/
-baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
-        http://mirrors.163.com/centos/$releasever/os/$basearch/
-        http://mirrors.sohu.com/centos/$releasever/os/$basearch/
-        http://mirrors.yun-idc.com/centos/$releasever/os/$basearch/
-        http://mirrors.btte.net/centos/$releasever/os/$basearch/
-        http://mirror.bit.edu.cn/centos/$releasever/os/$basearch/
-        http://mirrors.ustc.edu.cn/centos/$releasever/os/$basearch/
+baseurl=http://mirrors.aliyun.com/centos/$releasever/updates/$basearch/
+        http://mirrors.163.com/centos/$releasever/updates/$basearch/
+        http://mirrors.sohu.com/centos/$releasever/updates/$basearch/
+        http://mirrors.yun-idc.com/centos/$releasever/updates/$basearch/
+        http://mirrors.btte.net/centos/$releasever/updates/$basearch/
+        http://mirror.bit.edu.cn/centos/$releasever/updates/$basearch/
+        http://mirrors.ustc.edu.cn/centos/$releasever/updates/$basearch/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 
@@ -44,13 +44,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 name=CentOS-$releasever - Extras
 #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra
 #baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/
-baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
-        http://mirrors.163.com/centos/$releasever/os/$basearch/
-        http://mirrors.sohu.com/centos/$releasever/os/$basearch/
-        http://mirrors.yun-idc.com/centos/$releasever/os/$basearch/
-        http://mirrors.btte.net/centos/$releasever/os/$basearch/
-        http://mirror.bit.edu.cn/centos/$releasever/os/$basearch/
-        http://mirrors.ustc.edu.cn/centos/$releasever/os/$basearch/
+baseurl=http://mirrors.aliyun.com/centos/$releasever/extras/$basearch/
+        http://mirrors.163.com/centos/$releasever/extras/$basearch/
+        http://mirrors.sohu.com/centos/$releasever/extras/$basearch/
+        http://mirrors.yun-idc.com/centos/$releasever/extras/$basearch/
+        http://mirrors.btte.net/centos/$releasever/extras/$basearch/
+        http://mirror.bit.edu.cn/centos/$releasever/extras/$basearch/
+        http://mirrors.ustc.edu.cn/centos/$releasever/extras/$basearch/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 
@@ -59,13 +59,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 name=CentOS-$releasever - Plus
 #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra
 #baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/
-baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
-        http://mirrors.163.com/centos/$releasever/os/$basearch/
-        http://mirrors.sohu.com/centos/$releasever/os/$basearch/
-        http://mirrors.yun-idc.com/centos/$releasever/os/$basearch/
-        http://mirrors.btte.net/centos/$releasever/os/$basearch/
-        http://mirror.bit.edu.cn/centos/$releasever/os/$basearch/
-        http://mirrors.ustc.edu.cn/centos/$releasever/os/$basearch/
+baseurl=http://mirrors.aliyun.com/centos/$releasever/centosplus/$basearch/
+        http://mirrors.163.com/centos/$releasever/centosplus/$basearch/
+        http://mirrors.sohu.com/centos/$releasever/centosplus/$basearch/
+        http://mirrors.yun-idc.com/centos/$releasever/centosplus/$basearch/
+        http://mirrors.btte.net/centos/$releasever/centosplus/$basearch/
+        http://mirror.bit.edu.cn/centos/$releasever/centosplus/$basearch/
+        http://mirrors.ustc.edu.cn/centos/$releasever/centosplus/$basearch/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
@@ -75,13 +75,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 name=CentOS-$releasever - Contrib
 #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=contrib&infra=$infra
 #baseurl=http://mirror.centos.org/centos/$releasever/contrib/$basearch/
-baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
-        http://mirrors.163.com/centos/$releasever/os/$basearch/
-        http://mirrors.sohu.com/centos/$releasever/os/$basearch/
-        http://mirrors.yun-idc.com/centos/$releasever/os/$basearch/
-        http://mirrors.btte.net/centos/$releasever/os/$basearch/
-        http://mirror.bit.edu.cn/centos/$releasever/os/$basearch/
-        http://mirrors.ustc.edu.cn/centos/$releasever/os/$basearch/
+baseurl=http://mirrors.aliyun.com/centos/$releasever/contrib/$basearch/
+        http://mirrors.163.com/centos/$releasever/contrib/$basearch/
+        http://mirrors.sohu.com/centos/$releasever/contrib/$basearch/
+        http://mirrors.yun-idc.com/centos/$releasever/contrib/$basearch/
+        http://mirrors.btte.net/centos/$releasever/contrib/$basearch/
+        http://mirror.bit.edu.cn/centos/$releasever/contrib/$basearch/
+        http://mirrors.ustc.edu.cn/centos/$releasever/contrib/$basearch/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6

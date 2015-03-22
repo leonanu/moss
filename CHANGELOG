@@ -6,6 +6,12 @@ Moos Changelog
 -	Feature remove;
 
 
+1.6.5
+=====
+2015-MM-DD
+* Fix YUM repository config file;
+
+
 1.6.4
 =====
 2015-02-24
