@@ -11,6 +11,7 @@ Moos Changelog
 2015-MM-DD
 * Fix YUM repository config file;
 * Enhance Bash command alias;
+* Enhance vimrc profile;
 
 
 1.6.4
