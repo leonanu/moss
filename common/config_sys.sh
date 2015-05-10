@@ -25,10 +25,9 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
     ## vimrc settings
     echo '"Moss vimrc - START' >> /etc/vimrc
     echo 'set modeline' >> /etc/vimrc
-    echo 'set background=dark' >> /etc/vimrc
-    echo 'set smartindent' >> /etc/vimrc
+    echo '"set smartindent' >> /etc/vimrc
     echo 'filetype indent plugin on' >> /etc/vimrc
-    echo 'set autoindent' >> /etc/vimrc
+    echo '"set autoindent' >> /etc/vimrc
     echo 'set wildmenu' >> /etc/vimrc
     echo 'syntax on' >> /etc/vimrc 
     echo 'set ruler' >> /etc/vimrc
