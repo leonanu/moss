@@ -24,10 +24,8 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
 
     ## vimrc settings
     echo '"Moss vimrc - START' >> /etc/vimrc
+    echo 'set background=dark' >> /etc/vimrc
     echo 'set modeline' >> /etc/vimrc
-    echo '"set smartindent' >> /etc/vimrc
-    echo 'filetype indent plugin on' >> /etc/vimrc
-    echo '"set autoindent' >> /etc/vimrc
     echo 'set wildmenu' >> /etc/vimrc
     echo 'syntax on' >> /etc/vimrc 
     echo 'set ruler' >> /etc/vimrc
@@ -37,6 +35,7 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
     echo 'set paste' >> /etc/vimrc
     echo '"set foldenable' >> /etc/vimrc
     echo '"set foldmethod=indent' >> /etc/vimrc
+    echo '"filetype indent plugin on' >> /etc/vimrc
     echo 'let Tlist_Sort_Type = "name"' >> /etc/vimrc
     echo 'let Tlist_Use_Right_Window = 1' >> /etc/vimrc
     echo 'let Tlist_Compart_Format = 1' >> /etc/vimrc
@@ -45,7 +44,7 @@ if ! grep '^CONFIG_SYS' ${INST_LOG} > /dev/null 2>&1 ;then
     echo 'let Tlist_Enable_Fold_Column = 0' >> /etc/vimrc
     echo 'autocmd InsertLeave * se nocul' >> /etc/vimrc
     echo 'autocmd InsertEnter * se cul' >> /etc/vimrc
-    echo 'set showcmd'
+    echo 'set showcmd' >> /etc/vimrc
     echo 'set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}' >> /etc/vimrc
     echo 'set completeopt=preview,menu' >> /etc/vimrc
     echo '"Moss vimrc - END' >> /etc/vimrc
