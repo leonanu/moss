@@ -9,6 +9,7 @@ Moos Changelog
 1.6.5
 =====
 2015-MM-DD
++ Add HAProxy;
 * Fix YUM repository config file;
 * Enhance Bash command alias;
 * Enhance vimrc profile;

@@ -1,0 +1,104 @@
+#!/bin/bash
+######################################################
+## Modify by nanu@qq.com at 2012-07-20 13:52        ##
+## Compatible with RedHat/CentOS Debian/Ubuntu SUSE ##
+######################################################
+
+# Support chkconfig on RedHat/CentOS
+# chkconfig:   2345 90 60
+# description: HAProxy
+# processname: haproxy
+# config:      /usr/local/haproxy/etc/haproxy.conf
+# pidfile:     /var/run/haproxy.pid
+
+# Support Linux Standard Base Core Specification 3.2
+### BEGIN INIT INFO
+# Provides:          haproxy
+# Required-Start:    $local_fs $syslog $network
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 S 1 6
+# Short-Description: start/stop haproxy daemon
+# Description:       HAProxy is a free, very fast and
+#                    reliable solution offering high availability,
+#                    load balancing, and proxying for TCP and
+#                    HTTP-based applications.
+### END INIT INFO
+
+if [ -f /etc/init.d/functions ]; then
+    . /etc/init.d/functions
+elif [ -f /etc/rc.d/init.d/functions ]; then
+    . /etc/rc.d/init.d/functions
+else 
+    exit 0
+fi
+
+# Source networking configuration. 
+. /etc/sysconfig/network
+
+# Check that networking is up. 
+[ ${NETWORKING} = "no" ] && exit 0
+config="/usr/local/haproxy/etc/haproxy.cfg"
+exec="/usr/local/haproxy/sbin/haproxy"
+PID="/var/run/haproxy.pid"
+[ -f $config ] || exit 1
+RETVAL=0
+
+start() {
+    daemon $exec -c -q -f $config
+    if [ $? -ne 0 ]; then 
+        echo "Errors found in configuration file."
+        return 1
+    fi
+    echo -n "Starting HAproxy: " 
+    $exec -D -f $config -p $PID
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/haproxy
+    return $RETVAL
+}
+
+stop() { 
+    echo -n "Shutting down HAproxy: "
+    killproc haproxy -USR1
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/haproxy
+    [ $RETVAL -eq 0 ] && rm -f $PID
+    return $RETVAL
+}
+
+restart() {
+    $exec -c -q -f $config
+    if [ $? -ne 0 ]; then
+        echo "Errors found in configuration file."
+        return 1
+   fi
+   stop
+   start
+}
+
+rhstatus() { 
+    status haproxy
+}
+
+# See how we were called. 
+case "$1" in 
+    start)
+        start
+        ;; 
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        rhstatus
+        ;;
+    *)
+        echo $"Usage: haproxy {start|stop|restart|status}" 
+        RETVAL=1
+esac
+
+exit $RETVAL
