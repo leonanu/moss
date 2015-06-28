@@ -3,7 +3,7 @@ if ! grep '^ZABBIX_AGENT$' ${INST_LOG} > /dev/null 2>&1 ;then
 
 ## install RPM packages depend by Zabbix
 succ_msg "Install RPM packages depend by Zabbix."
-yum install -y net-snmp-devel libcurl-devel OpenIPMI-devel sqlite-devel libssh2-devel
+yum install -y net-snmp-devel libcurl-devel OpenIPMI-devel sqlite-devel libssh2-devel || fail_msg "RPMs Install Failed!"
 
 ## handle source packages
     file_proc ${ZABBIX_SRC}
