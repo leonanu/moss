@@ -1,11 +1,13 @@
 #!/bin/bash
 if ! grep '^INST_DEV$' ${INST_LOG} > /dev/null 2>&1 ;then
-if [ ${CHANGE_YUM} -eq 1 ];then
-    install -m 0644 ${TOP_DIR}/conf/yum/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
-fi
-install -m 0644 ${TOP_DIR}/conf/yum/epel.repo /etc/yum.repos.d/epel.repo
+    if [ ${CHANGE_YUM} -eq 1 2>/dev/null ];then
+        install -m 0644 ${TOP_DIR}/conf/yum/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+    fi
 
-yum update -y
+    install -m 0644 ${TOP_DIR}/conf/yum/epel.repo /etc/yum.repos.d/epel.repo
+
+    yum update -y
+
 yum install -y $(cat <<EOF
 autoconf
 automake
@@ -58,6 +60,7 @@ mtr
 ntp
 ntpdate
 ntsysv
+nscd
 openssh-clients
 openssl-devel
 patch
@@ -106,16 +109,15 @@ perl-Time-HiRes
 EOF
 )
 
-if [ ${INST_SALT} -eq 1 2>/dev/null ]; then
-    yum install salt-minion -y
-    [ -f "/etc/salt/minion" ] && rm -f /etc/salt/minion
-    install -m 0644 ${TOP_DIR}/conf/saltstack/minion /etc/salt/minion
-    sed -i "s#^master.*#master: ${SALT_MASTER}#" /etc/salt/minion
-    chkconfig --level 3 salt-minion on
-    service salt-minion start
-fi
-
-## record installed tag
+    if [ ${INST_SALT} -eq 1 2>/dev/null ]; then
+        yum install salt-minion -y
+        [ -f "/etc/salt/minion" ] && rm -f /etc/salt/minion
+        install -m 0644 ${TOP_DIR}/conf/saltstack/minion /etc/salt/minion
+        sed -i "s#^master.*#master: ${SALT_MASTER}#" /etc/salt/minion
+        chkconfig salt-minion on
+        service salt-minion start
+    fi
+    ## log installed tag
     echo 'INST_DEV' >> ${INST_LOG}
 else
     succ_msg "All RPM packages needed has been alread installed!"

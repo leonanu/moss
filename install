@@ -8,7 +8,7 @@
 #exec 2>${TOP_DIR}/stderr.log
 
 # Version
-readonly VER='1.6.5'
+readonly VER='2.0.0'
 if [ $1 = '-v' ] 2>/dev/null;then
     echo Moss-${VER}
     exit 0
@@ -21,6 +21,8 @@ readonly TOP_DIR="$(cd $(dirname $0);pwd)"
 ## !!! DO NOT Modify These Settings !!!
 readonly DATE=$(date +%Y%m%d-%H-%M)
 readonly ARCH=$(uname -i)
+readonly OS_ISSUE=$(head -n 1 /etc/issue | awk '{print $1}')
+readonly OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
 readonly STORE_DIR="${TOP_DIR}/src"
 readonly INST_LOG="/var/log/moss.log"
 readonly CHECK_MD5=1
@@ -45,8 +47,8 @@ source ${TOP_DIR}/common/functions.sh
 [ "$ARCH" != 'x86_64' ] && fail_msg "Moos didn't support $ARCH, please install x86_64!"
 
 ## Check OS
-OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
-[ "${OS_VER}" -lt 6 ] && fail_msg "Moss didn't support OS: ${OS_VER}, please install CentOS-6.x-x86_64!"
+[ "${OS_ISSUE}" != 'CentOS' ] && fail_msg "Moss can be installed on CentOS release only!\nYour release is ${OS_ISSUE}"
+[ "${OS_VER}" -lt 8 ] && fail_msg "Moss require CentOS 6 or above!\nYour release is ${OS_ISSUE}"
 
 ## Check Moss Configuration File
 if [ ! -f "${TOP_DIR}/etc/moss.conf" ];then
@@ -102,8 +104,8 @@ install_dev () {
 
 ## Config System
 sysconfig () {
-    source ${TOP_DIR}/common/config_sys.sh
     source ${TOP_DIR}/common/root.pub.sh
+    source ${TOP_DIR}/common/config_sys.sh
 }
 
 ## Build development library
@@ -278,11 +280,6 @@ case "${MOSS_OPT}" in
        fail_msg "You specifid an invalid option!\n"
     ;;
 esac
-
-## Set Flag When First Run Finished
-if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
-    echo 'MOSSED' >> ${INST_LOG}
-fi
 
 succ_msg 'Moos has been installed on your system!'
 

@@ -1,4 +1,6 @@
 #!/bin/bash
+
+## TUI text color
 color_msg(){
     local COLOR=$1
     shift
@@ -18,24 +20,25 @@ color_msg(){
             COLOR="\033[0m"
             ;;
     esac
-    echo -en "$COLOR $MSG $NORMAL\n"
+    echo -en "${COLOR}${MSG}${NORMAL}\n"
 }
 
 succ_msg(){
     local MSG="$*"
-    color_msg green $MSG
+    color_msg green ${MSG}
 }
 
 fail_msg(){
     local MSG="$*"
-    color_msg red $MSG && exit 1
+    color_msg red ${MSG} && exit 1
 }
 
 warn_msg(){
     local MSG="$*"
-    color_msg yellow $MSG
+    color_msg yellow ${MSG}
 }
 
+## package name and format process
 file_proc(){
     unset SRC_STR SRC SUM FILE_EXT SRC_DIR
     local SRC_STR=$1
@@ -57,11 +60,13 @@ file_proc(){
             # NULL
             ;;
         *)
+            warn_msg 'ERROR!'
             fail_msg "parse $SRC : Unkown format ${FILE_EXT}"
             ;;
     esac
 }
 
+## get packages.info
 get_pkginfo () {
     if [ $PGM = 'local' ];then
         succ_msg "Using local packages directory."
@@ -78,19 +83,23 @@ get_pkginfo () {
             succ_msg "packages.info download OK!"
             sleep 1
         else
+            warn_msg 'ERROR!'
             fail_msg "packages.info download error!"
         fi
     else
+        warn_msg 'ERROR!'
         fail_msg "Package Get Mode (PGM) error! Check ${TOP_DIR}/etc/moss.conf!"
     fi
 
     if [ ! -f "${STORE_DIR}/packages.info" ];then
+        warn_msg 'ERROR!'
         fail_msg "packages.info not found! It should be placed in ${STORE_DIR}!"
     else
         source ${STORE_DIR}/packages.info
     fi
 }
 
+## get package file and MD5 sum
 get_file(){
     if [ ${PGM} = 'remote' ];then
         if [ ! -e "${STORE_DIR}/$SRC" ]; then
@@ -99,6 +108,7 @@ get_file(){
                 succ_msg "$SRC download OK!"
                 sleep 1
             else
+                warn_msg 'ERROR!'
                 fail_msg "$SRC download Error!"
             fi
         elif [ "${CHECK_MD5}" = '1' ]; then
@@ -112,6 +122,7 @@ get_file(){
                 if [ $? -eq 0 ]; then
                     succ_msg "$SRC download OK!"
                 else
+                    warn_msg 'ERROR!'
                     fail_msg "$SRC download Error!"
                 fi
             fi
@@ -119,6 +130,7 @@ get_file(){
     fi
 }
 
+## unpack
 unpack(){
     color_msg green "Unpacking $SRC ......"
     case ${FILE_EXT} in
@@ -135,11 +147,13 @@ unpack(){
             # NULL
             ;;
         *)
+            warn_msg 'ERROR!'
             fail_msg "unpack $SRC: Unknown package format!"
             ;;
     esac
 }
 
+## compile and install package
 compile(){
     if [ $IS_XHPROF -eq 1 ] 2> /dev/null;then
         cd "${STORE_DIR}/${SRC_DIR}/extension"
@@ -199,6 +213,7 @@ compile(){
     unset PRE_CONFIG CONFIG MAKE MAKE_TEST INSTALL SYMLINK LDFLAGS CPPFLAGS
 }
 
+## process running watch
 proc_exist(){
     unset PROC_FOUND
     local PROC_NAME=$1
