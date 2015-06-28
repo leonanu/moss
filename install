@@ -85,6 +85,9 @@ read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
 ## Import Moos Settings
 source ${TOP_DIR}/etc/moss.conf 2>/dev/null
 
+## Import Hardware Information
+source ${TOP_DIR}/common/hwinfo.sh 2>/dev/null
+
 ## Check Install Directory
 [ ! -d $INST_DIR ] && mkdir -p $INST_DIR
 
@@ -279,7 +282,7 @@ case "${MOSS_OPT}" in
     ;;
 esac
 
-succ_msg 'Moos has been installed on your system!'
+succ_msg 'Moos Installed Successfully!'
 
 ## Close I/O redirection
 #exec 1>&-
