@@ -48,7 +48,7 @@ source ${TOP_DIR}/common/functions.sh
 
 ## Check OS
 [ "${OS_ISSUE}" != 'CentOS' ] && fail_msg "Moss can be installed on CentOS release only!\nYour release is ${OS_ISSUE}"
-[ "${OS_VER}" -lt 8 ] && fail_msg "Moss require CentOS 6 or above!\nYour release is ${OS_ISSUE}"
+[ "${OS_VER}" -lt 6 ] && fail_msg "Moss require CentOS 6 or above!\nYour release is ${OS_ISSUE}"
 
 ## Check Moss Configuration File
 if [ ! -f "${TOP_DIR}/etc/moss.conf" ];then
@@ -88,14 +88,12 @@ source ${TOP_DIR}/etc/moss.conf 2>/dev/null
 ## Check Install Directory
 [ ! -d $INST_DIR ] && mkdir -p $INST_DIR
 
-## Check Basic Config
-#if ! grep '^MOSSED$' ${INST_LOG} > /dev/null 2>&1 ;then
-    #[ -z ${OS_HOSTNAME} ] && fail_msg "You have to set OS_HOSTNAME in ${TOP_DIR}/etc/moss.conf!"
-    #[ -z ${OS_ROOT_PASSWD} ] && fail_msg "You have to set OS_ROOT_PASSWD in ${TOP_DIR}/etc/moss.conf!"
-#fi
-
-# Check wget command
-yum install -y wget
+## Check wget command
+if ! grep '^YUM_WGET' ${INST_LOG} > /dev/null 2>&1 ;then
+    yum install -y wget || fail_msg "Install wget Failed!"
+    ## log installed tag
+    echo 'YUM_WGET' >> ${INST_LOG}
+fi
 
 ## Install development libs
 install_dev () {

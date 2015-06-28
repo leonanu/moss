@@ -1,13 +1,30 @@
 #!/bin/bash
-if ! grep '^INST_DEV$' ${INST_LOG} > /dev/null 2>&1 ;then
-    if [ ${CHANGE_YUM} -eq 1 2>/dev/null ];then
+
+## change YUM repo
+if [ ${CHANGE_YUM} -eq 1 2>/dev/null ];then
+    if ! grep '^YUM_CHANGE' ${INST_LOG} > /dev/null 2>&1 ;then
         install -m 0644 ${TOP_DIR}/conf/yum/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+        ## log installed tag
+        echo 'YUM_CHANGE' >> ${INST_LOG}        
     fi
+fi
 
+## install EPEL repo
+if ! grep '^ADD_EPEL' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0644 ${TOP_DIR}/conf/yum/epel.repo /etc/yum.repos.d/epel.repo
+    ## log installed tag
+    echo 'ADD_EPEL' >> ${INST_LOG}
+fi
 
-    yum update -y
+## update system
+if ! grep '^YUM_UPDATE' ${INST_LOG} > /dev/null 2>&1 ;then
+    yum update -y || fail_msg "YUM Update Failed!"
+    ## log installed tag
+    echo 'YUM_UPDATE' >> ${INST_LOG}
+fi
 
+## install RPMs
+if ! grep '^YUM_INSTALL' ${INST_LOG} > /dev/null 2>&1 ;then
 yum install -y $(cat <<EOF
 autoconf
 automake
@@ -107,18 +124,21 @@ gmp
 gmp-devel
 perl-Time-HiRes
 EOF
-)
+) || fail_msg "Install RPMs Failed!"
+## log installed tag
+echo 'YUM_INSTALL' >> ${INST_LOG}
+fi
 
-    if [ ${INST_SALT} -eq 1 2>/dev/null ]; then
-        yum install salt-minion -y
+## install saltstack
+if [ ${INST_SALT} -eq 1 2>/dev/null ]; then
+    if ! grep '^YUM_SALT' ${INST_LOG} > /dev/null 2>&1 ;then
+        yum install salt-minion -y || fail_msg "SaltStack Minion Install Failed!"
         [ -f "/etc/salt/minion" ] && rm -f /etc/salt/minion
         install -m 0644 ${TOP_DIR}/conf/saltstack/minion /etc/salt/minion
         sed -i "s#^master.*#master: ${SALT_MASTER}#" /etc/salt/minion
         chkconfig salt-minion on
         service salt-minion start
+        ## log installed tag
+        echo 'YUM_SALT' >> ${INST_LOG}
     fi
-    ## log installed tag
-    echo 'INST_DEV' >> ${INST_LOG}
-else
-    succ_msg "All RPM packages needed has been alread installed!"
 fi

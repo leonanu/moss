@@ -18,6 +18,7 @@ Moos Changelog
 * Enhance Bash command alias;
 * Enhance vimrc profile;
 * Refine every steps of system config;
+* Installation will be abort if YUM install/update failed;
 * Fix YUM repository config file;
 * Fix installation TUI bug;
 - Remove service.sh script, merge with config_sys.sh;
