@@ -12,7 +12,7 @@ You could set up a L.N.M.P based environment easily by Moss. Inlcude all feature
 * **Develop** - You could develop Moss easily. All features in Moss were designed by modules, you can add or remove modules to fit your need;
 
 ## Install
-* Configure: Edit configuration file in ./etc/moos.conf. Change settings to fit your need.
+* Configure: Edit configuration file in ./etc/moss.conf. Change settings to fit your need.
 * Package Repository: Moss support both download packages from a repository and get from local directory(./src). Set in ./etc/moss.conf
 * Install: Login with root and run ```./install ```
 

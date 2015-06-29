@@ -44,7 +44,7 @@ source ${TOP_DIR}/common/functions.sh
 [ $(id -u) -ne 0 ] && fail_msg "You must be root!"
 
 ## Check Architecture
-[ "$ARCH" != 'x86_64' ] && fail_msg "Moos didn't support $ARCH, please install x86_64!"
+[ "$ARCH" != 'x86_64' ] && fail_msg "Moss didn't support $ARCH, please install x86_64!"
 
 ## Check OS
 [ "${OS_ISSUE}" != 'CentOS' ] && fail_msg "Moss can be installed on CentOS release only!\nYour release is ${OS_ISSUE}"
@@ -58,7 +58,7 @@ fi
 ## Weclcome
 clear
 cat ${TOP_DIR}/etc/banner
-succ_msg "Welcome to Moos ${VER}\n"
+succ_msg "Welcome to Moss ${VER}\n"
 succ_msg "Moss ia a Linux WEB application environment deployment system."
 succ_msg "You need to edit ${TOP_DIR}/etc/moss.conf to modify some settings.\n"
 succ_msg "Author: Nanu"
@@ -82,7 +82,7 @@ warn_msg "================================================\n"
 MOSS_OPT=1
 read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
 
-## Import Moos Settings
+## Import Moss Settings
 source ${TOP_DIR}/etc/moss.conf 2>/dev/null
 
 ## Import Hardware Information
@@ -261,7 +261,7 @@ esac
 if [ $MOSS_OPT = 'u' ];then
     succ_msg 'Moss Has Been Removed From Your System!'
 else
-    succ_msg 'Moos Installed Successfully!'
+    succ_msg 'Moss Installed Successfully!'
 fi
 
 ## Close I/O redirection

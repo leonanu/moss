@@ -87,7 +87,7 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     echo "password = ${MYSQL_MULADMIN_PASS}" >> /root/.my.cnf
     chmod 600 /root/.my.cnf
     succ_msg "MySQL root password has been changed!"
-    warn_msg "Please protect the Moos config file CARFULLY!"
+    warn_msg "Please protect the Moss config file CARFULLY!"
     read -p 'Press any key to continue.'
 
     ## remove null username & password accounts
