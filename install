@@ -77,6 +77,7 @@ warn_msg "6 - Install MySQL database server;"
 warn_msg "7 - Install Redis and memcached NoSQL database;"
 warn_msg "8 - Install Zabbix agent;"
 warn_msg "9 - Install NTP server;"
+warn_msg "u - Uninstall Moss;"
 warn_msg "================================================\n"
 MOSS_OPT=1
 read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
@@ -182,6 +183,11 @@ ntp () {
     source ${TOP_DIR}/common/ntpd.sh
 }
 
+## Uninstall
+uninstall () {
+    source ${TOP_DIR}/common/uninstall.sh
+}
+
 case "${MOSS_OPT}" in
     1) # Init
         install_dev
@@ -244,12 +250,19 @@ case "${MOSS_OPT}" in
         sysconfig
         ntp
         ;;
+    u) # Uninstall
+        uninstall
+        ;;
     *) # Invalid
        fail_msg "You specifid an invalid option!\n"
     ;;
 esac
 
-succ_msg 'Moos Installed Successfully!'
+if [ $MOSS_OPT = 'u' ];then
+    succ_msg 'Moss Has Been Removed From Your System!'
+else
+    succ_msg 'Moos Installed Successfully!'
+fi
 
 ## Close I/O redirection
 #exec 1>&-
