@@ -1,6 +1,6 @@
 Moos Changelog
 
-!	Security fix and improve;
+!	Security fix and important improve;
 *	Common bug fix and improve;
 +	Feature add;
 -	Feature remove;
@@ -9,6 +9,7 @@ Moos Changelog
 2.0.0
 =====
 2015-MM-DD
+- Remove Squid and Varnish;
 + Add HAProxy;
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);

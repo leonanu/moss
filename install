@@ -68,16 +68,15 @@ succ_msg "Website: https://github.com/leonanu/moss/\n"
 ## Moss Options
 warn_msg "Please Select Moss Installation Option "
 warn_msg "================================================"
-warn_msg "1  - Initial & optimize CentOS system only;"
-warn_msg "2  - Install KeepAlived;"
-warn_msg "3  - Install HAProxy;"
-warn_msg "4  - Install Squid or Varnish web cache proxy;"
-warn_msg "5  - Install Nginx web server standalone;"
-warn_msg "6  - Install Nginx web server and PHP FastCGI;"
-warn_msg "7  - Install MySQL database server;"
-warn_msg "8  - Install Redis and memcached NoSQL database;"
-warn_msg "9  - Install Zabbix agent;"
-warn_msg "10 - Install NTP server;"
+warn_msg "1 - Initial & optimize CentOS system only;"
+warn_msg "2 - Install KeepAlived;"
+warn_msg "3 - Install HAProxy;"
+warn_msg "4 - Install Nginx web server standalone;"
+warn_msg "5 - Install Nginx web server and PHP FastCGI;"
+warn_msg "6 - Install MySQL database server;"
+warn_msg "7 - Install Redis and memcached NoSQL database;"
+warn_msg "8 - Install Zabbix agent;"
+warn_msg "9 - Install NTP server;"
 warn_msg "================================================\n"
 MOSS_OPT=1
 read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
@@ -128,31 +127,6 @@ lb () {
 ## HAProxy
 haproxy () {
     source ${TOP_DIR}/compile/haproxy.sh
-}
-
-## Proxy Cache
-cache () {
-    PCS=0
-    while [ $PCS -eq 0 ]; do
-        warn_msg "\n==========================="
-        warn_msg "Prxoy-Cache Installation "
-        warn_msg "1 - Squid;"
-        warn_msg "2 - Varnish;"
-        warn_msg "===========================\n"
-        PCM=1
-        read -p "Select 1 or 2:" PCM
-
-        if [ $PCM -eq 1 2>/dev/null ]; then
-            source ${TOP_DIR}/compile/squid.sh
-            PCS=1
-        elif [ $PCM -eq 2 2>/dev/null ]; then
-            source ${TOP_DIR}/compile/varnish.sh
-            PCS=1
-        else
-            warn_msg "Invalid option. Type 1 or 2 to continue."
-        fi
-    done
-    unset PCM PCS
 }
 
 ## Nginx
@@ -230,20 +204,13 @@ case "${MOSS_OPT}" in
         install_libs
         haproxy
         ;;
-    4) # Web Proxy Cache
-        get_pkginfo
-        install_dev
-        sysconfig
-        install_libs
-        cache 
-        ;;
-    5) # WEB Server Only
+    4) # WEB Server Only
         get_pkginfo
         install_dev
         sysconfig
         web
         ;;
-    6) # WEB
+    5) # WEB
         get_pkginfo
         install_dev
         sysconfig
@@ -251,7 +218,7 @@ case "${MOSS_OPT}" in
         web
         php
         ;;
-    7) # MySQL
+    6) # MySQL
         [ -z ${MYSQL_ROOT_PASS} ] && fail_msg "You MUST set MYSQL_ROOT_PASS in ${TOP_DIR}/etc/moss.conf!"
         [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MYSQL_MULADMIN_PASS in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
@@ -259,20 +226,20 @@ case "${MOSS_OPT}" in
         sysconfig
         db
         ;;
-    8) # NoSQL
+    7) # NoSQL
         get_pkginfo
         install_dev
         sysconfig
         nosql 
         ;;
-    9) # Zabbix Agent
+    8) # Zabbix Agent
         [ -z ${ZABBIX_SERVER_IP} ] && fail_msg "You MUST set ZABBIX_SERVER_IP in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_dev
         sysconfig
         zagent
         ;;
-    10) # NTP
+    9) # NTP
         install_dev
         sysconfig
         ntp
