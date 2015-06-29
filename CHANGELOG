@@ -10,7 +10,6 @@ Moos Changelog
 =====
 2015-MM-DD
 ! Support uninstall Moss. Select 'u' in installaion options;
-- Remove Squid and Varnish;
 + Add HAProxy;
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);
@@ -23,7 +22,8 @@ Moos Changelog
 * Installation will be abort if YUM install/update failed;
 * Fix YUM repository config file;
 * Fix installation TUI bug;
-- Remove service.sh script, merge with config_sys.sh;
+- Remove Squid and Varnish;
+- Remove service.sh script, merged with config_sys.sh;
 
 
 1.6.4
