@@ -14,11 +14,9 @@ if [ $1 = '-v' ] 2>/dev/null;then
     exit 0
 fi
 
-## Pre-set Global readonly variables
-readonly TOP_DIR="$(cd $(dirname $0);pwd)"
-
 ## Global Readonly Variables
 ## !!! DO NOT Modify These Settings !!!
+readonly TOP_DIR="$(cd $(dirname $0);pwd)"
 readonly DATE=$(date +%Y%m%d-%H-%M)
 readonly ARCH=$(uname -i)
 readonly OS_ISSUE=$(head -n 1 /etc/issue | awk '{print $1}')
