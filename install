@@ -259,13 +259,16 @@ case "${MOSS_OPT}" in
 esac
 
 if [ $MOSS_OPT = 'u' ];then
-    succ_msg 'Moss Has Been Removed From Your System!'
+    succ_msg '=================================='
+    succ_msg '= Moss Uninstalled Successfully! ='
+    succ_msg '=================================='
 else
     succ_msg '================================'
     succ_msg '= Moss Installed Successfully! ='
     succ_msg '================================'
-    warn_msg 'DO NOT delete Moss installation directory!'
-    warn_msg 'Otherwise, you will not be able to uninstall Moss in the future!'
+    warn_msg '*DO NOT* delete Moss installation directory!'
+    warn_msg 'Otherwise, you will not be able to UNINSTALL'
+    warn_msg 'or UPDATE Moss in the future!'
 fi
 
 ## Close I/O redirection
