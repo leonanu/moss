@@ -87,10 +87,10 @@ if grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
         rm -rf /var/log/mysql
         rm -f /usr/local/bin/xtrabackup.sh
         rm -f /usr/local/etc/logrotate/mysql
-        sed -i "s@.*# Logrotate - MySQL.*@@g" /var/spool/cron/root
-        sed -i "s@.*/usr/local/etc/logrotate/mysql.*@@g" /var/spool/cron/root
-        sed -i "s@.*# MySQL Backup.*@@g" /var/spool/cron/root
-        sed -i "s@.*/usr/local/bin/xtrabackup.sh.*@@g" /var/spool/cron/root
+        sed -i "/.*# Logrotate - MySQL.*/d" /var/spool/cron/root
+        sed -i "/.*\/usr\/local\/etc\/logrotate\/mysql.*/d" /var/spool/cron/root
+        sed -i "/.*# MySQL Backup.*/d" /var/spool/cron/root
+        sed -i "/.*\/usr\/local\/bin\/xtrabackup\.sh.*/d" /var/spool/cron/root
         if [ "${BAK_MYSQL_DATA}" = 'n' ];then
             rm -rf ${MYSQL_DATA_DIR}
         fi
@@ -109,8 +109,8 @@ if grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
 
         userdel -r mysql 2>/dev/null
 
-        sed -i "s@^MYSQL\$@@g" ${INST_LOG}
-        sed -i "s@^XTRABACKUP\$@@g" ${INST_LOG}
+        sed -i "/^MYSQL\$/d" ${INST_LOG}
+        sed -i "/^XTRABACKUP\$/d" ${INST_LOG}
 
         succ_msg "MySQL Server has been removed from your system!"
         sleep 3
