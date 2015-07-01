@@ -30,6 +30,9 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     ## data dir
     [ ! -d "${RDS_DATA_DIR}" ] && mkdir -m 0755 -p ${RDS_DATA_DIR}
     chown redis:redis -R ${RDS_DATA_DIR}
+    ## log dir
+    [ ! -d "/var/log/redis" ] && mkdir -m 0755 -p /var/log/redis
+    chown redis:redis -R /var/log/redis
     ## conf
     RD_ROLE_TMP=0
     while [ ${RD_ROLE_TMP} -eq 0 ]; do
@@ -41,12 +44,10 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
         read -p "Select m or s:" RD_ROLE
         if [ $RD_ROLE = 'm' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/redis/redis-master.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
-            sed -i "s#logfile.*#logfile $RDS_DATA_DIR/redis.log#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             RD_ROLE_TMP=1
         elif [ $RD_ROLE = 's' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/redis/redis-slave.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
-            sed -i "s#logfile.*#logfile $RDS_DATA_DIR/redis.log#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#slaveof.*#slaveof ${RDS_MASTER_IP} 6379#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             RD_ROLE_TMP=1

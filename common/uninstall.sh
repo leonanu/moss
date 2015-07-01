@@ -1,9 +1,73 @@
 #!/bin/bash
 
+## check Moss log file
 if [ ! -f "${INST_LOG}" ];then
     warn_msg "${INST_LOG} not found!"
     warn_msg "Maybe you did not install Moss on your system!"
     fail_msg "Quit Moss uninstallation!"
+fi
+
+## uninstall Redis
+if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
+    DEL_REDIS_INPUT=0
+    while [ ${DEL_REDIS_INPUT} -eq 0 ]; do
+        read -p "Do you wish to remove Redis?(y/N)" DEL_REDIS
+        if [[ "${DEL_REDIS}" = 'y' ]] || [[ "${DEL_REDIS}" = 'Y' ]];then
+            DEL_REDIS=y
+            DEL_REDIS_INPUT=1
+        elif [[ -z "${DEL_REDIS}" ]] || [[ "${DEL_REDIS}" = 'n' ]] || [[ "${DEL_REDIS}" = 'N' ]];then
+            DEL_REDIS=n
+            DEL_REDIS_INPUT=1
+        else
+            warn_msg "You can only input y or n."
+            DEL_REDIS_INPUT=0
+        fi
+    done
+
+    succ_msg "\nStarting Uninstall Redis...\n"
+    if [ "${DEL_REDIS}" = 'y' ];then
+        BAK_REDIS_DATA_INPUT=0
+        while [ ${BAK_REDIS_DATA_INPUT} -eq 0 ]; do
+            read -p "Do you wish to keep Redis database?(Y/n)" BAK_REDIS_DATA
+            if [[ -z "${BAK_REDIS_DATA}" ]] || [[ "${BAK_REDIS_DATA}" = 'y' ]] || [[ "${BAK_REDIS_DATA}" = 'Y' ]];then
+                BAK_REDIS_DATA=y
+                BAK_REDIS_DATA_INPUT=1
+            elif [[ "${BAK_REDIS_DATA}" = 'n' ]] || [[ "${BAK_REDIS_DATA}" = 'N' ]];then
+                BAK_REDIS_DATA=n
+                BAK_REDIS_DATA_INPUT=1
+            else
+                warn_msg "You can only input y or n."
+                BAK_REDIS_DATA_INPUT=0
+            fi
+        done
+
+        warn_msg "Stop Redis..."
+        /etc/init.d/redis stop
+        sleep 3
+        if (pstree | grep redis > /dev/null 2>&1) ; then
+            fail_msg "Redis Fail to Stop!"
+        else
+            succ_msg "Redis Stoped!"
+        fi
+
+        rm -f /usr/local/redis
+        rm -rf ${INST_DIR}/redis-*
+        rm -rf /var/log/redis
+        if [ "${BAK_REDIS_DATA}" = 'n' ];then
+            rm -rf ${RDS_DATA_DIR}
+        fi
+        rm -rf /var/log/redis
+
+        chkconfig --del redis
+        rm -f /etc/init.d/redis
+
+        userdel -r redis 2>/dev/null
+
+        sed -i "/^REDIS$/d" ${INST_LOG}
+
+        succ_msg "Redis has been removed from your system!"
+        sleep 3
+    fi
 fi
 
 ## uninstall MySQL
