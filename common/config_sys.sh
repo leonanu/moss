@@ -26,7 +26,7 @@ fi
 ## bashrc settings
 if ! grep '^SET_BASHRC' ${INST_LOG} > /dev/null 2>&1 ;then
     if ! grep 'Moss bashrc' /etc/bashrc > /dev/null 2>&1 ;then
-cat > /etc/bashrc <<EOF
+cat >> /etc/bashrc <<EOF
 # Moss bashrc - START
 alias vi='vim'
 alias grep='grep --color'
@@ -42,7 +42,7 @@ fi
 ## vimrc settings
 if ! grep '^SET_VIMRC' ${INST_LOG} > /dev/null 2>&1 ;then
     if ! grep 'Moss vimrc' /etc/vimrc > /dev/null 2>&1 ;then
-cat > /etc/vimrc <<EOF
+cat >> /etc/vimrc <<EOF
 " Moss vimrc - START
 set background=dark
 set modeline
