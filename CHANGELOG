@@ -22,6 +22,7 @@ Moss Changelog
 * Installation will be abort if YUM install/update failed;
 * Fix YUM repository config file;
 * Fix installation TUI bug;
+* Fix Redis anonymous access. Add Redis password;
 - Remove Squid and Varnish;
 - Remove service.sh script, merged with config_sys.sh;
 

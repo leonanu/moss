@@ -55,6 +55,7 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
             warn_msg "Invalid option. Type m or s to continue."
         fi
     done
+    sed -i "s#requirepass.*#requirepass ${RDS_PASS}#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
     ## init scripts
     install -m 0755 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
     chkconfig --add redis
