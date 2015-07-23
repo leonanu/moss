@@ -9,7 +9,7 @@ Moss Changelog
 2.0.0
 =====
 2015-MM-DD
-! Support uninstall Moss. Select 'u' in installaion options;
+! Support uninstall Moss. Select 'u' in installaion interface;
 + Add HAProxy;
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);
