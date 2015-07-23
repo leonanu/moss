@@ -45,17 +45,18 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
         if [ $RD_ROLE = 'm' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/redis/redis-master.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
+            sed -i "s#requirepass.*#requirepass ${RDS_PASS}#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             RD_ROLE_TMP=1
         elif [ $RD_ROLE = 's' 2>/dev/null ]; then
             install -m 0644 ${TOP_DIR}/conf/redis/redis-slave.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#slaveof.*#slaveof ${RDS_MASTER_IP} 6379#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
+            sed -i "s#masterauth.*#masterauth ${RDS_PASS}#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             RD_ROLE_TMP=1
         else
             warn_msg "Invalid option. Type m or s to continue."
         fi
     done
-    sed -i "s#requirepass.*#requirepass ${RDS_PASS}#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
     ## init scripts
     install -m 0755 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
     chkconfig --add redis
