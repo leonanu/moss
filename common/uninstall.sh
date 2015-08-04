@@ -9,37 +9,14 @@ fi
 
 ## uninstall Redis
 if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
-    DEL_REDIS_INPUT=0
-    while [ ${DEL_REDIS_INPUT} -eq 0 ]; do
-        read -p "Do you wish to remove Redis?(y/N)" DEL_REDIS
-        if [[ "${DEL_REDIS}" = 'y' ]] || [[ "${DEL_REDIS}" = 'Y' ]];then
-            DEL_REDIS=y
-            DEL_REDIS_INPUT=1
-        elif [[ -z "${DEL_REDIS}" ]] || [[ "${DEL_REDIS}" = 'n' ]] || [[ "${DEL_REDIS}" = 'N' ]];then
-            DEL_REDIS=n
-            DEL_REDIS_INPUT=1
-        else
-            warn_msg "You can only input y or n."
-            DEL_REDIS_INPUT=0
-        fi
-    done
+    y_or_n 'Do you want to remove Redis?' 'n'
+    DEL_REDIS=${USER_INPUT}
 
-    succ_msg "\nStarting Uninstall Redis...\n"
     if [ "${DEL_REDIS}" = 'y' ];then
-        BAK_REDIS_DATA_INPUT=0
-        while [ ${BAK_REDIS_DATA_INPUT} -eq 0 ]; do
-            read -p "Do you wish to keep Redis database?(Y/n)" BAK_REDIS_DATA
-            if [[ -z "${BAK_REDIS_DATA}" ]] || [[ "${BAK_REDIS_DATA}" = 'y' ]] || [[ "${BAK_REDIS_DATA}" = 'Y' ]];then
-                BAK_REDIS_DATA=y
-                BAK_REDIS_DATA_INPUT=1
-            elif [[ "${BAK_REDIS_DATA}" = 'n' ]] || [[ "${BAK_REDIS_DATA}" = 'N' ]];then
-                BAK_REDIS_DATA=n
-                BAK_REDIS_DATA_INPUT=1
-            else
-                warn_msg "You can only input y or n."
-                BAK_REDIS_DATA_INPUT=0
-            fi
-        done
+        succ_msg "\nStarting Uninstall Redis...\n"
+
+        y_or_n 'Do you wish to keep Redis database?' 'y'
+        BAK_REDIS_DATA=${USER_INPUT}
 
         warn_msg "Stop Redis..."
         /etc/init.d/redis stop
@@ -72,67 +49,20 @@ fi
 
 ## uninstall MySQL
 if grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
-    DEL_MYSQL_INPUT=0
-    while [ ${DEL_MYSQL_INPUT} -eq 0 ]; do
-        read -p "Do you wish to remove MySQL Server?(y/N)" DEL_MYSQL
-        if [[ "${DEL_MYSQL}" = 'y' ]] || [[ "${DEL_MYSQL}" = 'Y' ]];then
-            DEL_MYSQL=y
-            DEL_MYSQL_INPUT=1
-        elif [[ -z "${DEL_MYSQL}" ]] || [[ "${DEL_MYSQL}" = 'n' ]] || [[ "${DEL_MYSQL}" = 'N' ]];then
-            DEL_MYSQL=n
-            DEL_MYSQL_INPUT=1
-        else
-            warn_msg "You can only input y or n."
-            DEL_MYSQL_INPUT=0
-        fi
-    done
+    y_or_n 'Do you want to remove MySQL?' 'n'
+    DEL_MYSQL=${USER_INPUT}
 
-    succ_msg "\nStarting Uninstall MySQL Server...\n"
     if [ "${DEL_MYSQL}" = 'y' ];then
-        BAK_MYSQL_DATA_INPUT=0
-        while [ ${BAK_MYSQL_DATA_INPUT} -eq 0 ]; do
-            read -p "Do you wish to keep MySQL database?(Y/n)" BAK_MYSQL_DATA
-            if [[ -z "${BAK_MYSQL_DATA}" ]] || [[ "${BAK_MYSQL_DATA}" = 'y' ]] || [[ "${BAK_MYSQL_DATA}" = 'Y' ]];then
-                BAK_MYSQL_DATA=y
-                BAK_MYSQL_DATA_INPUT=1
-            elif [[ "${BAK_MYSQL_DATA}" = 'n' ]] || [[ "${BAK_MYSQL_DATA}" = 'N' ]];then
-                BAK_MYSQL_DATA=n
-                BAK_MYSQL_DATA_INPUT=1
-            else
-                warn_msg "You can only input y or n."
-                BAK_MYSQL_DATA_INPUT=0
-            fi
-        done
+        succ_msg "\nStarting Uninstall MySQL Server...\n"
 
-        BAK_MYSQL_CONF_INPUT=0
-        while [ ${BAK_MYSQL_CONF_INPUT} -eq 0 ]; do
-            read -p "Do you wish to keep MySQL my.cnf?(Y/n)" BAK_MYSQL_CONF
-            if [[ -z "${BAK_MYSQL_CONF}" ]] || [[ "${BAK_MYSQL_CONF}" = 'y' ]] || [[ "${BAK_MYSQL_CONF}" = 'Y' ]];then
-                BAK_MYSQL_CONF=y
-                BAK_MYSQL_CONF_INPUT=1
-            elif [[ "${BAK_MYSQL_CONF}" = 'n' ]] || [[ "${BAK_MYSQL_CONF}" = 'N' ]];then
-                BAK_MYSQL_CONF=n
-                BAK_MYSQL_CONF_INPUT=1
-            else
-                warn_msg "You can only input y or n."
-                BAK_MYSQL_CONF_INPUT=0
-            fi
-        done
+        y_or_n 'Do you wish to keep MySQL database?' 'y'
+        BAK_MYSQL_DATA=${USER_INPUT}
 
-        BAK_MYSQL_BACK_INPUT=0
-        while [ ${BAK_MYSQL_BACK_INPUT} -eq 0 ]; do
-            read -p "Do you wish to keep MySQL database backup?(Y/n)" BAK_MYSQL_BACK
-            if [[ -z "${BAK_MYSQL_BACK}" ]] || [[ "${BAK_MYSQL_BACK}" = 'y' ]] || [[ "${BAK_MYSQL_BACK}" = 'Y' ]];then
-                BAK_MYSQL_BACK=y
-                BAK_MYSQL_BACK_INPUT=1
-            elif [[ "${BAK_MYSQL_BACK}" = 'n' ]] || [[ "${BAK_MYSQL_BACK}" = 'N' ]];then
-                BAK_MYSQL_BACK=n
-                BAK_MYSQL_BACK_INPUT=1
-            else
-                warn_msg "You can only input y or n."
-                BAK_MYSQL_BACK_INPUT=0
-            fi
-        done
+        y_or_n 'Do you wish to keep MySQL my.cnf?' 'y'
+        BAK_MYSQL_CONF=${USER_INPUT}
+
+        y_or_n 'Do you wish to keep MySQL database backup?' 'y'
+        BAK_MYSQL_BACK=${USER_INPUT}
 
         warn_msg "Stop MySQL Server..."
         /etc/init.d/mysqld stop
@@ -183,37 +113,14 @@ fi
 
 ## uninstall Nginx
 if grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ; then
-    DEL_NGINX_INPUT=0
-    while [ ${DEL_NGINX_INPUT} -eq 0 ]; do
-        read -p "Do you wish to remove Nginx?(y/N)" DEL_NGINX
-        if [[ "${DEL_NGINX}" = 'y' ]] || [[ "${DEL_NGINX}" = 'Y' ]];then
-            DEL_NGINX=y
-            DEL_NGINX_INPUT=1
-        elif [[ -z "${DEL_NGINX}" ]] || [[ "${DEL_NGINX}" = 'n' ]] || [[ "${DEL_NGINX}" = 'N' ]];then
-            DEL_NGINX=n
-            DEL_NGINX_INPUT=1
-        else
-            warn_msg "You can only input y or n."
-            DEL_NGINX_INPUT=0
-        fi
-    done
+    y_or_n 'Do you wish to remove Nginx?' 'n'
+    DEL_NGINX=${USER_INPUT}
 
-    succ_msg "\nStarting Uninstall Nginx...\n"
     if [ "${DEL_NGINX}" = 'y' ];then
-        BAK_NGINX_DOCROOT_INPUT=0
-        while [ ${BAK_NGINX_DOCROOT_INPUT} -eq 0 ]; do
-            read -p "Do you wish to keep Nginx document root?(Y/n)" BAK_NGINX_DOCROOT
-            if [[ -z "${BAK_NGINX_DOCROOT}" ]] || [[ "${BAK_NGINX_DOCROOT}" = 'y' ]] || [[ "${BAK_NGINX_DOCROOT}" = 'Y' ]];then
-                BAK_NGINX_DOCROOT=y
-                BAK_NGINX_DOCROOT_INPUT=1
-            elif [[ "${BAK_NGINX_DOCROOT}" = 'n' ]] || [[ "${BAK_NGINX_DOCROOT}" = 'N' ]];then
-                BAK_NGINX_DOCROOT=n
-                BAK_NGINX_DOCROOT_INPUT=1
-            else
-                warn_msg "You can only input y or n."
-                BAK_NGINX_DOCROOT_INPUT=0
-            fi
-        done
+        succ_msg "\nStarting Uninstall Nginx...\n"
+
+        y_or_n 'Do you wish to keep Nginx document root?' 'y'
+        BAK_NGINX_DOCROOT=${USER_INPUT}
 
         warn_msg "Stop Nginx..."
         /etc/init.d/nginx stop

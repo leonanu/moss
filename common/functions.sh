@@ -234,3 +234,29 @@ proc_exist(){
     #    fi
     #fi
 }
+
+## process user input and determine Yes or No.
+## $1(USER_PROMPT): The phrase that prompt user.
+## $2(DEFAULT_YN): The default value. Only y and n is available.
+## Example: y_or_n 'Do you love me?' 'y'
+function y_or_n(){
+    local USER_PROMPT=$1
+    local DEFAULT_YN=$2
+    local LOOP_SW=0
+    while [ ${LOOP_SW} -eq 0 ]; do
+        read -p "${USER_PROMPT}(y/n default:"${DEFAULT_YN}")" USER_INPUT
+        if [[ "${USER_INPUT}" = 'y' ]] || [[ "${USER_INPUT}" = 'Y' ]];then
+            USER_INPUT=y
+            LOOP_SW=1
+        elif [[ "${USER_INPUT}" = 'n' ]] || [[ "${USER_INPUT}" = 'N' ]];then
+            USER_INPUT=n
+            LOOP_SW=1
+        elif [ -z "${USER_INPUT}" ];then
+            USER_INPUT=${DEFAULT_YN}
+            LOOP_SW=1
+        else
+            warn_msg "You can only input y or n."
+            LOOP_SW=0
+        fi
+    done
+}
