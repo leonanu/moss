@@ -30,9 +30,13 @@ if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
         rm -f /usr/local/redis
         rm -rf ${INST_DIR}/redis-*
         rm -rf /var/log/redis
+
         if [ "${BAK_REDIS_DATA}" = 'n' ];then
             rm -rf ${RDS_DATA_DIR}
+        else
+            warn_msg "Redis database keeped in ${RDS_DATA_DIR}"
         fi
+
         rm -rf /var/log/redis
 
         chkconfig --del redis
@@ -85,14 +89,23 @@ if grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
         sed -i "/.*\/usr\/local\/etc\/logrotate\/mysql.*/d" /var/spool/cron/root
         sed -i "/.*# MySQL Backup.*/d" /var/spool/cron/root
         sed -i "/.*\/usr\/local\/bin\/xtrabackup\.sh.*/d" /var/spool/cron/root
+
         if [ "${BAK_MYSQL_DATA}" = 'n' ];then
             rm -rf ${MYSQL_DATA_DIR}
+        else
+            warn_msg "MySQL database keeped in ${MYSQL_DATA_DIR}"
         fi
+
         if [ "${BAK_MYSQL_CONF}" = 'n' ];then
             rm -f /etc/my.cnf
+        else
+            warn_msg "MySQL my.cnf keeped in /etc/my.cnf"
         fi
+
         if [ "${BAK_MYSQL_BACK}" = 'n' ];then
             rm -f ${XTRABACKUP_BACKUP_DIR}
+        else
+            warn_msg "MySQL database backup keeped in ${XTRABACKUP_BACKUP_DIR}"
         fi
 
         chkconfig --del mysqld
@@ -122,6 +135,9 @@ if grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ; then
         y_or_n 'Do you wish to keep Nginx document root?' 'y'
         BAK_NGINX_DOCROOT=${USER_INPUT}
 
+        y_or_n 'Do you wish to keep Nginx logs?' 'y'
+        BAK_NGINX_LOG=${USER_INPUT}
+
         warn_msg "Stop Nginx..."
         /etc/init.d/nginx stop
         sleep 3
@@ -138,10 +154,18 @@ if grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ; then
         rm -f /usr/local/etc/logrotate/nginx
         sed -i "/.*# Logrotate - Nginx.*/d" /var/spool/cron/root
         sed -i "/.*\/usr\/local\/etc\/logrotate\/nginx.*/d" /var/spool/cron/root
+
         if [ "${BAK_NGINX_DOCROOT}" = 'n' ];then
             rm -rf ${NGX_DOCROOT}
+        else
+            warn_msg "Nginx WEB site documents keeped in ${NGX_DOCROOT}"
         fi
-        rm -rf ${NGX_LOGDIR}
+
+        if [ "${BAK_NGINX_LOG}" = 'n' ];then
+            rm -rf ${NGX_LOGDIR}
+        else
+            warn_msg "Nginx logs keeped in ${NGX_LOGDIR}"
+        fi
 
         chkconfig --del nginx
         rm -f /etc/init.d/nginx
