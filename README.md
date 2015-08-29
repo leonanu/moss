@@ -17,7 +17,7 @@ You could set up a L.N.M.P based environment easily by Moss. Inlcude all feature
 * Install: Login with root and run ```./install ```
 
 ## Uninstall
-* Uninstall: Login with root and run ```./install``` and select 'u';
+* Uninstall: Login with root and run ```./install``` select 'u';
 
 ## Support
 * Site: http://leonanu.github.io/moss/
