@@ -183,3 +183,77 @@ if grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ; then
         sleep 3
     fi
 fi
+
+## uninstall PHP
+if grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove PHP?' 'n'
+    DEL_PHP=${USER_INPUT}
+
+    if [ "${DEL_PHP}" = 'y' ];then
+        succ_msg "\nStarting Uninstall PHP...\n"
+
+        y_or_n 'Do you wish to keep PHP logs?' 'y'
+        BAK_PHP_LOG=${USER_INPUT}
+
+        warn_msg "Stop PHP-FPM..."
+        /etc/init.d/php-fpm stop
+        sleep 3
+        if (pstree | grep php-fpm > /dev/null 2>&1) ; then
+            fail_msg "PHP-FPM Fail to Stop!"
+        else
+            succ_msg "PHP-FPM Stoped!"
+        fi
+
+        rm -f /usr/local/php
+        rm -rf ${INST_DIR}/php-*
+        rm -f /usr/local/etc/logrotate/php-fpm
+        sed -i "/.*# Logrotate - PHP-FPM.*/d" /var/spool/cron/root
+        sed -i "/.*\/usr\/local\/etc\/logrotate\/php-fpm.*/d" /var/spool/cron/root
+
+        if [ "${BAK_PHP_LOG}" = 'n' ];then
+            rm -rf /var/log/php
+        else
+            warn_msg "PHP logs keeped in /var/log/php"
+        fi
+
+        chkconfig --del php-fpm
+        rm -f /etc/init.d/php-fpm
+
+        if (pstree | grep nginx > /dev/null 2>&1) ; then
+            warn_msg "User www is used by Nginx now."
+            warn_msg "Moss will not delete www user."
+        else
+            userdel -r www 2>/dev/null
+        fi
+
+        sed -i "/^PHP$/d" ${INST_LOG}
+
+        if grep '^PECL_MEMCACHED$' ${INST_LOG} > /dev/null 2>&1 ; then
+            sed -i "/^PECL_MEMCACHED$/d" ${INST_LOG}
+            succ_msg "PECL Module: Memcached Removed!"
+        fi
+
+        if grep '^PECL_MEMCACHE$' ${INST_LOG} > /dev/null 2>&1 ; then
+            sed -i "/^PECL_MEMCACHE$/d" ${INST_LOG}
+            succ_msg "PECL Module: Memcache Removed!"
+        fi
+
+        if grep '^PECL_REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
+            sed -i "/^PECL_REDIS$/d" ${INST_LOG}
+            succ_msg "PECL Module: Redis Removed!"
+        fi
+
+        if grep '^PECL_XHPROF$' ${INST_LOG} > /dev/null 2>&1 ; then
+            sed -i "/^PECL_XHPROF$/d" ${INST_LOG}
+            succ_msg "PECL Module: Xhprof Removed!"
+        fi
+
+        if grep '^PECL_XCACHE$' ${INST_LOG} > /dev/null 2>&1 ; then
+            sed -i "/^PECL_XCACHE$/d" ${INST_LOG}
+            succ_msg "PECL Module: XCache Removed!"
+        fi
+
+        succ_msg "PHP has been removed from your system!"
+        sleep 3
+    fi
+fi

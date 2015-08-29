@@ -1,5 +1,5 @@
 #!/bin/bash
-if ! grep '^XCACHE$' ${INST_LOG} > /dev/null 2>&1 ;then
+if ! grep '^PECL_XCACHE$' ${INST_LOG} > /dev/null 2>&1 ;then
 
 ## handle source packages
     file_proc ${XCACHE_SRC}
@@ -21,7 +21,7 @@ if ! grep '^XCACHE$' ${INST_LOG} > /dev/null 2>&1 ;then
     chown -R www.www ${NGX_DOCROOT}
     service php-fpm restart
 ## record installed tag    
-    echo 'XCACHE' >> ${INST_LOG}
+    echo 'PECL_XCACHE' >> ${INST_LOG}
 else
-    succ_msg "XCache already installed!"
+    succ_msg "PECL-XCache already installed!"
 fi

@@ -137,7 +137,7 @@ web () {
 php () {
     source ${TOP_DIR}/compile/php.sh
     if [ $ISXCACHE -eq 1 ];then
-        source ${TOP_DIR}/compile/xcache.sh
+        source ${TOP_DIR}/compile/pecl_xcache.sh
     fi
     if [ $ISREDIS -eq 1 ];then
         source ${TOP_DIR}/compile/pecl_redis.sh
@@ -148,10 +148,6 @@ php () {
     if [ $ISMEMCACHED -eq 1 ];then
         source ${TOP_DIR}/compile/libmemcached.sh
         source ${TOP_DIR}/compile/pecl_memcached.sh
-    fi
-    if [ $ISGEARMAN -eq 1 ];then
-        source ${TOP_DIR}/compile/gearman.sh
-        source ${TOP_DIR}/compile/pecl_gearman.sh
     fi
     if [ $ISXHPROF -eq 1 ];then
         source ${TOP_DIR}/compile/pecl_xhprof.sh
