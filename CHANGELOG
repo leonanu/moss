@@ -14,7 +14,7 @@ Moss Changelog
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);
 * Optimize L.N.M.P and library packages install policy;
-* Speed up service installation;
+* Speed up service software packages installation;
 * Optimize system service on/off policy;
 * Enhance Bash command alias;
 * Enhance vimrc profile;
@@ -23,6 +23,7 @@ Moss Changelog
 * Fix YUM repository config file;
 * Fix installation TUI bug;
 * Fix Redis anonymous access. Add Redis password;
+* Fix SSH user login and public key jugement policy;
 - Remove Squid and Varnish;
 - Remove service.sh script, merged with config_sys.sh;
 

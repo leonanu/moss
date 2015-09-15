@@ -173,11 +173,17 @@ fi
     
 ## openssh
 if ! grep '^OPENSSH' ${INST_LOG} > /dev/null 2>&1 ;then
-    PUBKEY_NUM=$(ls -1 ${TOP_DIR}/etc/rsa_public_keys/*.pub 2>/dev/null | grep -v 'root.pub' | wc -l)
+    sed -r -i 's/^#?UseDNS.*/UseDNS no/g' /etc/ssh/sshd_config
+    sed -r -i 's/^#?PermitEmptyPasswords.*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    sed -r -i 's/GSSAPIAuthentication.*/GSSAPIAuthentication no/g' /etc/ssh/ssh_config
+
+    PUBKEY_NUM=$(ls -1 ${TOP_DIR}/etc/rsa_public_keys/*.pub 2>/dev/null | wc -l)
+    PUBKEY_NUM_USER=$(ls -1 ${TOP_DIR}/etc/rsa_public_keys/*.pub 2>/dev/null | grep -v 'root.pub' | wc -l)
+
     if [ ${SSH_PASS_AUTH} -eq 0 2>/dev/null ]; then
         if [ ${PUBKEY_NUM} -eq 0 2>/dev/null ];then
             warn_msg "ERROR!"
-            warn_msg "SSH password authentication disabled."
+            warn_msg "You want disable SSH password authentication."
             warn_msg "But no user SSH public key found!"
             warn_msg "You can not login system without user SSH key!"
             warn_msg "Please put user SSH RSA public keys in ${TOP_DIR}/etc/rsa_public_keys!"
@@ -185,12 +191,19 @@ if ! grep '^OPENSSH' ${INST_LOG} > /dev/null 2>&1 ;then
         fi
         sed -r -i 's/^#?PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config
     fi
-    sed -r -i 's/^#?UseDNS.*/UseDNS no/g' /etc/ssh/sshd_config
-    sed -r -i 's/^#?PermitEmptyPasswords.*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
-    sed -r -i 's/GSSAPIAuthentication.*/GSSAPIAuthentication no/g' /etc/ssh/ssh_config
-    if [ ${SSH_ROOT_LOGIN} -eq 0 2>/dev/null ]; then
+
+    if [[ ${SSH_ROOT_LOGIN} -eq 0 2>/dev/null ]] && [[ ${SSH_PASS_AUTH} -eq 0 2>/dev/null ]]; then
+        if [ ${PUBKEY_NUM_USER} -eq 0 2>/dev/null ];then
+            warn_msg "ERROR!"
+            warn_msg "You want disable root login via SSH."
+            warn_msg "But no other user SSH public key found and password authentication was disabled!"
+            warn_msg "You need to allow SSH password authentication or put other common user SSH public"
+            warn_msg "key in ${TOP_DIR}/etc/rsa_public_keys!"
+            fail_msg "Moss installation terminated!"
+        fi
         sed -r -i 's/^#?PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config
     fi
+
     /etc/rc.d/init.d/sshd restart
     ## log installed tag
     echo 'OPENSSH' >> ${INST_LOG}
