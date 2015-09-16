@@ -223,6 +223,7 @@ case "${MOSS_OPT}" in
         ;;
     6) # MySQL
         [ -z ${MYSQL_ROOT_PASS} ] && fail_msg "You MUST set MySQL root password in ${TOP_DIR}/etc/moss.conf!"
+        [ -z ${MYSQL_MULADMIN_USER} ] && fail_msg "You MUST set MySQL admin user name in ${TOP_DIR}/etc/moss.conf!"
         [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MySQL admin password in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_dev
