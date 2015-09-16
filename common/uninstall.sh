@@ -7,6 +7,62 @@ if [ ! -f "${INST_LOG}" ];then
     fail_msg "Quit Moss uninstallation!"
 fi
 
+## uninstall HA-Porxy
+if grep '^HAPROXY$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you want to remove HA-Proxy?' 'n'
+    DEL_HAPROXY=${USER_INPUT}
+
+    if [ "${DEL_HAPROXY}" = 'y' ];then
+        warn_msg "Stop HA-Proxy..."
+        /etc/init.d/haproxy stop
+        sleep 3
+        if (pstree | grep haproxy > /dev/null 2>&1) ; then
+            fail_msg "HA-Proxy Fail to Stop!"
+        else
+            succ_msg "HA-Proxy Stoped!"
+        fi
+
+        rm -f /usr/local/haproxy
+        rm -rf ${INST_DIR}/haproxy-*
+
+        chkconfig --del haproxy
+        rm -f /etc/init.d/haproxy
+
+        sed -i "/^HAPROXY$/d" ${INST_LOG}
+
+        succ_msg "HA-Proxy has been removed from your system!"
+        sleep 3
+    fi
+fi
+
+## uninstall KeepAlived
+if grep '^KEEPALIVED$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you want to remove KeepAlived?' 'n'
+    DEL_KEEPALIVED=${USER_INPUT}
+
+    if [ "${DEL_KEEPALIVED}" = 'y' ];then
+        warn_msg "Stop KeepAlived..."
+        /etc/init.d/keepalived stop
+        sleep 3
+        if (pstree | grep keepalived > /dev/null 2>&1) ; then
+            fail_msg "KeepAlived Fail to Stop!"
+        else
+            succ_msg "KeepAlived Stoped!"
+        fi
+
+        rm -f /usr/local/keepalived
+        rm -rf ${INST_DIR}/keepalived-*
+
+        chkconfig --del keepalived
+        rm -f /etc/init.d/keepalived
+
+        sed -i "/^KEEPALIVED$/d" ${INST_LOG}
+
+        succ_msg "KeepAlived has been removed from your system!"
+        sleep 3
+    fi
+fi
+
 ## uninstall Redis
 if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
     y_or_n 'Do you want to remove Redis?' 'n'
@@ -256,4 +312,164 @@ if grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ; then
         succ_msg "PHP has been removed from your system!"
         sleep 3
     fi
+fi
+
+## uninstall libevent
+if grep '^LIBEVENT$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove libevent?' 'n'
+    DEL_LIBEVENT=${USER_INPUT}
+
+    if [ "${DEL_LIBEVENT}" = 'y' ];then
+        rm -f /usr/local/libevent
+        rm -rf ${INST_DIR}/libevent-*
+
+        sed -i "/^LIBEVENT$/d" ${INST_LOG}
+
+        succ_msg "libevent has been removed from your system!"
+        sleep 3
+    fi
+fi
+
+## uninstall OpenSSL
+if grep '^OPENSSL$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove OpenSSL?' 'n'
+    DEL_OPENSSL=${USER_INPUT}
+
+    if [ "${DEL_OPENSSL}" = 'y' ];then
+        rm -f /usr/local/openssl
+        rm -rf ${INST_DIR}/openssl-*
+
+        sed -i "/^OPENSSL$/d" ${INST_LOG}
+
+        succ_msg "OpenSSL has been removed from your system!"
+        sleep 3
+    fi
+fi
+
+## uninstall zlib 
+if grep '^ZLIB$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove zlib?' 'n'
+    DEL_ZLIB=${USER_INPUT}
+    
+    if [ "${DEL_ZLIB}" = 'y' ];then
+        rm -f /usr/local/zlib
+        rm -rf ${INST_DIR}/zlib-*
+        
+        sed -i "/^ZLIB$/d" ${INST_LOG}
+        
+        succ_msg "zlib has been removed from your system!"
+        sleep 3
+    fi  
+fi
+
+## uninstall PCRE
+if grep '^PCRE$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove PCRE?' 'n'
+    DEL_PCRE=${USER_INPUT}
+    
+    if [ "${DEL_PCRE}" = 'y' ];then
+        rm -f /usr/local/pcre
+        rm -rf ${INST_DIR}/pcre-*
+        
+        sed -i "/^PCRE$/d" ${INST_LOG}
+        
+        succ_msg "PCRE has been removed from your system!"
+        sleep 3
+    fi  
+fi
+
+## uninstall LibXML2
+if grep '^LIBXML2$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove LibXML2?' 'n'
+    DEL_LIBXML2=${USER_INPUT}
+    
+    if [ "${DEL_LIBXML2}" = 'y' ];then
+        rm -f /usr/local/libxml2
+        rm -rf ${INST_DIR}/libxml2-*
+        
+        sed -i "/^LIBXML2$/d" ${INST_LOG}
+        
+        succ_msg "LibXML2 has been removed from your system!"
+        sleep 3
+    fi  
+fi
+
+## uninstall LibXML2
+if grep '^LIBXML2$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove LibXML2?' 'n'
+    DEL_LIBXML2=${USER_INPUT}
+    
+    if [ "${DEL_LIBXML2}" = 'y' ];then
+        rm -f /usr/local/libxml2
+        rm -rf ${INST_DIR}/libxml2-*
+        
+        sed -i "/^LIBXML2$/d" ${INST_LOG}
+        
+        succ_msg "LibXML2 has been removed from your system!"
+        sleep 3
+    fi  
+fi
+
+## uninstall LibMcrypt
+if grep '^LIBMCRYPT$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove LibMcrypt?' 'n'
+    DEL_LIBMCRYPT=${USER_INPUT}
+
+    if [ "${DEL_LIBMCRYPT}" = 'y' ];then
+        rm -f /usr/local/libmcrypt
+        rm -rf ${INST_DIR}/libmcrypt-*
+
+        sed -i "/^LIBMCRYPT$/d" ${INST_LOG}
+
+        succ_msg "LibMcrypt has been removed from your system!"
+        sleep 3
+    fi
+fi
+
+## uninstall LibMemcached
+if grep '^LIBMEMCACHED$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove LibMemcached?' 'n'
+    DEL_LIBMEMCACHED=${USER_INPUT}
+
+    if [ "${DEL_LIBMEMCACHED}" = 'y' ];then
+        rm -f /usr/local/libmemcached
+        rm -rf ${INST_DIR}/libmemcached-*
+
+        sed -i "/^LIBMEMCACHED$/d" ${INST_LOG}
+
+        succ_msg "LibMemcached has been removed from your system!"
+        sleep 3
+    fi
+fi
+
+## uninstall CURL
+if grep '^CURL$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove CURL?' 'n'
+    DEL_CURL=${USER_INPUT}
+    
+    if [ "${DEL_CURL}" = 'y' ];then
+        rm -f /usr/local/curl
+        rm -rf ${INST_DIR}/curl-*
+        
+        sed -i "/^CURL$/d" ${INST_LOG}
+        
+        succ_msg "CURL has been removed from your system!"
+        sleep 3
+    fi  
+fi
+
+## uninstall C-Ares
+if grep '^CARES$' ${INST_LOG} > /dev/null 2>&1 ; then
+    y_or_n 'Do you wish to remove C-Ares?' 'n'
+    DEL_CARES=${USER_INPUT}
+    
+    if [ "${DEL_CARES}" = 'y' ];then
+        rm -f /usr/local/c-ares
+        rm -rf ${INST_DIR}/c-ares-*
+        
+        sed -i "/^CARES$/d" ${INST_LOG}
+        
+        succ_msg "C-Ares has been removed from your system!"
+        sleep 3
+    fi  
 fi
