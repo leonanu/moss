@@ -246,10 +246,10 @@ function y_or_n(){
     local LOOP_SW=0
     while [ ${LOOP_SW} -eq 0 ]; do
         read -p "${USER_PROMPT}(y/n)[${DEFAULT_YN}]" USER_INPUT
-        if [[ "${USER_INPUT}" = 'y' ]] || [[ "${USER_INPUT}" = 'Y' ]];then
+        if [ "${USER_INPUT}" = 'y' ] || [ "${USER_INPUT}" = 'Y' ];then
             USER_INPUT=y
             LOOP_SW=1
-        elif [[ "${USER_INPUT}" = 'n' ]] || [[ "${USER_INPUT}" = 'N' ]];then
+        elif [ "${USER_INPUT}" = 'n' ] || [ "${USER_INPUT}" = 'N' ];then
             USER_INPUT=n
             LOOP_SW=1
         elif [ -z "${USER_INPUT}" ];then

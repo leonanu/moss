@@ -21,19 +21,13 @@ if ! grep '^SET_SELINUX' ${INST_LOG} > /dev/null 2>&1 ;then
     setenforce 0
     ## log installed tag
     echo 'SET_SELINUX' >> ${INST_LOG}
+    NEED_REBOOT=1
 fi
 
 ## bashrc settings
 if ! grep '^SET_BASHRC' ${INST_LOG} > /dev/null 2>&1 ;then
     if ! grep 'Moss bashrc' /etc/bashrc > /dev/null 2>&1 ;then
-cat >> /etc/bashrc <<EOF
-# Moss bashrc - START
-alias vi='vim'
-alias grep='grep --color'
-alias dstat='dstat -cdlmnpsy'
-export PROMPT_COMMAND='RETRN_VAL=$?;logger -p authpriv.debug "$(who -u am i): $(history 1 | sed "s/^[ ]*[0-9]+[ ]*//" ) [$PWD][$RETRN_VAL]"'
-# Moss bashrc - END
-EOF
+        cat ${TOP_DIR}/conf/bash/bashrc >> /etc/bashrc
     fi
     ## log installed tag
     echo 'SET_BASHRC' >> ${INST_LOG}
@@ -42,33 +36,7 @@ fi
 ## vimrc settings
 if ! grep '^SET_VIMRC' ${INST_LOG} > /dev/null 2>&1 ;then
     if ! grep 'Moss vimrc' /etc/vimrc > /dev/null 2>&1 ;then
-cat >> /etc/vimrc <<EOF
-" Moss vimrc - START
-set background=dark
-set modeline
-set wildmenu
-syntax on 
-set ruler
-set nobackup
-set ts=4
-set tabstop=4
-set paste
-"set foldenable
-"set foldmethod=indent
-"filetype indent plugin on
-let Tlist_Sort_Type = "name"
-let Tlist_Use_Right_Window = 1
-let Tlist_Compart_Format = 1
-let Tlist_Exist_OnlyWindow = 1
-let Tlist_File_Fold_Auto_Close = 0
-let Tlist_Enable_Fold_Column = 0
-autocmd InsertLeave * se nocul
-autocmd InsertEnter * se cul
-set showcmd
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
-set completeopt=preview,menu
-" Moss vimrc - END
-EOF
+        cat ${TOP_DIR}/conf/vi/vimrc >> /etc/vimrc
     fi
     ## log installed tag
     echo 'SET_VIMRC' >> ${INST_LOG}
@@ -192,7 +160,7 @@ if ! grep '^OPENSSH' ${INST_LOG} > /dev/null 2>&1 ;then
         sed -r -i 's/^#?PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config
     fi
 
-    if [[ ${SSH_ROOT_LOGIN} -eq 0 2>/dev/null ]] && [[ ${SSH_PASS_AUTH} -eq 0 2>/dev/null ]]; then
+    if [ ${SSH_ROOT_LOGIN} -eq 0 2>/dev/null ] && [ ${SSH_PASS_AUTH} -eq 0 2>/dev/null ]; then
         if [ ${PUBKEY_NUM_USER} -eq 0 2>/dev/null ];then
             warn_msg "ERROR!"
             warn_msg "You want disable root login via SSH."
@@ -219,11 +187,16 @@ fi
     
 ## sysctl
 if ! grep '^SYSCTL' ${INST_LOG} > /dev/null 2>&1 ;then
-    install -m 0644 ${TOP_DIR}/conf/sysctl/sysctl.conf /etc/sysctl.conf
-    echo 'options ip_conntrack hashsize=131072' >> /etc/modprobe.d/openfwwf.conf
-    sysctl -p
+    if ! grep 'Moss' /etc/sysctl.conf > /dev/null 2>&1 ;then
+        cat ${TOP_DIR}/conf/sysctl/sysctl.conf >> /etc/sysctl.conf
+        sysctl -p
+    fi
+    if ! grep 'ip_conntrack hashsize=' /etc/modprobe.d/openfwwf.conf > /dev/null 2>&1 ;then
+        cat ${TOP_DIR}/conf/sysctl/openfwwf.conf >> /etc/modprobe.d/openfwwf.conf
+    fi
     ## log installed tag
     echo 'SYSCTL' >> ${INST_LOG}
+    NEED_REBOOT=1
 fi
 
 ## System Handler
@@ -232,6 +205,7 @@ if ! grep '^SYS_HANDLER' ${INST_LOG} > /dev/null 2>&1 ;then
     echo  \* hard nofile 51200 >> /etc/security/limits.conf
     ## log installed tag
     echo 'SYS_HANDLER' >> ${INST_LOG}
+    NEED_REBOOT=1
 fi
 
 ## timezone
@@ -268,4 +242,5 @@ if ! grep '^SYS_SERVICE' ${INST_LOG} > /dev/null 2>&1 ;then
     done
     ## log installed tag
     echo 'SYS_SERVICE' >> ${INST_LOG}
+    NEED_REBOOT=1
 fi

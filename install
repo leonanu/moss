@@ -14,6 +14,9 @@ if [ $1 = '-v' ] 2>/dev/null;then
     exit 0
 fi
 
+## Reboot Flag
+NEED_REBOOT=0
+
 ## Global Readonly Variables
 ## !!! DO NOT Modify These Settings !!!
 readonly TOP_DIR="$(cd $(dirname $0);pwd)"
@@ -240,8 +243,7 @@ case "${MOSS_OPT}" in
         sysconfig
         zagent
         ;;
-    9) # NTP
-        install_dev
+    9) # NTP install_dev
         sysconfig
         ntp
         ;;
@@ -253,7 +255,7 @@ case "${MOSS_OPT}" in
     ;;
 esac
 
-if [ $MOSS_OPT = 'u' ];then
+if [ ${MOSS_OPT} = 'u' ];then
     succ_msg '=================================='
     succ_msg '= Moss Uninstalled Successfully! ='
     succ_msg '=================================='
@@ -264,6 +266,14 @@ else
     warn_msg '*DO NOT* delete Moss installation directory!'
     warn_msg 'Otherwise, you will not be able to UNINSTALL'
     warn_msg 'or UPDATE Moss in the future!'
+fi
+
+if [ ${NEED_REBOOT} -eq 1 2>/dev/null ];then
+    y_or_n 'Reboot the system to take effect?' 'y'
+    REBOOT_SYS=${USER_INPUT}
+    if [ "${REBOOT_SYS}" = 'y' ];then
+        init 6
+    fi
 fi
 
 ## Close I/O redirection

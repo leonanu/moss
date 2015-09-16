@@ -13,6 +13,7 @@ Moss Changelog
 + Add HAProxy;
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);
++ Prompt user reboot system if needed;
 * Optimize L.N.M.P and library packages install policy;
 * Speed up service software packages installation;
 * Optimize system service on/off policy;

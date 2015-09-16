@@ -21,6 +21,7 @@ if ! grep '^YUM_UPDATE' ${INST_LOG} > /dev/null 2>&1 ;then
     yum update -y || fail_msg "YUM Update Failed!"
     ## log installed tag
     echo 'YUM_UPDATE' >> ${INST_LOG}
+    NEED_REBOOT=1
 fi
 
 ## install RPMs
