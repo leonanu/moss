@@ -15,6 +15,7 @@ Moss Changelog
 + Support log user shell commands in syslog (/var/log/secure);
 + Prompt user reboot system if needed;
 + Set GRUB to visable boot mode;
++ Add /etc/resolv.conf optimize;
 * Optimize L.N.M.P and library packages install policy;
 * Speed up service software packages installation;
 * Optimize system service on/off policy;

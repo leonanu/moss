@@ -14,6 +14,15 @@ if ! grep '^SET_HOSTNAME' ${INST_LOG} > /dev/null 2>&1 ;then
     echo 'SET_HOSTNAME' >> ${INST_LOG}
 fi
 
+# set /etc/resolv.conf
+if ! grep '^SET_RESOLV' ${INST_LOG} > /dev/null 2>&1 ;then
+    if ! grep 'timeout' /etc/resolv.conf > /dev/null 2>&1 ;then
+        sed -i '1i\options timeout:1 attempts:1 rotate' /etc/resolv.conf
+    fi
+    ## log installed tag
+    echo 'SET_RESOLV' >> ${INST_LOG}
+fi
+
 # display boot message
 cp /boot/grub/grub.conf /boot/grub/grub.conf.ori
 sed -i 's/rhgb//g' /boot/grub/grub.conf
