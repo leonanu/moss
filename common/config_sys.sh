@@ -14,6 +14,10 @@ if ! grep '^SET_HOSTNAME' ${INST_LOG} > /dev/null 2>&1 ;then
     echo 'SET_HOSTNAME' >> ${INST_LOG}
 fi
 
+# display boot message
+cp /boot/grub/grub.conf /boot/grub/grub.conf.ori
+sed -i 's/rhgb//g' /boot/grub/grub.conf
+sed -i 's/quiet//g' /boot/grub/grub.conf
 
 ## selinux
 if ! grep '^SET_SELINUX' ${INST_LOG} > /dev/null 2>&1 ;then
