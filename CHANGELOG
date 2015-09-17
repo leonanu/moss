@@ -10,7 +10,6 @@ Moss Changelog
 =====
 2015-MM-DD
 ! Support uninstall Moss. Select 'u' in installaion interface;
-+ Add HAProxy;
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);
 + Prompt user reboot system if needed;
@@ -27,7 +26,7 @@ Moss Changelog
 * Fix installation TUI bug;
 * Fix Redis anonymous access. Add Redis password;
 * Fix SSH user login and public key jugement policy;
-- Remove Squid,Varnish,HA-Proxy,KeepAlived;
+- Remove Squid,Varnish and KeepAlived;
 - Remove service.sh script, merged with config_sys.sh;
 
 
