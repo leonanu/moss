@@ -55,7 +55,7 @@ if ! grep '^SET_VIMRC' ${INST_LOG} > /dev/null 2>&1 ;then
     echo 'SET_VIMRC' >> ${INST_LOG}
 fi
     
-## ntp
+## ntp client
 if ! grep '^SET_NTP' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0644 ${TOP_DIR}/conf/ntp/ntp_client.conf /etc/ntp.conf
     if ! grep 'Moss Time Sync' /var/spool/cron/root > /dev/null 2>&1 ;then 
@@ -138,11 +138,11 @@ fi
 
 ## genarate Moss key pair
 #if ! grep '^MOSS_KEY_PAIR' ${INST_LOG} > /dev/null 2>&1 ;then
-    #ssh-keygen -t rsa -N '' -C $OS_HOSTNAME -f /home/moss/.ssh/id_rsa
-    #chown -R moss.moss /home/moss/.ssh
-    #chmod 400 /home/moss/.ssh/id_rsa*
-    ### log installed tag
-    #echo 'MOSS_KEY_PAIR' >> ${INST_LOG}
+#    ssh-keygen -t rsa -N '' -C $OS_HOSTNAME -f /home/moss/.ssh/id_rsa
+#    chown -R moss.moss /home/moss/.ssh
+#    chmod 400 /home/moss/.ssh/id_rsa*
+#    ## log installed tag
+#    echo 'MOSS_KEY_PAIR' >> ${INST_LOG}
 #fi
 
 ## sudo

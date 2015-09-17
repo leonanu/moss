@@ -7,62 +7,6 @@ if [ ! -f "${INST_LOG}" ];then
     fail_msg "Quit Moss uninstallation!"
 fi
 
-## uninstall HA-Porxy
-if grep '^HAPROXY$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you want to remove HA-Proxy?' 'n'
-    DEL_HAPROXY=${USER_INPUT}
-
-    if [ "${DEL_HAPROXY}" = 'y' ];then
-        warn_msg "Stop HA-Proxy..."
-        /etc/init.d/haproxy stop
-        sleep 3
-        if (pstree | grep haproxy > /dev/null 2>&1) ; then
-            fail_msg "HA-Proxy Fail to Stop!"
-        else
-            succ_msg "HA-Proxy Stoped!"
-        fi
-
-        rm -f /usr/local/haproxy
-        rm -rf ${INST_DIR}/haproxy-*
-
-        chkconfig --del haproxy
-        rm -f /etc/init.d/haproxy
-
-        sed -i "/^HAPROXY$/d" ${INST_LOG}
-
-        succ_msg "HA-Proxy has been removed from your system!"
-        sleep 3
-    fi
-fi
-
-## uninstall KeepAlived
-if grep '^KEEPALIVED$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you want to remove KeepAlived?' 'n'
-    DEL_KEEPALIVED=${USER_INPUT}
-
-    if [ "${DEL_KEEPALIVED}" = 'y' ];then
-        warn_msg "Stop KeepAlived..."
-        /etc/init.d/keepalived stop
-        sleep 3
-        if (pstree | grep keepalived > /dev/null 2>&1) ; then
-            fail_msg "KeepAlived Fail to Stop!"
-        else
-            succ_msg "KeepAlived Stoped!"
-        fi
-
-        rm -f /usr/local/keepalived
-        rm -rf ${INST_DIR}/keepalived-*
-
-        chkconfig --del keepalived
-        rm -f /etc/init.d/keepalived
-
-        sed -i "/^KEEPALIVED$/d" ${INST_LOG}
-
-        succ_msg "KeepAlived has been removed from your system!"
-        sleep 3
-    fi
-fi
-
 ## uninstall Redis
 if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
     y_or_n 'Do you want to remove Redis?' 'n'

@@ -12,7 +12,6 @@ readonly LIBEVENT_SRC='libevent-2.0.21-stable.tar.gz|b2405cc9ebf264aa47ff615d9de
 readonly LIBMEMCACHED_SRC='libmemcached-1.0.18.tar.gz|b3958716b4e53ddc5992e6c49d97e819'
 readonly MEMCACHED_SRC='memcached-1.4.21.tar.gz|28e744a6ad14891443a582e7a8a62cdd'
 readonly PCRE_SRC='pcre-8.36.tar.gz|ff7b4bb14e355f04885cf18ff4125c98'
-readonly KEEPALIVED_SRC='keepalived-1.2.13.tar.gz|5f5c038139c55b5af54deefbcce64e33'
 readonly NGINX_SRC='nginx-1.6.2.tar.gz|d1b55031ae6e4bce37f8776b94d8b930'
 readonly REDIS_SRC='redis-2.8.17.tar.gz|69023c3005664602268a5e2dbe23425c'
 readonly MYSQL_SRC='mysql-5.6.21-linux-glibc2.5-x86_64.tar.gz|79f9a54bdc3731fd4bdf22db77f27ca7'

@@ -27,7 +27,7 @@ Moss Changelog
 * Fix installation TUI bug;
 * Fix Redis anonymous access. Add Redis password;
 * Fix SSH user login and public key jugement policy;
-- Remove Squid and Varnish;
+- Remove Squid,Varnish,HA-Proxy,KeepAlived;
 - Remove service.sh script, merged with config_sys.sh;
 
 

@@ -70,14 +70,12 @@ succ_msg "Website: https://github.com/leonanu/moss/\n"
 warn_msg "Please Select Moss Installation Option "
 warn_msg "================================================"
 warn_msg "1 - Initial & optimize CentOS system only;"
-warn_msg "2 - Install KeepAlived;"
-warn_msg "3 - Install HAProxy;"
-warn_msg "4 - Install Nginx web server standalone;"
-warn_msg "5 - Install Nginx web server and PHP FastCGI;"
-warn_msg "6 - Install MySQL database server;"
-warn_msg "7 - Install Redis and memcached NoSQL database;"
-warn_msg "8 - Install Zabbix agent;"
-warn_msg "9 - Install NTP server;"
+warn_msg "2 - Install Nginx web server standalone;"
+warn_msg "3 - Install Nginx web server and PHP FastCGI;"
+warn_msg "4 - Install MySQL database server;"
+warn_msg "5 - Install Redis and memcached NoSQL database;"
+warn_msg "6 - Install Zabbix agent;"
+warn_msg "7 - Install NTP server;"
 warn_msg "u - Uninstall Moss;"
 warn_msg "================================================\n"
 MOSS_OPT=1
@@ -119,16 +117,6 @@ install_libs () {
     source ${TOP_DIR}/compile/libxml2.sh
     source ${TOP_DIR}/compile/pcre.sh
     source ${TOP_DIR}/compile/libmcrypt.sh
-}
-
-## KeepAlived
-lb () {
-    source ${TOP_DIR}/compile/keepalived.sh
-}
-
-## HAProxy
-haproxy () {
-    source ${TOP_DIR}/compile/haproxy.sh
 }
 
 ## Nginx
@@ -190,30 +178,13 @@ case "${MOSS_OPT}" in
         install_dev
         sysconfig
         ;;
-    2) # KeepAlived
-        get_pkginfo
-        install_dev
-        sysconfig
-        install_libs
-        lb
-        ;;
-    3) # HAProxy
-        [ -z ${HA_PASSWORD} ] && fail_msg "You MUST set HA_PASSWORD in ${TOP_DIR}/etc/moss.conf!"
-        [ -z ${HA_PORT} ] && fail_msg "You MUST set HA_PORT in ${TOP_DIR}/etc/moss.conf!"
-        [ -z ${SITE_HOSTNAME} ] && fail_msg "You MUST set SITE_HOSTNAME in ${TOP_DIR}/etc/moss.conf!"
-        get_pkginfo
-        install_dev
-        sysconfig
-        install_libs
-        haproxy
-        ;;
-    4) # WEB Server Only
+    2) # WEB Server Only
         get_pkginfo
         install_dev
         sysconfig
         web
         ;;
-    5) # WEB
+    3) # WEB
         get_pkginfo
         install_dev
         sysconfig
@@ -221,7 +192,7 @@ case "${MOSS_OPT}" in
         web
         php
         ;;
-    6) # MySQL
+    4) # MySQL
         [ -z ${MYSQL_ROOT_PASS} ] && fail_msg "You MUST set MySQL root password in ${TOP_DIR}/etc/moss.conf!"
         [ -z ${MYSQL_MULADMIN_USER} ] && fail_msg "You MUST set MySQL admin user name in ${TOP_DIR}/etc/moss.conf!"
         [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MySQL admin password in ${TOP_DIR}/etc/moss.conf!"
@@ -230,21 +201,21 @@ case "${MOSS_OPT}" in
         sysconfig
         db
         ;;
-    7) # NoSQL
+    5) # NoSQL
         [ -z ${RDS_PASS} ] && fail_msg "You MUST set Redis password in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_dev
         sysconfig
         nosql 
         ;;
-    8) # Zabbix Agent
+    6) # Zabbix Agent
         [ -z ${ZABBIX_SERVER_IP} ] && fail_msg "You MUST set ZABBIX_SERVER_IP in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_dev
         sysconfig
         zagent
         ;;
-    9) # NTP install_dev
+    7) # NTP install_dev
         sysconfig
         ntp
         ;;
