@@ -228,24 +228,9 @@ if grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ; then
 
         sed -i "/^PHP$/d" ${INST_LOG}
 
-        if grep '^PECL_MEMCACHED$' ${INST_LOG} > /dev/null 2>&1 ; then
-            sed -i "/^PECL_MEMCACHED$/d" ${INST_LOG}
-            succ_msg "PECL Module: Memcached Removed!"
-        fi
-
-        if grep '^PECL_MEMCACHE$' ${INST_LOG} > /dev/null 2>&1 ; then
-            sed -i "/^PECL_MEMCACHE$/d" ${INST_LOG}
-            succ_msg "PECL Module: Memcache Removed!"
-        fi
-
         if grep '^PECL_REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
             sed -i "/^PECL_REDIS$/d" ${INST_LOG}
             succ_msg "PECL Module: Redis Removed!"
-        fi
-
-        if grep '^PECL_XHPROF$' ${INST_LOG} > /dev/null 2>&1 ; then
-            sed -i "/^PECL_XHPROF$/d" ${INST_LOG}
-            succ_msg "PECL Module: Xhprof Removed!"
         fi
 
         if grep '^PECL_XCACHE$' ${INST_LOG} > /dev/null 2>&1 ; then
@@ -254,22 +239,6 @@ if grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ; then
         fi
 
         succ_msg "PHP has been removed from your system!"
-        sleep 3
-    fi
-fi
-
-## uninstall libevent
-if grep '^LIBEVENT$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you wish to remove libevent?' 'n'
-    DEL_LIBEVENT=${USER_INPUT}
-
-    if [ "${DEL_LIBEVENT}" = 'y' ];then
-        rm -f /usr/local/libevent
-        rm -rf ${INST_DIR}/libevent-*
-
-        sed -i "/^LIBEVENT$/d" ${INST_LOG}
-
-        succ_msg "libevent has been removed from your system!"
         sleep 3
     fi
 fi
@@ -338,22 +307,6 @@ if grep '^LIBXML2$' ${INST_LOG} > /dev/null 2>&1 ; then
     fi  
 fi
 
-## uninstall LibXML2
-if grep '^LIBXML2$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you wish to remove LibXML2?' 'n'
-    DEL_LIBXML2=${USER_INPUT}
-    
-    if [ "${DEL_LIBXML2}" = 'y' ];then
-        rm -f /usr/local/libxml2
-        rm -rf ${INST_DIR}/libxml2-*
-        
-        sed -i "/^LIBXML2$/d" ${INST_LOG}
-        
-        succ_msg "LibXML2 has been removed from your system!"
-        sleep 3
-    fi  
-fi
-
 ## uninstall LibMcrypt
 if grep '^LIBMCRYPT$' ${INST_LOG} > /dev/null 2>&1 ; then
     y_or_n 'Do you wish to remove LibMcrypt?' 'n'
@@ -366,22 +319,6 @@ if grep '^LIBMCRYPT$' ${INST_LOG} > /dev/null 2>&1 ; then
         sed -i "/^LIBMCRYPT$/d" ${INST_LOG}
 
         succ_msg "LibMcrypt has been removed from your system!"
-        sleep 3
-    fi
-fi
-
-## uninstall LibMemcached
-if grep '^LIBMEMCACHED$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you wish to remove LibMemcached?' 'n'
-    DEL_LIBMEMCACHED=${USER_INPUT}
-
-    if [ "${DEL_LIBMEMCACHED}" = 'y' ];then
-        rm -f /usr/local/libmemcached
-        rm -rf ${INST_DIR}/libmemcached-*
-
-        sed -i "/^LIBMEMCACHED$/d" ${INST_LOG}
-
-        succ_msg "LibMemcached has been removed from your system!"
         sleep 3
     fi
 fi

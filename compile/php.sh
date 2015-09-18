@@ -119,7 +119,7 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
 ## check proc
     proc_exist php-fpm
     if [ ${PROC_FOUND} -eq 0 ];then
-        fail_msg "PHP FactCGI fail to start!"
+        fail_msg "PHP-FPM fail to start!"
     fi
 
 ## record installed tag

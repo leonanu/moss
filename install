@@ -71,7 +71,7 @@ warn_msg "1 - Initial & optimize CentOS system only;"
 warn_msg "2 - Install Nginx web server standalone;"
 warn_msg "3 - Install Nginx web server and PHP FastCGI;"
 warn_msg "4 - Install MySQL database server;"
-warn_msg "5 - Install Redis and memcached NoSQL database;"
+warn_msg "5 - Install Redis NoSQL database;"
 warn_msg "6 - Install Zabbix agent;"
 warn_msg "7 - Install NTP server;"
 warn_msg "u - Uninstall Moss;"
@@ -131,16 +131,6 @@ php () {
     if [ $ISREDIS -eq 1 ];then
         source ${TOP_DIR}/compile/pecl_redis.sh
     fi
-    if [ $ISMEMCACHE -eq 1 ];then
-        source ${TOP_DIR}/compile/pecl_memcache.sh
-    fi
-    if [ $ISMEMCACHED -eq 1 ];then
-        source ${TOP_DIR}/compile/libmemcached.sh
-        source ${TOP_DIR}/compile/pecl_memcached.sh
-    fi
-    if [ $ISXHPROF -eq 1 ];then
-        source ${TOP_DIR}/compile/pecl_xhprof.sh
-    fi
 }
 
 ## MySQL
@@ -152,8 +142,6 @@ db () {
 ## NoSQL
 nosql () {
     source ${TOP_DIR}/compile/redis.sh
-    source ${TOP_DIR}/compile/libevent.sh
-    source ${TOP_DIR}/compile/memcached.sh
 }
 
 ## Zabbix Agent

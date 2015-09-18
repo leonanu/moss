@@ -155,11 +155,7 @@ unpack(){
 
 ## compile and install package
 compile(){
-    if [ $IS_XHPROF -eq 1 ] 2> /dev/null;then
-        cd "${STORE_DIR}/${SRC_DIR}/extension"
-    else
-        cd "${STORE_DIR}/${SRC_DIR}"
-    fi
+    cd "${STORE_DIR}/${SRC_DIR}"
 
     [ -n "$LDFLAGS"  ] && export LDFLAGS
     [ -n "$CPPFLAGS" ] && export CPPFLAGS
