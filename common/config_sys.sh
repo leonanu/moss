@@ -200,7 +200,7 @@ fi
     
 ## sysctl
 if ! grep '^SYSCTL' ${INST_LOG} > /dev/null 2>&1 ;then
-    if ! grep 'Moss' /etc/sysctl.conf > /dev/null 2>&1 ;then
+    if ! grep 'Moss sysctl' /etc/sysctl.conf > /dev/null 2>&1 ;then
         cat ${TOP_DIR}/conf/sysctl/sysctl.conf >> /etc/sysctl.conf
         sysctl -p
     fi
