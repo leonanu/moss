@@ -27,11 +27,10 @@ readonly OS_VER=$(awk '$1~/CentOS/{print $3}' /etc/issue | cut -d. -f1)
 readonly STORE_DIR="${TOP_DIR}/src"
 readonly INST_LOG="/var/log/moss.log"
 readonly CHECK_MD5=1
-readonly HOME='/var/empty'
 readonly PATH='/usr/bin:/bin:/usr/sbin:/sbin'
 
 ## Shell Environment
-export HOME PATH
+export PATH
 alias cp='cp'
 alias mv='mv'
 alias rm='rm'
