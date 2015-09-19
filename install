@@ -214,7 +214,7 @@ if [ ${MOSS_OPT} = 'u' ];then
     succ_msg '=================================='
 else
     warn_msg '*DO NOT* delete Moss installation directory!'
-    warn_msg 'Otherwise, you will not be able to UNINSTALL'
+    warn_msg 'Otherwise, you will not be able to uninstall!'
     warn_msg 'or UPDATE Moss in the future!'
     succ_msg '================================'
     succ_msg '= Moss Installed Successfully! ='
@@ -222,7 +222,8 @@ else
 fi
 
 if [ ${NEED_REBOOT} -eq 1 2>/dev/null ];then
-    y_or_n 'Reboot the system to take effect?' 'y'
+    warn_msg 'System needs reboot to apply changes.'
+    y_or_n 'Reboot Now?' 'y'
     REBOOT_SYS=${USER_INPUT}
     if [ "${REBOOT_SYS}" = 'y' ];then
         init 6
