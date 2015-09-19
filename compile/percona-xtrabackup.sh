@@ -17,10 +17,11 @@ if ! grep '^XTRABACKUP$' ${INST_LOG} > /dev/null 2>&1 ; then
 
 ## backup
     install -m 0700 ${TOP_DIR}/conf/percona-xtrabackup/xtrabackup.sh /usr/local/bin/xtrabackup.sh
-    sed -i "s#^DATA_DIR.*#DATA_DIR=${XTRABACKUP_BACKUP_DIR}#" /usr/local/bin/xtrabackup.sh
+    sed -i "s#^BACKUP_DIR.*#BACKUP_DIR=${XTRABACKUP_BACKUP_DIR}#" /usr/local/bin/xtrabackup.sh
     sed -i "s#password=#password=${MYSQL_ROOT_PASS}#" /usr/local/bin/xtrabackup.sh
 
 ## cron job
+    echo '' >> /var/spool/cron/root
     echo '# MySQL Backup' >> /var/spool/cron/root
     echo '0 4 * * * /usr/local/bin/xtrabackup.sh' >> /var/spool/cron/root
     chown root:root /var/spool/cron/root

@@ -25,11 +25,13 @@ Moss Changelog
 * Refine every steps of system config;
 * Installation will be abort if YUM install/update failed;
 * Update php.ini for PHP 5.6;
+* Optimize MySQL my.cnf;
 * Fix YUM repository config file;
 * Fix installation TUI bug;
 * Fix Redis anonymous access. Add Redis password;
 * Fix SSH user login and public key jugement policy;
 * Fix Nginx Vim syntax file for Vim 7.x;
+* Fix MySQL database can not backup with Percona Xtrabackup;
 - Remove Squid,Varnish,KeepAlived,PECL XHProf and memcached;
 - Remove service.sh script, merged with config_sys.sh;
 

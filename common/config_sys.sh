@@ -59,6 +59,7 @@ fi
 if ! grep '^SET_NTP' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0644 ${TOP_DIR}/conf/ntp/ntp_client.conf /etc/ntp.conf
     if ! grep 'Moss Time Sync' /var/spool/cron/root > /dev/null 2>&1 ;then 
+        echo '' >> /var/spool/cron/root
         echo '# Moss Time Sync' >> /var/spool/cron/root
         echo '0 * * * * /usr/sbin/ntpdate cn.pool.ntp.org > /dev/null 2>&1;/sbin/hwclock -w > /dev/null 2>&1' >> /var/spool/cron/root
         chown root:root /var/spool/cron/root
