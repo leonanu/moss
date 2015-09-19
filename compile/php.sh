@@ -26,44 +26,42 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
             --with-config-file-path=${INST_DIR}/${SRC_DIR}/etc \
             --with-curl=${CURL_DIR} \
             --with-mysql=mysqlnd \
-            --enable-mysqlnd
             --with-mysqli=mysqlnd \
             --with-pdo-mysql=mysqlnd \
             --with-openssl \
             --with-zlib \
+            --with-mcrypt \
+            --with-gettext \
             --with-gd \
-            --enable-gd-jis-conv \
             --with-jpeg-dir \
             --with-png-dir \
             --with-gettext \
             --with-freetype-dir \
-            --enable-gd-native-ttf \
             --with-mhash \
             --with-gmp \
             --with-iconv \
             --with-xmlrpc \
             --with-pcre-regex \
             --without-pear \
-            --without-pdo-sqlite \
-            --without-sqlite3 \
-            --disable-cgi \
-            --disable-ipv6 \
-            --disable-phar \
-            --disable-rpath \
+            --enable-mysqlnd \
             --enable-fpm \
+            --enable-gd-jis-conv \
+            --enable-gd-native-ttf \
             --enable-ftp \
             --enable-zip \
-            --with-gettext \
             --enable-bcmath \
             --enable-sockets \
-            --with-mcrypt \
             --enable-calendar \
             --enable-shmop \
             --enable-sysvsem \
             --enable-sysvshm \
             --enable-sysvmsg \
             --enable-mbstring \
-            --enable-opcache "
+            --enable-opcache \
+            --disable-ipv6 \
+            --disable-cgi \
+            --disable-phar \
+            --disable-rpath"
 
 
 ## for compile
@@ -94,7 +92,10 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
         echo '0 0 * * * /usr/sbin/logrotate -f /usr/local/etc/logrotate/php-fpm > /dev/null 2>&1' >> /var/spool/cron/root
         chown root:root /var/spool/cron/root
         chmod 600 /var/spool/cron/root
-        # security
+        ## opcache
+        OPCACHE=$(find ${INST_DIR}/${SRC_DIR}/ -name 'opcache.so')
+        mv -f ${OPCACHE} ${INST_DIR}/${SRC_DIR}/ext/ 
+        ## security
         #sed -i "s#^open_basedir.*#open_basedir = "${NGX_DOCROOT},/tmp"#" /usr/local/php/etc/php.ini
         ## init scripts
         install -m 0755 ${TOP_DIR}/conf/php/php-fpm.init /etc/init.d/php-fpm

@@ -196,13 +196,6 @@ compile(){
         ln -sf ${INST_DIR}/${SRC_DIR} "$SYMLINK"
     fi
     
-    succ_msg "Strip files"
-    [ -d "${INST_DIR}/${SRC_DIR}/bin"    ] && strip ${INST_DIR}/${SRC_DIR}/bin/* > /dev/null 2>&1
-    [ -d "${INST_DIR}/${SRC_DIR}/sbin"   ] && strip ${INST_DIR}/${SRC_DIR}/sbin/* > /dev/null 2>&1
-    [ -d "${INST_DIR}/${SRC_DIR}/lib"    ] && find  ${INST_DIR}/${SRC_DIR}/lib/ -iregex '.*\.so' | xargs strip > /dev/null 2>&1
-    [ -d "${INST_DIR}/${SRC_DIR}/lib64"  ] && find  ${INST_DIR}/${SRC_DIR}/lib64/ -iregex '.*\.so' | xargs strip > /dev/null 2>&1
-    succ_msg "Finish strip files"
-   
     succ_msg "Clean old dir : ${STORE_DIR}/${SRC_DIR}" 
     cd ${STORE_DIR} && rm -rf "${STORE_DIR}/${SRC_DIR}"
 
