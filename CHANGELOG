@@ -32,7 +32,7 @@ Moss Changelog
 * Fix SSH user login and public key jugement policy;
 * Fix Nginx Vim syntax file for Vim 7.x;
 * Fix MySQL database can not backup with Percona Xtrabackup;
-- Remove PHP XCache. Use PHP build-in Zend OPcache instead;
+- Remove XCache. Use PHP 5.6 build-in Zend OPcache instead;
 - Remove Squid,Varnish,KeepAlived,PECL XHProf and memcached;
 - Remove service.sh script, merged with config_sys.sh;
 
