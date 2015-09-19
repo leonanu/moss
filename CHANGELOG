@@ -8,7 +8,7 @@ Moss Changelog
 
 2.0.0
 =====
-2015-MM-DD
+2015-09-19
 ! Support uninstall Moss. Select 'u' in installaion interface;
 ! Use CentOS original libs.(libxml2,zlib,openssl,pcre,libmcrypt etc.);
 + Add Name Service Caching Daemon (NSCD);
