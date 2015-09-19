@@ -10,11 +10,13 @@ Moss Changelog
 =====
 2015-MM-DD
 ! Support uninstall Moss. Select 'u' in installaion interface;
+! Use CentOS original libs.(libxml2,zlib,openssl,pcre,libmcrypt etc.);
 + Add Name Service Caching Daemon (NSCD);
 + Support log user shell commands in syslog (/var/log/secure);
 + Prompt user reboot system if needed;
 + Set GRUB to visable boot mode;
 + Add /etc/resolv.conf optimize;
++ Add package_info.sh tool;
 * Optimize L.N.M.P and library packages install policy;
 * Speed up service software packages installation;
 * Optimize system service on/off policy;
@@ -22,10 +24,12 @@ Moss Changelog
 * Enhance vimrc profile;
 * Refine every steps of system config;
 * Installation will be abort if YUM install/update failed;
+* 
 * Fix YUM repository config file;
 * Fix installation TUI bug;
 * Fix Redis anonymous access. Add Redis password;
 * Fix SSH user login and public key jugement policy;
+* Fix Nginx Vim syntax file for Vim 7.x;
 - Remove Squid,Varnish,KeepAlived,PECL XHProf and memcached;
 - Remove service.sh script, merged with config_sys.sh;
 

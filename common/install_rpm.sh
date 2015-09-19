@@ -36,7 +36,6 @@ bison
 blktrace
 byacc
 bzip2-devel
-c-ares-devel
 cmake
 crontabs
 cyrus-sasl-devel
@@ -53,12 +52,11 @@ gcc-c++
 glibc-devel
 gnupg2
 iotop
+htop
 iptraf
 jwhois
 lftp
 libaio-devel
-libcurl-devel
-libevent-devel
 libmcrypt-devel
 libnl-devel
 libstdc++-devel
@@ -86,8 +84,6 @@ patchutils
 pciutils
 pcre-devel
 popt-devel
-protobuf-c-devel
-protobuf-devel
 readline-devel
 rsync
 screen

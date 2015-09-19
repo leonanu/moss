@@ -1,5 +1,4 @@
 #!/bin/bash
-#### redis-2.8.x
 if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
 
 ## check proc

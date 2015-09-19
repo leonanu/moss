@@ -10,16 +10,11 @@ if ! grep '^CURL$' ${INST_LOG} > /dev/null 2>&1 ;then
     CARES_SYMLINK=$(readlink -f /usr/local/c-ares)
     CARES_DIR=${CARES_SYMLINK:-/usr/local/c-ares}
 
-    OPENSSL_SYMLINK=$(readlink -f /usr/local/openssl)
-    OPENSSL_DIR=${OPENSSL_SYMLINK:-/usr/local/openssl}
-
-    ZLIB_SYMLINK=$(readlink -f /usr/local/zlib)
-    ZLIB_DIR=${ZLIB_SYMLINK:-/usr/local/zlib}
 
 ## use ldflags and cppflags for compile and link
-    LDFLAGS="-L${ZLIB_DIR}/lib -L${OPENSSL_DIR}/lib -L${CARES_DIR}/lib -Wl,-rpath,${ZLIB_DIR}/lib -Wl,-rpath,${OPENSSL_DIR}/lib -Wl,-rpath,${CARES_DIR}/lib"
-    CFLAGS="-I${ZLIB_DIR}/include -I${OPENSSL_DIR}/include -I${CARES_DIR}/include"
-    CPPFLAGS="-I${ZLIB_DIR}/include -I${OPENSSL_DIR}/include -I${CARES_DIR}/include"
+    LDFLAGS="-L${CARES_DIR}/lib -Wl,-rpath,${CARES_DIR}/lib"
+    CFLAGS="-I${CARES_DIR}/include"
+    CPPFLAGS="-I${CARES_DIR}/include"
 
 ## compile    
     CONFIG="./configure --prefix=${INST_DIR}/${SRC_DIR} \
@@ -49,8 +44,6 @@ if ! grep '^CURL$' ${INST_LOG} > /dev/null 2>&1 ;then
     --disable-sspi \
     --disable-ntlm-wb \
     --disable-tls-srp \
-    --with-ssl=${OPENSSL_DIR} \
-    --with-zlib=${ZLIB_DIR} \
     --without-libssh2"
 
     MAKE='make'

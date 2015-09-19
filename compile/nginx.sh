@@ -8,20 +8,6 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
         fail_msg "There already have Nginx running!"
     fi
 
-## prepare packages source depend on Nginx
-    file_proc ${PCRE_SRC}
-    get_file
-    unpack
-    mv ${STORE_DIR}/${SRC_DIR} ${STORE_DIR}/pcre
-    file_proc ${ZLIB_SRC}
-    get_file
-    unpack
-    mv ${STORE_DIR}/${SRC_DIR} ${STORE_DIR}/zlib
-    file_proc ${OPENSSL_SRC}
-    get_file
-    unpack
-    mv ${STORE_DIR}/${SRC_DIR} ${STORE_DIR}/openssl
-
 ## nginx 
     file_proc ${NGINX_SRC}
     get_file
@@ -50,18 +36,13 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     --http-client-body-temp-path=/usr/local/nginx/var/tmp/client_body \
     --http-proxy-temp-path=/usr/local/nginx/var/tmp/proxy \
     --http-fastcgi-temp-path=/usr/local/nginx/var/tmp/fastcgi \
-    --with-pcre=${STORE_DIR}/pcre \
-    --with-zlib=${STORE_DIR}/zlib \
-    --with-openssl=${STORE_DIR}/openssl"
+    --with-pcre"
 
 ## for compile
     MAKE='make'
     INSTALL='make install'
     SYMLINK='/usr/local/nginx'
     compile
-    rm -rf ${STORE_DIR}/pcre
-    rm -rf ${STORE_DIR}/zlib
-    rm -rf ${STORE_DIR}/openssl
     
     [ ! -d "${INST_DIR}/${SRC_DIR}/conf/vhosts" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/conf/vhosts
 
@@ -89,8 +70,9 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     sed -i "s#.*ng_error_log.*#    error_log    ${NGX_LOGDIR}/error.log error;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
     sed -i "s#.*ng_fastcgi_param.*#        fastcgi_param    SCRIPT_FILENAME    ${NGX_DOCROOT}\$fastcgi_script_name;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
     ## Vim syntax hilight
-    install -m 0644 ${TOP_DIR}/conf/nginx/nginx.vim /usr/share/vim/vim72/syntax/nginx.vim
-    cat ${TOP_DIR}/conf/nginx/nginx.filetype >> /usr/share/vim/vim72/filetype.vim
+    VIM_SHARE_DIR=$(ls /usr/share/vim | grep 'vim7')
+    install -m 0644 ${TOP_DIR}/conf/nginx/nginx.vim /usr/share/vim/${VIM_SHARE_DIR}/syntax/nginx.vim
+    cat ${TOP_DIR}/conf/nginx/nginx.filetype >> /usr/share/vim/${VIM_SHARE_DIR}/filetype.vim
     ## log
     [ ! -d "/usr/local/etc/logrotate" ] && mkdir -m 0755 -p /usr/local/etc/logrotate
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.logrotate /usr/local/etc/logrotate/nginx

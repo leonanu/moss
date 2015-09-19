@@ -18,32 +18,19 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
     CURL_SYMLINK=$(readlink -f /usr/local/curl)
     CURL_DIR=${CURL_SYMLINK:-/usr/local/curl}
 
-    LIBXML2_SYMLINK=$(readlink -f /usr/local/libxml2)
-    LIBXML2_DIR=${LIBXML2_SYMLINK:-/usr/local/libxml2}
-
-    ZLIB_SYMLINK=$(readlink -f /usr/local/zlib)
-    ZLIB_DIR=${ZLIB_SYMLINK:-/usr/local/zlib}
-
-    OPENSSL_SYMLINK=$(readlink -f /usr/local/openssl)
-    OPENSSL_DIR=${OPENSSL_SYMLINK:-/usr/local/openssl}
-
-    LIBMCRYPT_SYMLINK=$(readlink -f /usr/local/libmcrypt)
-    LIBMCRYPT_DIR=${LIBMCRYPT_SYMLINK:-/usr/local/libmcrypt}
-
-    LDFLAGS="-L${ZLIB_DIR}/lib -L${OPENSSL_DIR}/lib -L${CURL_DIR}/lib -L${LIBXML2_DIR} -L${LIBMCRYPT_DIR}/lib -Wl,-rpath,${ZLIB_DIR}/lib -Wl,-rpath,${OPENSSL_DIR}/lib -Wl,-rpath,${CURL_DIR}/lib -Wl,-rpath,${LIBXML2_DIR}/lib -Wl,-rpath,${LIBMCRYPT_DIR}/lib"
-    CPPFLAGS="-I${ZLIB_DIR}/include -I${OPENSSL_DIR}/include -I${CURL_DIR}/include -I${LIBXML2_DIR} -I${LIBMCRYPT_DIR}/include"
+    LDFLAGS="-L${CURL_DIR}/lib -Wl,-rpath,${CURL_DIR}/lib"
+    CPPFLAGS="-I${CURL_DIR}/include"
 
     CONFIG="./configure \
             --prefix=${INST_DIR}/${SRC_DIR} \
             --with-config-file-path=${INST_DIR}/${SRC_DIR}/etc \
             --with-curl=${CURL_DIR} \
-            --with-libxml-dir=${LIBXML2_DIR} \
             --with-mysql=mysqlnd \
             --enable-mysqlnd
             --with-mysqli=mysqlnd \
             --with-pdo-mysql=mysqlnd \
-            --with-openssl=${OPENSSL_DIR} \
-            --with-zlib=${ZLIB_DIR} \
+            --with-openssl \
+            --with-zlib \
             --with-gd \
             --enable-gd-jis-conv \
             --with-jpeg-dir \
@@ -69,7 +56,7 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
             --with-gettext \
             --enable-bcmath \
             --enable-sockets \
-            --with-mcrypt=${LIBMCRYPT_DIR} \
+            --with-mcrypt \
             --enable-calendar \
             --enable-shmop \
             --enable-sysvsem \

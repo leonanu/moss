@@ -96,8 +96,8 @@ if ! grep '^YUM_WGET' ${INST_LOG} > /dev/null 2>&1 ;then
 fi
 
 ## Install development libs
-install_dev () {
-    source ${TOP_DIR}/common/install_dev.sh
+install_rpm () {
+    source ${TOP_DIR}/common/install_rpm.sh
 }
 
 ## Config System
@@ -108,13 +108,8 @@ sysconfig () {
 
 ## Build development library
 install_libs () {
-    source ${TOP_DIR}/compile/zlib.sh
-    source ${TOP_DIR}/compile/openssl.sh
     source ${TOP_DIR}/compile/cares.sh
     source ${TOP_DIR}/compile/curl.sh
-    source ${TOP_DIR}/compile/libxml2.sh
-    source ${TOP_DIR}/compile/pcre.sh
-    source ${TOP_DIR}/compile/libmcrypt.sh
 }
 
 ## Nginx
@@ -161,18 +156,18 @@ uninstall () {
 
 case "${MOSS_OPT}" in
     1) # Init
-        install_dev
+        install_rpm
         sysconfig
         ;;
     2) # WEB Server Only
         get_pkginfo
-        install_dev
+        install_rpm
         sysconfig
         web
         ;;
     3) # WEB
         get_pkginfo
-        install_dev
+        install_rpm
         sysconfig
         install_libs
         web
@@ -183,25 +178,25 @@ case "${MOSS_OPT}" in
         [ -z ${MYSQL_MULADMIN_USER} ] && fail_msg "You MUST set MySQL admin user name in ${TOP_DIR}/etc/moss.conf!"
         [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MySQL admin password in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
-        install_dev
+        install_rpm
         sysconfig
         db
         ;;
     5) # NoSQL
         [ -z ${RDS_PASS} ] && fail_msg "You MUST set Redis password in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
-        install_dev
+        install_rpm
         sysconfig
         nosql 
         ;;
     6) # Zabbix Agent
         [ -z ${ZABBIX_SERVER_IP} ] && fail_msg "You MUST set ZABBIX_SERVER_IP in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
-        install_dev
+        install_rpm
         sysconfig
         zagent
         ;;
-    7) # NTP install_dev
+    7) # NTP install_rpm
         sysconfig
         ntp
         ;;
@@ -218,12 +213,12 @@ if [ ${MOSS_OPT} = 'u' ];then
     succ_msg '= Moss Uninstalled Successfully! ='
     succ_msg '=================================='
 else
-    succ_msg '================================'
-    succ_msg '= Moss Installed Successfully! ='
-    succ_msg '================================'
     warn_msg '*DO NOT* delete Moss installation directory!'
     warn_msg 'Otherwise, you will not be able to UNINSTALL'
     warn_msg 'or UPDATE Moss in the future!'
+    succ_msg '================================'
+    succ_msg '= Moss Installed Successfully! ='
+    succ_msg '================================'
 fi
 
 if [ ${NEED_REBOOT} -eq 1 2>/dev/null ];then
