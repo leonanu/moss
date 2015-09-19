@@ -120,9 +120,6 @@ web () {
 ### PHP
 php () {
     source ${TOP_DIR}/compile/php.sh
-    if [ $ISXCACHE -eq 1 ];then
-        source ${TOP_DIR}/compile/pecl_xcache.sh
-    fi
     if [ $ISREDIS -eq 1 ];then
         source ${TOP_DIR}/compile/pecl_redis.sh
     fi

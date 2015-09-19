@@ -62,7 +62,8 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
             --enable-sysvsem \
             --enable-sysvshm \
             --enable-sysvmsg \
-            --enable-mbstring"
+            --enable-mbstring \
+            --enable-opcache "
 
 
 ## for compile
