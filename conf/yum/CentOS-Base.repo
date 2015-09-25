@@ -23,6 +23,7 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/os/$basearch/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+priority=1
 
 #released updates 
 [updates]
@@ -69,6 +70,7 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/centosplus/$basearch/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+priority=2
 
 #contrib - packages by Centos Users
 [contrib]

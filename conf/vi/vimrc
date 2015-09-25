@@ -21,6 +21,7 @@ let Tlist_Enable_Fold_Column = 0
 autocmd InsertLeave * se nocul
 autocmd InsertEnter * se cul
 set showcmd
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+set laststatus=2
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]
 set completeopt=preview,menu
 " Moss vimrc - END

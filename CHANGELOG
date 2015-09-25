@@ -6,6 +6,14 @@ Moss Changelog
 -	Feature remove;
 
 
+2.0.1
+=====
+2015-MM-DD
++ Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
+  and EPEL set to 3;
+* Fix Vim statusline;
+
+
 2.0.0
 =====
 2015-09-19

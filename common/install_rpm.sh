@@ -120,6 +120,7 @@ graphviz
 gmp
 gmp-devel
 perl-Time-HiRes
+yum-priorities
 EOF
 ) || fail_msg "Install RPMs Failed!"
 ## log installed tag
