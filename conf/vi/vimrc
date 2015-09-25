@@ -22,6 +22,6 @@ autocmd InsertLeave * se nocul
 autocmd InsertEnter * se cul
 set showcmd
 set laststatus=2
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l/%L,%v][%p%%]
 set completeopt=preview,menu
 " Moss vimrc - END
