@@ -12,6 +12,8 @@ Moss Changelog
 + Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
   and EPEL set to 3;
 * Fix Vim statusline;
+* Arrange RPMs in install_rpm.sh;
+- Remove htop RPM;
 
 
 2.0.0
