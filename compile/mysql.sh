@@ -21,7 +21,7 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     id mysql >/dev/null 2>&1 || useradd mysql -u 1002 -M -s /sbin/nologin
     [ ! -d $MYSQL_DATA_DIR ] && mkdir -m 0755 -p $MYSQL_DATA_DIR
     install -m 0644 ${TOP_DIR}/conf/mysql/my.cnf /etc/my.cnf
-    sed -i "s#server-id.*#server-id=${SERVER_ID}#" /etc/my.cnf
+    sed -i "s#server_id.*#server_id=${SERVER_ID}#" /etc/my.cnf
     sed -i "s#datadir.*#datadir=${MYSQL_DATA_DIR}#" /etc/my.cnf
     sed -i "s#innodb_data_home_dir.*#innodb_data_home_dir=${MYSQL_DATA_DIR}#" /etc/my.cnf
     sed -i "s#innodb_log_group_home_dir.*#innodb_log_group_home_dir=${MYSQL_DATA_DIR}#" /etc/my.cnf
