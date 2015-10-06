@@ -13,6 +13,7 @@ Moss Changelog
   and EPEL set to 3;
 * Fix Vim statusline;
 * Arrange RPMs in install_rpm.sh;
+* Update SaltStack installation. Use SaltStack official YUM repository;
 - Remove htop RPM;
 
 
