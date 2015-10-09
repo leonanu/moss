@@ -43,6 +43,7 @@ crontabs
 cyrus-sasl-devel
 db4-devel
 db4-utils
+dmidecode
 dos2unix
 dstat
 elinks
