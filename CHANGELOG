@@ -11,6 +11,7 @@ Moss Changelog
 2015-MM-DD
 + Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
   and EPEL set to 3;
++ Add dmidecode RPM;
 * Fix Vim statusline;
 * Arrange RPMs in install_rpm.sh;
 * Update SaltStack installation. Use SaltStack official YUM repository;
