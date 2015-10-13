@@ -39,6 +39,7 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/updates/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/updates/$basearch/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+priority=1
 
 #additional packages that may be useful
 [extras]
