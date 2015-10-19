@@ -23,7 +23,7 @@ if ! grep '^XTRABACKUP$' ${INST_LOG} > /dev/null 2>&1 ; then
 ## cron job
     echo '' >> /var/spool/cron/root
     echo '# MySQL Backup' >> /var/spool/cron/root
-    echo '0 4 * * * /usr/local/bin/xtrabackup.sh' >> /var/spool/cron/root
+    echo '0 4 * * * /usr/local/bin/xtrabackup.sh > /dev/null 2>&1' >> /var/spool/cron/root
     chown root:root /var/spool/cron/root
     chmod 600 /var/spool/cron/root
 

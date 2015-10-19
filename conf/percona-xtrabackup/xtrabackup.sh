@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/profile.d/path.sh
+
 DATE=$(date +%Y%m%d)
 RM_DATE=$(date --date '7 days ago' +'%Y%m%d')
 

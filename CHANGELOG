@@ -15,7 +15,8 @@ Moss Changelog
 * Fix Vim statusline;
 * Arrange RPMs in install_rpm.sh;
 * Update SaltStack installation. Use SaltStack official YUM repository;
-* Update Xtrabackup script. No lock database during backup;
+* Update Xtrabackup script. No database lock during backup and record
+  backup log;
 - Remove htop RPM;
 
 
@@ -56,7 +57,8 @@ Moss Changelog
 + Add server tools;
 + Log rotate will keep last 30 days logs, old logs will be deleted;
 + Before install a service, Moss will check if it has been running on host;
-* Update YUM repository config file. Using multi-repositories instead of single;
+* Update YUM repository config file. Using multi-repositories instead of 
+  single;
 * Fix Percona Xtrabackup script run fail;
 * Fix Nginx log rotate bug which it always rotate log to /var/log/nginx;
 * Reduce installation time when select mode 4 (Install Nginx only);
