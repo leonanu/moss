@@ -60,6 +60,7 @@ gmp
 gmp-devel
 gnupg2
 graphviz
+iftop
 iotop
 iptraf
 jwhois
