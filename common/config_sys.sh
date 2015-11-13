@@ -250,7 +250,7 @@ if ! grep '^SYS_SERVICE' ${INST_LOG} > /dev/null 2>&1 ;then
         service $SVC_ON start 2>/dev/null
     done
 
-    for SVC_OFF in arptables_jf arpwatch ip6tables iptables ipsec kdump mdmonitor netconsole netfs ntpd ntpdate postfix psacct quota_nld rdisc restorecond rngd saslauthd smartd snmpd snmptrapd svnserve winbind;do
+    for SVC_OFF in arptables_jf arpwatch ip6tables iptables ipsec kdump mdmonitor netconsole netfs nfs nfslock ntpd ntpdate postfix psacct quota_nld rdisc restorecond rngd rpcbind rpcgssd rpcsvcgssd saslauthd smartd snmpd snmptrapd svnserve winbind;do
         chkconfig $SVC_OFF off 2>/dev/null
         service  $SVC_OFF stop 2>/dev/null
     done
