@@ -1,28 +1,12 @@
 
 " Moss vimrc - START
+syntax on
 set background=dark
-set modeline
-set wildmenu
-syntax on 
-set ruler
+set showcmd
 set nobackup
 set ts=4
 set tabstop=4
-set expandtab
 set paste
-"set foldenable
-"set foldmethod=indent
-"filetype indent plugin on
-let Tlist_Sort_Type = "name"
-let Tlist_Use_Right_Window = 1
-let Tlist_Compart_Format = 1
-let Tlist_Exist_OnlyWindow = 1
-let Tlist_File_Fold_Auto_Close = 0
-let Tlist_Enable_Fold_Column = 0
-autocmd InsertLeave * se nocul
-autocmd InsertEnter * se cul
-set showcmd
 set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l/%L,%v][%p%%]
-set completeopt=preview,menu
 " Moss vimrc - END
