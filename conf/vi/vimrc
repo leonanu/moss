@@ -8,6 +8,7 @@ set ruler
 set nobackup
 set ts=4
 set tabstop=4
+set expandtab
 set paste
 "set foldenable
 "set foldmethod=indent
