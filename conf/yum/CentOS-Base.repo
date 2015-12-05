@@ -18,7 +18,6 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
         http://mirrors.163.com/centos/$releasever/os/$basearch/
         http://mirrors.sohu.com/centos/$releasever/os/$basearch/
         http://mirrors.yun-idc.com/centos/$releasever/os/$basearch/
-        http://mirrors.btte.net/centos/$releasever/os/$basearch/
         http://mirror.bit.edu.cn/centos/$releasever/os/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/os/$basearch/
 gpgcheck=1
@@ -34,7 +33,6 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/updates/$basearch/
         http://mirrors.163.com/centos/$releasever/updates/$basearch/
         http://mirrors.sohu.com/centos/$releasever/updates/$basearch/
         http://mirrors.yun-idc.com/centos/$releasever/updates/$basearch/
-        http://mirrors.btte.net/centos/$releasever/updates/$basearch/
         http://mirror.bit.edu.cn/centos/$releasever/updates/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/updates/$basearch/
 gpgcheck=1
@@ -50,7 +48,6 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/extras/$basearch/
         http://mirrors.163.com/centos/$releasever/extras/$basearch/
         http://mirrors.sohu.com/centos/$releasever/extras/$basearch/
         http://mirrors.yun-idc.com/centos/$releasever/extras/$basearch/
-        http://mirrors.btte.net/centos/$releasever/extras/$basearch/
         http://mirror.bit.edu.cn/centos/$releasever/extras/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/extras/$basearch/
 gpgcheck=1
@@ -67,7 +64,6 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/centosplus/$basearch/
         http://mirrors.163.com/centos/$releasever/centosplus/$basearch/
         http://mirrors.sohu.com/centos/$releasever/centosplus/$basearch/
         http://mirrors.yun-idc.com/centos/$releasever/centosplus/$basearch/
-        http://mirrors.btte.net/centos/$releasever/centosplus/$basearch/
         http://mirror.bit.edu.cn/centos/$releasever/centosplus/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/centosplus/$basearch/
 gpgcheck=1
@@ -84,7 +80,6 @@ baseurl=http://mirrors.aliyun.com/centos/$releasever/contrib/$basearch/
         http://mirrors.163.com/centos/$releasever/contrib/$basearch/
         http://mirrors.sohu.com/centos/$releasever/contrib/$basearch/
         http://mirrors.yun-idc.com/centos/$releasever/contrib/$basearch/
-        http://mirrors.btte.net/centos/$releasever/contrib/$basearch/
         http://mirror.bit.edu.cn/centos/$releasever/contrib/$basearch/
         http://mirrors.ustc.edu.cn/centos/$releasever/contrib/$basearch/
 gpgcheck=1
