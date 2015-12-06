@@ -45,6 +45,8 @@ if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
         userdel -r redis 2>/dev/null
 
         sed -i "/^REDIS$/d" ${INST_LOG}
+        sed -i "/transparent_hugepage/d /etc/rc.local"
+        echo always > /sys/kernel/mm/transparent_hugepage/enabled
 
         succ_msg "Redis has been removed from your system!"
         sleep 3
