@@ -56,6 +56,9 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
             warn_msg "Invalid option. Type m or s to continue."
         fi
     done
+    ## THP
+    echo never > /sys/kernel/mm/transparent_hugepage/enabled
+    echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' >> /etc/rc.local
     ## init scripts
     install -m 0755 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
     chkconfig --add redis
