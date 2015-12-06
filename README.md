@@ -1,6 +1,6 @@
 # Moss
 
-Moss is an automatic services environment deploy system For CentOS.
+Moss is an automatic services environment deploy system for CentOS.
 
 You could set up a production environment easily by Moss. Inlcude all features below:
 
