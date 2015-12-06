@@ -34,17 +34,17 @@
         <h1>
 <a id="moss" class="anchor" href="#moss" aria-hidden="true"><span class="octicon octicon-link"></span></a>Moss</h1>
 
-<p>Moss is an automatic services environment deploy system For CentOS.</p>
+<p>Moss is an automatic services environment deploy system for CentOS.</p>
 
-<p>You could set up a L.N.M.P based environment easily by Moss. Inlcude all features below:</p>
+<p>You could set up a production environment easily by Moss. Inlcude all features below:</p>
 
 <ul>
 <li>
-<strong>Optimize</strong> - Automatic optimize CentOS system. Change to faster YUM repository mirror, add EPEL repository mirror, optimize kernel TCP settings, vi improved, sudo policy, SSH optimize;</li>
+<strong>Optimize</strong> - Automatic optimize CentOS system. Change to faster YUM repository mirror, add EPEL repository mirror, optimize kernel TCP settings, vi improved, sudo policy, SSH optimize...;</li>
 <li>
 <strong>Security</strong> - Turn off unused services, disable SSH password authentication, add users with SSH RSA keys accroding to user configuration;</li>
 <li>
-<strong>Services</strong> - Automatic install Nginx/PHP FastCGI/PECL modules(Redis, Memcache, Memcached, XCache, Xhprof)/MySQL/Percona Xtrabackup/Redis/Memcached/KeepAlived/Squid/Varnish/Zabbix ...;</li>
+<strong>Services</strong> - Automatic install Nginx/PHP FastCGI/PECL modules(Redis)/MySQL/Percona Xtrabackup/Redis/Zabbix Agent...;</li>
 <li>
 <strong>Performance</strong> - All serives were set to optimized settings, you could use it in production environment directly;</li>
 <li>
@@ -57,24 +57,38 @@
 <a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
 
 <ul>
-<li>Configure: Edit configuration file in ./etc/moos.conf. Change settings to fit your need.</li>
-<li>Package Repository: Moss support both download packages from a repository and get from local directory(./src). Set in ./etc/moss.conf</li>
+<li>Configure: Edit configuration file in <code>./etc/moss.conf</code>. Change settings to fit your need.</li>
+<li>Package Repository: Moss support both download packages from a repository and get from local directory(<code>./src</code>). Set in <code>./etc/moss.conf</code>
+</li>
 <li>Install: Login with root and run <code>./install</code>
 </li>
 </ul>
 
 <h2>
+<a id="uninstall" class="anchor" href="#uninstall" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uninstall</h2>
+
+<ul>
+<li>Login with root and run <code>./install</code> select 'u';</li>
+<li>Uninstall services only. All settings done by Moss will be kept;</li>
+</ul>
+
+<h2>
 <a id="support" class="anchor" href="#support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support</h2>
 
-<p>Nanu (<a href="mailto:nanu@inanu.net">nanu@inanu.net</a>)</p>
+<ul>
+<li>Site: <a href="http://leonanu.github.io/moss/">http://leonanu.github.io/moss/</a>
+</li>
+<li>Mail: <a href="mailto:nanu@inanu.net">nanu@inanu.net</a>
+</li>
+</ul>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Moss maintained by <a href="https://github.com/leonanu">Leo Nanu</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p class="copyright">Moss maintained by <a href="https://github.com/leonanu">leonanu</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
