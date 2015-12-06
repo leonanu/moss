@@ -3,12 +3,13 @@
 ## set hostname
 if ! grep '^SET_HOSTNAME' ${INST_LOG} > /dev/null 2>&1 ;then
     if [ ! -z "${OS_HOSTNAME}" ];then
-        SYS_HOSTNAME=$(hostname)
-        if [ ${OS_HOSTNAME} != $SYS_HOSTNAME ]; then
-            hostname ${OS_HOSTNAME}
-            sed -i "s#HOSTNAME.*#HOSTNAME=${OS_HOSTNAME}#" /etc/sysconfig/network
-            sed -i "s#127.*#& ${OS_HOSTNAME}#" /etc/hosts
+        OLD_HOSTNAME=$(hostname)
+        hostname "${OS_HOSTNAME}"
+        sed -i "s/HOSTNAME=.*/HOSTNAME=${OS_HOSTNAME}/g" /etc/sysconfig/network
+        if [ -n "$(grep "$OLD_HOSTNAME" /etc/hosts)" ]; then
+            sed -i "s/${OLD_HOSTNAME}//g" /etc/hosts
         fi
+        sed -i "s/127\.0\.0\.1.*/127.0.0.1    ${OS_HOSTNAME} localhost localhost.localdomain/" /etc/hosts
     fi
     ## log installed tag
     echo 'SET_HOSTNAME' >> ${INST_LOG}
