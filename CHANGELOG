@@ -8,7 +8,7 @@ Moss Changelog
 
 2.0.1
 =====
-2015-MM-DD
+2016-MM-DD
 + Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
   and EPEL set to 3;
 + Add dmidecode RPM;
@@ -18,6 +18,7 @@ Moss Changelog
 * Update SaltStack installation. Use SaltStack official YUM repository;
 * Update Xtrabackup script. No database lock during backup and record
   backup log;
+* Enable MySQL GTID by default;
 * Redis THP setting support;
 - Remove htop RPM;
 
