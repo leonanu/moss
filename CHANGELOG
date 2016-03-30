@@ -20,6 +20,7 @@ Moss Changelog
   backup log;
 * Enable MySQL GTID by default;
 * Redis THP setting support;
+* Optimize sysctl.conf;
 - Remove htop RPM;
 
 
