@@ -21,6 +21,7 @@ Moss Changelog
 * Enable MySQL GTID by default;
 * Redis THP setting support;
 * Optimize sysctl.conf;
+* Update Nginx SSL configuration;
 - Remove htop RPM;
 
 
