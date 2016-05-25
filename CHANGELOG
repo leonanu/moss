@@ -12,6 +12,7 @@ Moss Changelog
 + Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
   and EPEL set to 3;
 + Add dmidecode RPM;
+* Set default LANG and LC_ALL to en_US.UTF-8;
 * Fix Vim statusline;
 * vimrc optimized;
 * Arrange RPMs in install_rpm.sh;

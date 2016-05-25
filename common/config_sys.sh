@@ -196,6 +196,7 @@ fi
 if ! grep '^PROFILE' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0644 ${TOP_DIR}/conf/profile/history.sh /etc/profile.d/history.sh
     install -m 0644 ${TOP_DIR}/conf/profile/path.sh /etc/profile.d/path.sh
+    install -m 0644 ${TOP_DIR}/conf/profile/locale.sh /etc/profile.d/locale.sh
     ## log installed tag
     echo 'PROFILE' >> ${INST_LOG}
 fi
