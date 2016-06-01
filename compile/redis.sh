@@ -42,12 +42,12 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
         warn_msg "===========================\n"
         read -p "Select m or s:" RD_ROLE
         if [ $RD_ROLE = 'm' 2>/dev/null ]; then
-            install -m 0644 ${TOP_DIR}/conf/redis/redis-master.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
+            install -m 0600 ${TOP_DIR}/conf/redis/redis-master.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#requirepass.*#requirepass ${RDS_PASS}#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             RD_ROLE_TMP=1
         elif [ $RD_ROLE = 's' 2>/dev/null ]; then
-            install -m 0644 ${TOP_DIR}/conf/redis/redis-slave.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
+            install -m 0600 ${TOP_DIR}/conf/redis/redis-slave.conf ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#dir.*#dir $RDS_DATA_DIR#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#slaveof.*#slaveof ${RDS_MASTER_IP} 6379#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
             sed -i "s#masterauth.*#masterauth ${RDS_PASS}#" ${INST_DIR}/${SRC_DIR}/etc/redis.conf
@@ -60,7 +60,8 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     echo never > /sys/kernel/mm/transparent_hugepage/enabled
     echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' >> /etc/rc.local
     ## init scripts
-    install -m 0755 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
+    install -m 0700 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
+    sed -i "s#REDISPASS=.*#REDISPASS=${RDS_PASS}#" /etc/init.d/redis
     chkconfig --add redis
     chkconfig --level 35 redis on
     ## start

@@ -1,145 +1,43 @@
-#!/bin/bash
+#!/bin/sh
+#
+# Simple Redis init.d script conceived to work on Linux systems
+# as it does use of the /proc filesystem.
 
-# Support chkconfig on RedHat/CentOS
-# chkconfig:   2345 90 60
-# description: redis-server
-# processname: redis-server
-# config:      /usr/local/redis/etc/redis.conf
-# pidfile:     /var/run/redis.pid
+REDISPORT=6379
+REDISPASS=password
+EXEC=/usr/local/redis/bin/redis-server
+CLIEXEC=/usr/local/redis/bin/redis-cli
 
-# Support Linux Standard Base Core Specification 3.2
-### BEGIN INIT INFO
-# Provides:          redis-server
-# Required-Start:    $local_fs $syslog $network
-# Required-Stop:
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 S 1 6
-# Short-Description: start/stop redis-server daemon
-# Description:       redis-server is a NoSQL server
-### END INIT 
-
-#debug
-#set -x
-#check unbound variables 
-#set -u
-# Scripts PATH enviroment  
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
-# disable core dump
-ulimit -c 0
-# return value
-RETVAL=0
-# redis-server general config
-PROG="redis-server"
-SYMLINK=$(readlink -f /usr/local/redis)
-BASEDIR=${SYMLINK:-/usr/local/redis}
-DAEMON="${BASEDIR}/bin/${PROG}"
-ADMIN_CLI="${BASEDIR}/bin/redis-cli"
-CONF="${BASEDIR}/etc/redis.conf"
-PIDFILE="$(awk '$1~/^pidfile/{print $2}' $CONF)"
-LOCKFILE="/var/lock/${PROG}"
-REDIS_HOST='127.0.0.1'
-REDIS_PORT=$(awk '$1~/^port/{print $2}' $CONF)
-# redis-server start timeout milliscond
-STARTTIME=10000
-# redis-server stop timeout milliscond
-STOPTIME=10000
-
-#Common Function
-color_msg(){
-    local COLOR=$1
-    local MSG=$2
-    OFFSET="\033[60G"
-    NORMAL="\033[0m"
-    case $COLOR in
-        red)
-            COLOR="\033[1;40;31m"
-            ;;
-        green)
-            COLOR="\033[1;40;32m"
-            ;;
-        yellow)
-            COLOR="\033[1;40;33m"
-            ;;
-        *)
-            COLOR="\033[0m"
-            ;;
-    esac
-    echo -en "$OFFSET [$COLOR $MSG $NORMAL"
-    echo     "]"
-}
-
-start() {
-    echo -n "Starting $PROG : "
-    if [ -f "$PIDFILE" ]; then
-        echo -n "is already running."
-        color_msg yellow WARNING
-    else
-        $DAEMON $CONF >/dev/null 2>&1
-        if [  $? -eq 0 ]; then
-            color_msg green SUCCESS && touch $LOCKFILE
-        else
-            color_msg red FAILED && exit 1
-        fi
-    fi
-}
-
-stop() {
-    echo -n "Stopping $PROG : "
-    if [ ! -f "$PIDFILE" ]; then
-        echo -n "is not running."
-        color_msg yellow WARNING
-    else
-        PROC_PID=$(cat $PIDFILE)
-        ${ADMIN_CLI} -h ${REDIS_HOST} -p ${REDIS_PORT} shutdown >/dev/null 2>&1
-        while [ "$STOPTIME" -gt 0 ]; do
-            kill -0 $PROC_PID >/dev/null 2>&1 || break
-            STOPTIME=$(($STOPTIME-1))
-            echo -n "." && sleep 0.1s
-        done
-        if [ "$STOPTIME" -le 0 ]; then
-            color_msg red TIMEOUT && exit 1
-        else
-            color_msg green SUCCESS
-            rm -f $PIDFILE $LOCKFILE
-        fi
-    fi
-}
-
-restart() {
-        echo -n "Restart $PROG : "
-        echo
-        echo -en "\t" && stop
-        echo -en "\t" && start
-}
-
-status() {
-    if [ ! -f "$PIDFILE" ];then
-        echo "$PROG is stopped"
-        exit 3
-    else
-        echo "$PROG (pid $(cat $PIDFILE)) is running..."
-        exit 0
-    fi
-}
+PIDFILE=/var/run/redis.pid
+CONF="/usr/local/redis/etc/redis.conf"
 
 case "$1" in
     start)
-        start
+        if [ -f $PIDFILE ]
+        then
+                echo "$PIDFILE exists, process is already running or crashed"
+        else
+                echo "Starting Redis server..."
+                $EXEC $CONF
+        fi
         ;;
     stop)
-        stop
-        ;;
-    restart|try-restart)
-        restart
-        ;;
-    reload|force-reload)
-        restart
-        ;;
-    status)
-        status
+        if [ ! -f $PIDFILE ]
+        then
+                echo "$PIDFILE does not exist, process is not running"
+        else
+                PID=$(cat $PIDFILE)
+                echo "Stopping ..."
+                $CLIEXEC -p $REDISPORT -a $REDISPASS shutdown
+                while [ -x /proc/${PID} ]
+                do
+                    echo "Waiting for Redis to shutdown ..."
+                    sleep 1
+                done
+                echo "Redis stopped"
+        fi
         ;;
     *)
-        echo $"Usage: $0 {start|stop|restart|reload|status}"
-        exit 1
+        echo "Please use start or stop as first argument"
         ;;
 esac

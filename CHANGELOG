@@ -23,6 +23,9 @@ Moss Changelog
 * Redis THP setting support;
 * Optimize sysctl.conf;
 * Update Nginx SSL configuration;
+* Fix redis init script stop fail when requirepass used;
+* Redis bind to 127.0.0.1 by default;
+* redis.conf and redis init script set to 0600 and 0700;
 - Remove htop RPM;
 
 
