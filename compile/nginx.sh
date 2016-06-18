@@ -1,5 +1,5 @@
 #!/bin/bash
-## nginx-1.2.x
+## nginx-1.10.x
 if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
 
 ## check proc
@@ -17,26 +17,30 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     --pid-path=/var/run/nginx.pid \
     --error-log-path=/var/log/nginx/error.log \
     --http-log-path=/var/log/nginx/access.log \
+    --http-client-body-temp-path=/var/tmp/client_body \
+    --http-proxy-temp-path=/usr/local/nginx/var/tmp/proxy \
+    --http-fastcgi-temp-path=/usr/local/nginx/var/fastcgi \
+    --http-uwsgi-temp-path=/usr/local/nginx/var/uwsgi \
+    --with-threads \
     --with-file-aio \
     --with-http_ssl_module \
-    --with-http_spdy_module \
+    --with-http_v2_module \
     --with-http_realip_module \
     --with-http_addition_module \
+    --with-http_image_filter_module \
+    --with-http_gunzip_module \
     --with-http_gzip_static_module \
+    --with-http_auth_request_module \
     --with-http_stub_status_module \
+    --with-stream \
+    --with-stream_ssl_module \
+    --with-pcre \
     --without-http_ssi_module \
-    --without-http_userid_module \
-    --without-http_split_clients_module \
-    --without-http_uwsgi_module \
+    --without-http_geo_module \
     --without-http_scgi_module \
-    --without-http_memcached_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
-    --without-mail_smtp_module \
-    --http-client-body-temp-path=/usr/local/nginx/var/tmp/client_body \
-    --http-proxy-temp-path=/usr/local/nginx/var/tmp/proxy \
-    --http-fastcgi-temp-path=/usr/local/nginx/var/tmp/fastcgi \
-    --with-pcre"
+    --without-mail_smtp_module"
 
 ## for compile
     MAKE='make'
@@ -59,6 +63,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     ## tmp directory
     [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/client_body" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/client_body
     [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/fastcgi" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/fastcgi
+    [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/uwsgi" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/uwsgi
     [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/proxy" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/proxy
     chown -R www:www ${INST_DIR}/${SRC_DIR}/var
     ## conf

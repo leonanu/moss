@@ -9,6 +9,7 @@ Moss Changelog
 2.0.1
 =====
 2016-MM-DD
+! Update to support Nginx 1.10.x and above;
 + Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
   and EPEL set to 3;
 + Add dmidecode RPM;
