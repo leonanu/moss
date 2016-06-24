@@ -9,18 +9,26 @@
     nomail
     noolddir
     sharedscripts
+
+    prerotate
+        /etc/init.d/nginx reload
+    endscript
+
     postrotate
-        /bin/kill -USR1 $(cat /var/run/nginx.pid)
-        FILE_DATE=$(/bin/date +'%Y%m%d')
-        REAL_DATE=$(/bin/date --date '1 days ago' +'%Y%m%d')
-        LOG_FILE='access error'
-        for I in $LOG_FILE;do
-            /bin/mv /var/log/nginx/${I}.log-${FILE_DATE} /var/log/nginx/${I}.log-${REAL_DATE}
+        /etc/init.d/nginx reload
+        YESTERDAY=$(/bin/date --date '1 days ago' +'%Y%m%d')
+        cd /var/log/nginx
+        LOG_FILE=$(ls -1 *.log-*)
+
+        for I in ${LOG_FILE};do
+            LOG_FILE_NAME=$(echo ${I} | awk -F '.log-' '{print $1}')
+            LOG_FULL_NAME=${LOG_FILE_NAME}.log-${YESTERDAY}
+            mv ${I} ${LOG_FULL_NAME}
+
+            /bin/tar czf ${LOG_FULL_NAME}.tar.gz ${LOG_FULL_NAME}
+            rm -f ${LOG_FULL_NAME}
         done
-        for I in $LOG_FILE;do
-            /bin/tar czf /var/log/nginx/${I}.log-${REAL_DATE}.tar.gz /var/log/nginx/${I}.log-${REAL_DATE}
-            /bin/rm -f /var/log/nginx/${I}.log-${REAL_DATE}
-        done
+
         /bin/find /var/log/nginx/ -mtime +30 | xargs rm -rf
     endscript
 }

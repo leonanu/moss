@@ -9,18 +9,22 @@
     nomail
     noolddir
     sharedscripts
+
     postrotate
-        FILE_DATE=$(/bin/date +'%Y%m%d')
-        REAL_DATE=$(/bin/date --date '1 days ago' +'%Y%m%d')
-        LOG_FILE='errors fpm_error www_fpm_error www.slow'
+        /etc/init.d/php-fpm restart
+        YESTERDAY=$(/bin/date --date '1 days ago' +'%Y%m%d')
+        cd /var/log/php
+        LOG_FILE=$(ls -1 *.log-*)
+
         for I in $LOG_FILE;do
-            /bin/mv /var/log/php/${I}.log-${FILE_DATE} /var/log/php/${I}.log-${REAL_DATE}
+            LOG_FILE_NAME=$(echo ${I} | awk -F '.log-' '{print $1}')
+            LOG_FULL_NAME=${LOG_FILE_NAME}.log-${YESTERDAY}
+            mv ${I} ${LOG_FULL_NAME}
+
+            /bin/tar czf ${LOG_FULL_NAME}.tar.gz ${LOG_FULL_NAME}
+            rm -f ${LOG_FULL_NAME}
         done
-        /etc/rc.d/init.d/php-fpm restart
-        for I in $LOG_FILE;do
-            /bin/tar czf /var/log/php/${I}.log-${REAL_DATE}.tar.gz /var/log/php/${I}.log-${REAL_DATE}
-            /bin/rm -f /var/log/php/${I}.log-${REAL_DATE}
-        done
+
         /bin/find /var/log/php -mtime +30 | xargs rm -rf
     endscript
 }
