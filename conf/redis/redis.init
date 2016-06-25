@@ -1,7 +1,22 @@
 #!/bin/sh
 #
-# Simple Redis init.d script conceived to work on Linux systems
-# as it does use of the /proc filesystem.
+# Support chkconfig on RedHat/CentOS
+# chkconfig:   2345 90 60
+# description: redis-server
+# processname: redis-server
+# config:      /usr/local/redis/etc/redis.conf
+# pidfile:     /var/run/redis.pid
+
+# Support Linux Standard Base Core Specification 3.2
+### BEGIN INIT INFO
+# Provides:          redis-server
+# Required-Start:    $local_fs $syslog $network
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 S 1 6
+# Short-Description: start/stop redis-server daemon
+# Description:       redis-server is a NoSQL server
+### END INIT
 
 REDISPORT=6379
 REDISPASS=password
