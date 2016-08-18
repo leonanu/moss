@@ -31,7 +31,6 @@ if ! grep '^YUM_INSTALL' ${INST_LOG} > /dev/null 2>&1 ;then
 yum install -y $(cat <<EOF
 autoconf
 automake
-bash-completion
 bind-utils
 binutils
 bison
@@ -55,6 +54,7 @@ freetype-devel
 gcc
 gcc-c++
 gd-devel
+git
 glibc-devel
 gmp
 gmp-devel
