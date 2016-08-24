@@ -25,7 +25,6 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
             --prefix=${INST_DIR}/${SRC_DIR} \
             --with-config-file-path=${INST_DIR}/${SRC_DIR}/etc \
             --with-curl=${CURL_DIR} \
-            --with-mysql=mysqlnd \
             --with-mysqli=mysqlnd \
             --with-pdo-mysql=mysqlnd \
             --with-openssl \

@@ -37,8 +37,11 @@ bison
 blktrace
 byacc
 bzip2-devel
+c-ares
+c-ares-devel
 cmake
 crontabs
+curl-devel
 cyrus-sasl-devel
 db4-devel
 db4-utils
