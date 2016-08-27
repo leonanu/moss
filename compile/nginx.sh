@@ -101,7 +101,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     ## init scripts
     install -m 0755 ${TOP_DIR}/conf/nginx/nginx.init /etc/init.d/nginx
     chkconfig --add nginx
-    chkconfig --level 35 nginx on
+    chkconfig --level nginx on
     ## start
     service nginx start
     sleep 3

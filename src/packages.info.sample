@@ -1,9 +1,12 @@
 #!/bin/bash
 
-## DO NOT change anything in this file! Unless you know what you are doing.
+## CAUTION!
+## DO NOT modify variable names!
 
-readonly CARES_SRC='c-ares-1.10.0.tar.gz|1196067641411a75d3cbebe074fd36d8'
-readonly CURL_SRC='curl-7.36.0.tar.gz|643a7030b27449e76413d501d4b8eb57'
+## If you use PGM='local' in moss.conf, rename this file to packages.info.
+## Put source tarballs in this directory. And use ../tools/package_info.sh to
+## generate the tarballs md5 information.
+
 readonly NGINX_SRC='nginx-1.6.2.tar.gz|d1b55031ae6e4bce37f8776b94d8b930'
 readonly REDIS_SRC='redis-2.8.17.tar.gz|69023c3005664602268a5e2dbe23425c'
 readonly MYSQL_SRC='mysql-5.6.21-linux-glibc2.5-x86_64.tar.gz|79f9a54bdc3731fd4bdf22db77f27ca7'

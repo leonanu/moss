@@ -8,7 +8,7 @@
 #exec 2>${TOP_DIR}/stderr.log
 
 # Version
-readonly VER='2.0.1-dev'
+readonly VER='2.1.0'
 if [ $1 = '-v' ] 2>/dev/null;then
     echo Moss-${VER}
     exit 0
@@ -86,7 +86,14 @@ source ${TOP_DIR}/etc/moss.conf 2>/dev/null
 source ${TOP_DIR}/common/hwinfo.sh 2>/dev/null
 
 ## Check Install Directory
-[ ! -d $INST_DIR ] && mkdir -p $INST_DIR
+[ ! -d ${INST_DIR} ] && mkdir -m 0755 -p ${INST_DIR}
+
+## Check Moss log file
+[ ! -f ${INST_LOG} ] && touch ${INST_LOG}
+chmod 600 ${INST_LOG}
+
+## Check Moss security Directory
+[ ! -d '/root/.moss' ] && mkdir -m 0700 -p /root/.moss
 
 ## Check wget command
 if ! grep '^YUM_WGET' ${INST_LOG} > /dev/null 2>&1 ;then
@@ -108,8 +115,7 @@ sysconfig () {
 
 ## Build development library
 install_libs () {
-    source ${TOP_DIR}/compile/cares.sh
-    source ${TOP_DIR}/compile/curl.sh
+    echo ''
 }
 
 ## Nginx
@@ -162,7 +168,7 @@ case "${MOSS_OPT}" in
         sysconfig
         web
         ;;
-    3) # WEB
+    3) # WEB + PHP
         get_pkginfo
         install_rpm
         sysconfig
@@ -171,16 +177,12 @@ case "${MOSS_OPT}" in
         php
         ;;
     4) # MySQL
-        [ -z ${MYSQL_ROOT_PASS} ] && fail_msg "You MUST set MySQL root password in ${TOP_DIR}/etc/moss.conf!"
-        [ -z ${MYSQL_MULADMIN_USER} ] && fail_msg "You MUST set MySQL admin user name in ${TOP_DIR}/etc/moss.conf!"
-        [ -z ${MYSQL_MULADMIN_PASS} ] && fail_msg "You MUST set MySQL admin password in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_rpm
         sysconfig
         db
         ;;
     5) # NoSQL
-        [ -z ${RDS_PASS} ] && fail_msg "You MUST set Redis password in ${TOP_DIR}/etc/moss.conf!"
         get_pkginfo
         install_rpm
         sysconfig

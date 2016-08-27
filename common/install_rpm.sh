@@ -38,7 +38,9 @@ blktrace
 byacc
 bzip2-devel
 c-ares
+c-ares19
 c-ares-devel
+c-ares19-devel
 cmake
 crontabs
 curl-devel
@@ -66,7 +68,6 @@ graphviz
 iftop
 iotop
 iptraf
-jwhois
 lftp
 libaio-devel
 libjpeg-devel
@@ -136,18 +137,17 @@ fi
 ## install saltstack
 if [ ${INST_SALT} -eq 1 2>/dev/null ]; then
     if ! grep '^YUM_SALT' ${INST_LOG} > /dev/null 2>&1 ;then
-        succ_msg "Getting SaltStack repository key..."
-        wget -c -t10 -nH -T900 https://repo.saltstack.com/yum/rhel6/SALTSTACK-GPG-KEY.pub -P /tmp || fail_msg "Getting SaltStack Key Failed!"
-        rpm --import /tmp/SALTSTACK-GPG-KEY.pub
-        rm -f /tmp/SALTSTACK-GPG-KEY.pub
-        install -m 0644 ${TOP_DIR}/conf/yum/saltstack.repo /etc/yum.repos.d/saltstack.repo        
+        succ_msg "Getting SaltStack repository ..."
+        yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest-1.el6.noarch.rpm || fail_msg "Getting SaltStack Repository Failed!"
+        echo 'priority=1' >> salt-latest.repo
         yum clean expire-cache
         yum install --disablerepo=epel salt-minion -y || fail_msg "SaltStack Minion Install Failed!"
         [ -f "/etc/salt/minion" ] && rm -f /etc/salt/minion
         install -m 0644 ${TOP_DIR}/conf/saltstack/minion /etc/salt/minion
         sed -i "s#^master.*#master: ${SALT_MASTER}#" /etc/salt/minion
-        chkconfig salt-minion on
+        [ ! -d '/var/log/salt' ] && mkdir -m 0755 -p /var/log/salt
         service salt-minion start
+        chkconfig salt-minion on
         ## log installed tag
         echo 'YUM_SALT' >> ${INST_LOG}
     fi

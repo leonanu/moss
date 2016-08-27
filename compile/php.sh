@@ -15,16 +15,10 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
     # fix openldap libs link
     cp -frp /usr/lib64/libldap* /usr/lib/
 
-    CURL_SYMLINK=$(readlink -f /usr/local/curl)
-    CURL_DIR=${CURL_SYMLINK:-/usr/local/curl}
-
-    LDFLAGS="-L${CURL_DIR}/lib -Wl,-rpath,${CURL_DIR}/lib"
-    CPPFLAGS="-I${CURL_DIR}/include"
-
     CONFIG="./configure \
             --prefix=${INST_DIR}/${SRC_DIR} \
             --with-config-file-path=${INST_DIR}/${SRC_DIR}/etc \
-            --with-curl=${CURL_DIR} \
+            --with-curl \
             --with-mysqli=mysqlnd \
             --with-pdo-mysql=mysqlnd \
             --with-openssl \
@@ -99,7 +93,7 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
         ## init scripts
         install -m 0755 ${TOP_DIR}/conf/php/php-fpm.init /etc/init.d/php-fpm
         chkconfig --add php-fpm
-        chkconfig --level 35 php-fpm on
+        chkconfig --level php-fpm on
         ## start
         service php-fpm start
         sleep 3

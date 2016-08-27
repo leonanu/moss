@@ -6,13 +6,16 @@ Moss Changelog
 -	Feature remove;
 
 
-2.0.1
+2.1.0
 =====
-2016-MM-DD
-! Update to support Nginx 1.10.x and above;
+2016-08-27
+! Update to support Nginx 1.10.x;
+! Update to support PHP 7.0.x;
+! MySQL and Redis password generates by random and save to /root/.my.cnf
+  and /root/.moss;
 + Add YUM Priorities plugin. CentOS-Base set to 1, CentOS-Plus set to 2
   and EPEL set to 3;
-+ Add dmidecode RPM;
++ Add dmidecode curl c-ares RPMs;
 * Set default LANG and LC_ALL to en_US.UTF-8;
 * Fix Vim statusline;
 * vimrc optimized;
@@ -25,7 +28,10 @@ Moss Changelog
 * Optimize sysctl.conf;
 * Update Nginx SSL configuration;
 * Update Nginx PHP and MySQL logrotate policy;
+* Use NTP service instead of ntpdate cron job;
+* Use system default curl and c-ares to compile PHP;
 * Fix redis init script stop fail when requirepass used;
+* MySQL bind to 127.0.0.1 by default;
 * Redis bind to 127.0.0.1 by default;
 * redis.conf and redis init script set to 0600 and 0700;
 - Remove htop RPM;

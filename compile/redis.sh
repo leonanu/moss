@@ -23,14 +23,17 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
 
 ## for install config files
     SYMLINK='/usr/local/redis'
+    RDS_PASS=$(mkpasswd -s 0 -l 12)
+    echo ${RDS_PASS} > /root/.moss/redis.pass
+    chmod 600 /root/.moss/redis.pass
     succ_msg "Begin to install ${SRC_DIR} config files"
     ## user add
     id redis >/dev/null 2>&1 || useradd redis -u 1003 -M -s /sbin/nologin -d ${RDS_DATA_DIR}
     ## data dir
-    [ ! -d "${RDS_DATA_DIR}" ] && mkdir -m 0755 -p ${RDS_DATA_DIR}
+    [ ! -d ${RDS_DATA_DIR} ] && mkdir -m 0755 -p ${RDS_DATA_DIR}
     chown redis:redis -R ${RDS_DATA_DIR}
     ## log dir
-    [ ! -d "/var/log/redis" ] && mkdir -m 0755 -p /var/log/redis
+    [ ! -d '/var/log/redis' ] && mkdir -m 0755 -p /var/log/redis
     chown redis:redis -R /var/log/redis
     ## conf
     RD_ROLE_TMP=0
@@ -63,7 +66,7 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0700 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
     sed -i "s#REDISPASS=.*#REDISPASS=${RDS_PASS}#" /etc/init.d/redis
     chkconfig --add redis
-    chkconfig --level 35 redis on
+    chkconfig --level redis on
     ## start
     service redis start
     sleep 3

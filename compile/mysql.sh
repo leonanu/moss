@@ -50,7 +50,7 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     ## init scripts
     install -m 0755 ${SYMLINK}/support-files/mysql.server /etc/init.d/mysqld
     chkconfig --add mysqld
-    chkconfig --level 35 mysqld on
+    chkconfig --level mysqld on
     ## start
     service mysqld start
     sleep 3
@@ -74,6 +74,8 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     #    fi
     #done
 
+    MYSQL_ROOT_PASS=$(mkpasswd -s 0 -l 12)
+    MYSQL_MULADMIN_PASS=$(mkpasswd -s 0 -l 12)
     /usr/local/mysql/bin/mysqladmin -uroot password "${MYSQL_ROOT_PASS}"
     /usr/local/mysql/bin/mysqladmin -h127.0.0.1 -uroot password "${MYSQL_ROOT_PASS}" 
 

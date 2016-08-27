@@ -58,16 +58,16 @@ fi
     
 ## ntp client
 if ! grep '^SET_NTP' ${INST_LOG} > /dev/null 2>&1 ;then
-    install -m 0644 ${TOP_DIR}/conf/ntp/ntp_client.conf /etc/ntp.conf
-    if ! grep 'Moss Time Sync' /var/spool/cron/root > /dev/null 2>&1 ;then 
-        echo '' >> /var/spool/cron/root
-        echo '# Moss Time Sync' >> /var/spool/cron/root
-        echo '0 * * * * /usr/sbin/ntpdate cn.pool.ntp.org > /dev/null 2>&1;/sbin/hwclock -w > /dev/null 2>&1' >> /var/spool/cron/root
-        chown root:root /var/spool/cron/root
-        chmod 600 /var/spool/cron/root
-        /etc/rc.d/init.d/ntpd stop
-        chkconfig ntpd off
-    fi
+    #install -m 0644 ${TOP_DIR}/conf/ntp/ntp_client.conf /etc/ntp.conf
+    #if ! grep 'Moss Time Sync' /var/spool/cron/root > /dev/null 2>&1 ;then 
+        #echo '' >> /var/spool/cron/root
+        #echo '# Moss Time Sync' >> /var/spool/cron/root
+        #echo '0 * * * * /usr/sbin/ntpdate cn.pool.ntp.org > /dev/null 2>&1;/sbin/hwclock -w > /dev/null 2>&1' >> /var/spool/cron/root
+        #chown root:root /var/spool/cron/root
+        #chmod 600 /var/spool/cron/root
+        /etc/rc.d/init.d/ntpd restart
+        chkconfig ntpd on
+    #fi
     ## log installed tag
     echo 'SET_NTP' >> ${INST_LOG}
 fi
@@ -247,12 +247,12 @@ fi
 
 ## system service
 if ! grep '^SYS_SERVICE' ${INST_LOG} > /dev/null 2>&1 ;then
-    for SVC_ON in acpid atd auditd autofs cpuspeed crond haldaemon irqbalance messagebus network nscd portmap rsyslog sshd sysstat udev-post;do
+    for SVC_ON in acpid atd auditd autofs cpuspeed crond haldaemon irqbalance messagebus network nscd ntpd portmap rsyslog sshd sysstat udev-post;do
         chkconfig $SVC_ON on 2>/dev/null
         service $SVC_ON start 2>/dev/null
     done
 
-    for SVC_OFF in arptables_jf arpwatch ip6tables iptables ipsec kdump mdmonitor netconsole netfs nfs nfslock ntpd ntpdate postfix psacct quota_nld rdisc restorecond rngd rpcbind rpcgssd rpcsvcgssd saslauthd smartd snmpd snmptrapd svnserve winbind;do
+    for SVC_OFF in arptables_jf arpwatch ip6tables iptables ipsec kdump mdmonitor netconsole netfs nfs nfslock postfix psacct quota_nld rdisc restorecond rngd rpcbind rpcgssd rpcsvcgssd saslauthd smartd snmpd snmptrapd svnserve winbind;do
         chkconfig $SVC_OFF off 2>/dev/null
         service  $SVC_OFF stop 2>/dev/null
     done

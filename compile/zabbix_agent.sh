@@ -36,7 +36,7 @@ yum install -y net-snmp-devel libcurl-devel OpenIPMI-devel sqlite-devel libssh2-
     # init scripts
     install -m 0755 ${TOP_DIR}/conf/zabbix_agent/zabbix_agentd.init /etc/init.d/zabbix_agentd
     chkconfig --add zabbix_agentd
-    chkconfig --level 3 zabbix_agentd on
+    chkconfig --level zabbix_agentd on
     # chown
     # start
     service zabbix_agentd start

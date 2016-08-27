@@ -7,6 +7,7 @@ if [ ! -f "${INST_LOG}" ];then
     fail_msg "Quit Moss uninstallation!"
 fi
 
+
 ## uninstall Redis
 if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
     y_or_n 'Do you want to remove Redis?' 'n'
@@ -52,6 +53,7 @@ if grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ; then
         sleep 3
     fi
 fi
+
 
 ## uninstall MySQL
 if grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
@@ -126,6 +128,7 @@ if grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     fi
 fi
 
+
 ## uninstall Nginx
 if grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ; then
     y_or_n 'Do you wish to remove Nginx?' 'n'
@@ -186,6 +189,7 @@ if grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ; then
     fi
 fi
 
+
 ## uninstall PHP
 if grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ; then
     y_or_n 'Do you wish to remove PHP?' 'n'
@@ -238,36 +242,4 @@ if grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ; then
         succ_msg "PHP has been removed from your system!"
         sleep 3
     fi
-fi
-
-## uninstall CURL
-if grep '^CURL$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you wish to remove CURL?' 'n'
-    DEL_CURL=${USER_INPUT}
-    
-    if [ "${DEL_CURL}" = 'y' ];then
-        rm -f /usr/local/curl
-        rm -rf ${INST_DIR}/curl-*
-        
-        sed -i "/^CURL$/d" ${INST_LOG}
-        
-        succ_msg "CURL has been removed from your system!"
-        sleep 3
-    fi  
-fi
-
-## uninstall C-Ares
-if grep '^CARES$' ${INST_LOG} > /dev/null 2>&1 ; then
-    y_or_n 'Do you wish to remove C-Ares?' 'n'
-    DEL_CARES=${USER_INPUT}
-    
-    if [ "${DEL_CARES}" = 'y' ];then
-        rm -f /usr/local/c-ares
-        rm -rf ${INST_DIR}/c-ares-*
-        
-        sed -i "/^CARES$/d" ${INST_LOG}
-        
-        succ_msg "C-Ares has been removed from your system!"
-        sleep 3
-    fi  
 fi
