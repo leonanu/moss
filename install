@@ -8,7 +8,7 @@
 #exec 2>${TOP_DIR}/stderr.log
 
 # Version
-readonly VER='2.1.0'
+readonly VER='2.1.1-devel'
 if [ $1 = '-v' ] 2>/dev/null;then
     echo Moss-${VER}
     exit 0
