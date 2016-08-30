@@ -6,6 +6,13 @@ Moss Changelog
 -	Feature remove;
 
 
+2.1.1
+=====
+2016-MM-DD
+* Add Server-ID HTTP header in Nginx configuration. The Server-ID is
+  server hostname;
+
+
 2.1.0
 =====
 2016-08-27
