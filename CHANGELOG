@@ -11,6 +11,7 @@ Moss Changelog
 2016-MM-DD
 * Add Server-ID HTTP header in Nginx configuration. The Server-ID is
   server hostname;
+* Fix Nginx Anti-ClickJacking configure does not work in PHP handler;
 * Update Nginx FastCGI fastcgi_param configuration;
 
 
