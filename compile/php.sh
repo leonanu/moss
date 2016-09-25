@@ -31,6 +31,7 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
             --with-gettext \
             --with-freetype-dir \
             --with-mhash \
+            --with-ldap \
             --with-gmp \
             --with-iconv \
             --with-xmlrpc \
@@ -45,6 +46,7 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
             --enable-bcmath \
             --enable-sockets \
             --enable-calendar \
+            --enable-soap \
             --enable-shmop \
             --enable-sysvsem \
             --enable-sysvshm \
