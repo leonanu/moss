@@ -75,9 +75,10 @@ warn_msg "5 - Install Redis NoSQL database;"
 warn_msg "6 - Install Zabbix agent;"
 warn_msg "7 - Install NTP server;"
 warn_msg "u - Uninstall Moss;"
+warn_msg "q - Quit Installation;"
 warn_msg "================================================\n"
 MOSS_OPT=1
-read -p "Select an Install Option (Ctrl+C to quit):" MOSS_OPT
+read -p "Select an Install Option:" MOSS_OPT
 
 ## Import Moss Settings
 source ${TOP_DIR}/etc/moss.conf 2>/dev/null
@@ -201,6 +202,9 @@ case "${MOSS_OPT}" in
         ;;
     u) # Uninstall
         uninstall
+        ;;
+    q) # Quit
+        exit 0
         ;;
     *) # Invalid
        fail_msg "You specifid an invalid option!\n"
