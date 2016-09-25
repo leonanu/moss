@@ -11,6 +11,7 @@ Moss Changelog
 2016-MM-DD
 * Add Server-ID HTTP header in Nginx configuration. The Server-ID is
   server hostname;
+* Update Nginx FastCGI fastcgi_param configuration;
 
 
 2.1.0

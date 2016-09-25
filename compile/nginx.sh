@@ -73,7 +73,6 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     sed -i "s#.*ng_root.*#    root    ${NGX_DOCROOT};#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
     sed -i "s#.*ng_access_log.*#    access_log    ${NGX_LOGDIR}/access.log moss buffer=4k;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
     sed -i "s#.*ng_error_log.*#    error_log    ${NGX_LOGDIR}/error.log error;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
-    sed -i "s#.*ng_fastcgi_param.*#        fastcgi_param    SCRIPT_FILENAME    ${NGX_DOCROOT}\$fastcgi_script_name;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
     ## Vim syntax hilight
     VIM_SHARE_DIR=$(ls /usr/share/vim | grep 'vim7')
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.vim /usr/share/vim/${VIM_SHARE_DIR}/syntax/nginx.vim
