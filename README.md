@@ -1,10 +1,10 @@
 # Moss
 
-Moss is an automatic services environment deploy system for CentOS.
+Moss is an automatic services environment deploy system for CentOS 6.
 
 You could set up a production environment easily by Moss. Inlcude all features below:
 
-* **Optimize** - Automatic optimize CentOS system. Change to faster YUM repository mirror, add EPEL repository mirror, optimize kernel TCP settings, vi improved, sudo policy, SSH optimize...;
+* **Optimize** - Automatic optimize CentOS 6 system. Change to faster YUM repository mirror, add EPEL repository mirror, optimize kernel TCP settings, vi improved, sudo policy, SSH optimize...;
 * **Security** - Turn off unused services, disable SSH password authentication, add users with SSH RSA keys accroding to user configuration;
 * **Services** - Automatic install Nginx/PHP FastCGI/PECL modules(Redis)/MySQL/Percona Xtrabackup/Redis/Zabbix Agent...;
 * **Performance** - All serives were set to optimized settings, you could use it in production environment directly;
