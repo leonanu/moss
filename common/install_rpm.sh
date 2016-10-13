@@ -1,15 +1,5 @@
 #!/bin/bash
 
-## change YUM repo
-if [ ${CHANGE_YUM} -eq 1 2>/dev/null ];then
-    if ! grep '^YUM_CHANGE' ${INST_LOG} > /dev/null 2>&1 ;then
-        install -m 0644 ${TOP_DIR}/conf/yum/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
-        yum clean all
-        ## log installed tag
-        echo 'YUM_CHANGE' >> ${INST_LOG} 
-    fi
-fi
-
 ## install EPEL repo
 if ! grep '^ADD_EPEL' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0644 ${TOP_DIR}/conf/yum/epel.repo /etc/yum.repos.d/epel.repo

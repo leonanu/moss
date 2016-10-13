@@ -9,6 +9,7 @@ Moss Changelog
 2.1.1
 =====
 2016-MM-DD
+- Remove custom CentOS YUM repository config;
 * Add Server-ID HTTP header in Nginx configuration. The Server-ID is
   server hostname;
 * Fix Nginx Anti-ClickJacking configure does not work in PHP handler;
