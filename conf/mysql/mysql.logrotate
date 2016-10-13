@@ -12,6 +12,8 @@
 
     postrotate
         /usr/local/mysql/bin/mysqladmin ping && /usr/local/mysql/bin/mysqladmin flush-logs
+        chown -R mysql.mysql /var/log/mysql/
+
         YESTERDAY=$(/bin/date --date '1 days ago' +'%Y%m%d')
         cd /var/log/mysql
         LOG_FILE=$(ls -1 *.log-* | grep -v .tar.gz)

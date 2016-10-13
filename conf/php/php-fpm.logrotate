@@ -12,6 +12,8 @@
 
     postrotate
         /etc/init.d/php-fpm restart
+        chown -R www.www /var/log/php/
+
         YESTERDAY=$(/bin/date --date '1 days ago' +'%Y%m%d')
         cd /var/log/php
         LOG_FILE=$(ls -1 *.log-* | grep -v .tar.gz)
