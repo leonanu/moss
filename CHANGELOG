@@ -15,6 +15,7 @@ Moss Changelog
 * Fix Nginx Anti-ClickJacking configure does not work in PHP handler;
 * Update Nginx FastCGI fastcgi_param configuration;
 * Add PHP soap and ldap modules;
+* Fix Nginx tmp directories error;
 
 
 2.1.0

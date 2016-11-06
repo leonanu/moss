@@ -17,10 +17,10 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     --pid-path=/var/run/nginx.pid \
     --error-log-path=/var/log/nginx/error.log \
     --http-log-path=/var/log/nginx/access.log \
-    --http-client-body-temp-path=/var/tmp/client_body \
-    --http-proxy-temp-path=/usr/local/nginx/var/tmp/proxy \
-    --http-fastcgi-temp-path=/usr/local/nginx/var/fastcgi \
-    --http-uwsgi-temp-path=/usr/local/nginx/var/uwsgi \
+    --http-client-body-temp-path=/var/tmp/nginx/client_body \
+    --http-proxy-temp-path=/var/tmp/nginx/proxy \
+    --http-fastcgi-temp-path=/var/tmp/nginx/fastcgi \
+    --http-uwsgi-temp-path=/var/tmp/nginx/uwsgi \
     --with-threads \
     --with-file-aio \
     --with-http_ssl_module \
@@ -61,11 +61,12 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     [ ! -d "${NGX_LOGDIR}" ] && mkdir -m 0755 -p ${NGX_LOGDIR}
     chown -R www:www ${NGX_LOGDIR}
     ## tmp directory
-    [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/client_body" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/client_body
-    [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/fastcgi" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/fastcgi
-    [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/uwsgi" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/uwsgi
-    [ ! -d "${INST_DIR}/${SRC_DIR}/var/tmp/proxy" ] && mkdir -m 0755 -p ${INST_DIR}/${SRC_DIR}/var/tmp/proxy
-    chown -R www:www ${INST_DIR}/${SRC_DIR}/var
+    mkdir -p /var/tmp/nginx{client_body,proxy,fastcgi,uwsgi}
+    [ ! -d "/var/tmp/nginx/client_body" ] && mkdir -m 0777 -p /var/tmp/nginx/client_body
+    [ ! -d "/var/tmp/nginx/fastcgi" ] && mkdir -m 0777 -p /var/tmp/nginx/fastcgi
+    [ ! -d "/var/tmp/nginx/uwsgi" ] && mkdir -m 0777 -p /var/tmp/nginx/uwsgi
+    [ ! -d "/var/tmp/nginx/proxy" ] && mkdir -m 0777 -p /var/tmp/nginx/proxy
+    chown -R www:www /tmp/var/nginx
     ## conf
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.conf ${INST_DIR}/${SRC_DIR}/conf/nginx.conf
     install -m 0644 ${TOP_DIR}/conf/nginx/vhost.conf ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
