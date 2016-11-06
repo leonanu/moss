@@ -61,7 +61,6 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     [ ! -d "${NGX_LOGDIR}" ] && mkdir -m 0755 -p ${NGX_LOGDIR}
     chown -R www:www ${NGX_LOGDIR}
     ## tmp directory
-    mkdir -p /var/tmp/nginx{client_body,proxy,fastcgi,uwsgi}
     [ ! -d "/var/tmp/nginx/client_body" ] && mkdir -m 0777 -p /var/tmp/nginx/client_body
     [ ! -d "/var/tmp/nginx/fastcgi" ] && mkdir -m 0777 -p /var/tmp/nginx/fastcgi
     [ ! -d "/var/tmp/nginx/uwsgi" ] && mkdir -m 0777 -p /var/tmp/nginx/uwsgi
