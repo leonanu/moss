@@ -16,6 +16,7 @@ Moss Changelog
 * Update Nginx FastCGI fastcgi_param configuration;
 * Add PHP soap and ldap modules;
 * Fix Nginx tmp directories error;
+* Update Nginx vim indent and syntax config files;
 
 
 2.1.0

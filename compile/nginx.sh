@@ -13,6 +13,9 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     get_file
     unpack
 
+    ### get nginx vim files
+    [ -d "${STORE_DIR}/${SRC_DIR}/contrib/vim" ] && cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim
+
     CONFIG="./configure --prefix=${INST_DIR}/${SRC_DIR} \
     --pid-path=/var/run/nginx.pid \
     --error-log-path=/var/log/nginx/error.log \
@@ -75,8 +78,14 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     sed -i "s#.*ng_error_log.*#    error_log    ${NGX_LOGDIR}/error.log error;#" ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
     ## Vim syntax hilight
     VIM_SHARE_DIR=$(ls /usr/share/vim | grep 'vim7')
-    install -m 0644 ${TOP_DIR}/conf/nginx/nginx.vim /usr/share/vim/${VIM_SHARE_DIR}/syntax/nginx.vim
-    cat ${TOP_DIR}/conf/nginx/nginx.filetype >> /usr/share/vim/${VIM_SHARE_DIR}/filetype.vim
+    [ ! -d "/usr/share/vim/${VIM_SHARE_DIR}/ftdetect" ] && mkdir -m 0755 -p /usr/share/vim/${VIM_SHARE_DIR}/ftdetect
+    [ ! -d "/usr/share/vim/${VIM_SHARE_DIR}/indent" ] && mkdir -m 0755 -p /usr/share/vim/${VIM_SHARE_DIR}/indent
+    [ ! -d "/usr/share/vim/${VIM_SHARE_DIR}/syntax" ] && mkdir -m 0755 -p /usr/share/vim/${VIM_SHARE_DIR}/syntax
+    cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim/ftdetect/* /usr/share/vim/${VIM_SHARE_DIR}/ftdetect/
+    cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim/indent/* /usr/share/vim/${VIM_SHARE_DIR}/indent/
+    cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim/syntax/* /usr/share/vim/${VIM_SHARE_DIR}/syntax/
+    chown -R root.root /usr/share/vim/${VIM_SHARE_DIR}/
+    rm -rf ${STORE_DIR}/${SRC_DIR}/contrib
     ## log
     [ ! -d "/usr/local/etc/logrotate" ] && mkdir -m 0755 -p /usr/local/etc/logrotate
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.logrotate /usr/local/etc/logrotate/nginx
