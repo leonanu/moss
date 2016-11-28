@@ -1,0 +1,4 @@
+# Unit test / Log
+test.sh
+test*sh
+*.log
