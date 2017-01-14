@@ -50,7 +50,7 @@ if ! grep '^MYSQL$' ${INST_LOG} > /dev/null 2>&1 ; then
     ## init scripts
     install -m 0755 ${SYMLINK}/support-files/mysql.server /etc/init.d/mysqld
     chkconfig --add mysqld
-    chkconfig --level mysqld on
+    chkconfig --level 35 mysqld on
     ## start
     service mysqld start
     sleep 3

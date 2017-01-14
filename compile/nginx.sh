@@ -68,7 +68,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     [ ! -d "/var/tmp/nginx/fastcgi" ] && mkdir -m 0777 -p /var/tmp/nginx/fastcgi
     [ ! -d "/var/tmp/nginx/uwsgi" ] && mkdir -m 0777 -p /var/tmp/nginx/uwsgi
     [ ! -d "/var/tmp/nginx/proxy" ] && mkdir -m 0777 -p /var/tmp/nginx/proxy
-    chown -R www:www /tmp/var/nginx
+    chown -R www:www /var/tmp/nginx
     ## conf
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.conf ${INST_DIR}/${SRC_DIR}/conf/nginx.conf
     install -m 0644 ${TOP_DIR}/conf/nginx/vhost.conf ${INST_DIR}/${SRC_DIR}/conf/vhosts/${NGX_HOSTNAME}.conf
@@ -81,11 +81,11 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     [ ! -d "/usr/share/vim/${VIM_SHARE_DIR}/ftdetect" ] && mkdir -m 0755 -p /usr/share/vim/${VIM_SHARE_DIR}/ftdetect
     [ ! -d "/usr/share/vim/${VIM_SHARE_DIR}/indent" ] && mkdir -m 0755 -p /usr/share/vim/${VIM_SHARE_DIR}/indent
     [ ! -d "/usr/share/vim/${VIM_SHARE_DIR}/syntax" ] && mkdir -m 0755 -p /usr/share/vim/${VIM_SHARE_DIR}/syntax
-    cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim/ftdetect/* /usr/share/vim/${VIM_SHARE_DIR}/ftdetect/
-    cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim/indent/* /usr/share/vim/${VIM_SHARE_DIR}/indent/
-    cp -rf ${STORE_DIR}/${SRC_DIR}/contrib/vim ${STORE_DIR}/nginx_vim/syntax/* /usr/share/vim/${VIM_SHARE_DIR}/syntax/
+    cp -rf ${STORE_DIR}/nginx_vim/ftdetect/* /usr/share/vim/${VIM_SHARE_DIR}/ftdetect/
+    cp -rf ${STORE_DIR}/nginx_vim/indent/* /usr/share/vim/${VIM_SHARE_DIR}/indent/
+    cp -rf ${STORE_DIR}/nginx_vim/syntax/* /usr/share/vim/${VIM_SHARE_DIR}/syntax/
     chown -R root.root /usr/share/vim/${VIM_SHARE_DIR}/
-    rm -rf ${STORE_DIR}/${SRC_DIR}/contrib
+    rm -rf ${STORE_DIR}/nginx_vim
     ## log
     [ ! -d "/usr/local/etc/logrotate" ] && mkdir -m 0755 -p /usr/local/etc/logrotate
     install -m 0644 ${TOP_DIR}/conf/nginx/nginx.logrotate /usr/local/etc/logrotate/nginx
@@ -109,7 +109,7 @@ if ! grep '^NGINX$' ${INST_LOG} > /dev/null 2>&1 ;then
     ## init scripts
     install -m 0755 ${TOP_DIR}/conf/nginx/nginx.init /etc/init.d/nginx
     chkconfig --add nginx
-    chkconfig --level nginx on
+    chkconfig --level 35 nginx on
     ## start
     service nginx start
     sleep 3

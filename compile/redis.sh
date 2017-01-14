@@ -66,7 +66,7 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     install -m 0700 ${TOP_DIR}/conf/redis/redis.init /etc/init.d/redis
     sed -i "s#REDISPASS=.*#REDISPASS=${RDS_PASS}#" /etc/init.d/redis
     chkconfig --add redis
-    chkconfig --level redis on
+    chkconfig --level 35 redis on
     ## start
     service redis start
     sleep 3

@@ -95,7 +95,7 @@ if ! grep '^PHP$' ${INST_LOG} > /dev/null 2>&1 ;then
         ## init scripts
         install -m 0755 ${TOP_DIR}/conf/php/php-fpm.init /etc/init.d/php-fpm
         chkconfig --add php-fpm
-        chkconfig --level php-fpm on
+        chkconfig --level 35 php-fpm on
         ## start
         service php-fpm start
         sleep 3

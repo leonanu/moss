@@ -16,6 +16,7 @@ Moss Changelog
 * Update Nginx FastCGI fastcgi_param configuration;
 * Add PHP soap and ldap modules;
 * Fix Nginx tmp directories error;
+* Fix Nginx, PHP, Redis and MySQL services can not be set to auto start;
 * Update Nginx vim indent and syntax config files;
 
 
