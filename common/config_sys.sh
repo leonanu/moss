@@ -200,6 +200,18 @@ if ! grep '^PROFILE' ${INST_LOG} > /dev/null 2>&1 ;then
     ## log installed tag
     echo 'PROFILE' >> ${INST_LOG}
 fi
+
+## ipv6
+if ! grep '^IPV6' ${INST_LOG} > /dev/null 2>&1 ;then
+    if [ ${IPV6_OFF} -eq 1 2>/dev/null ]; then
+        if ! grep 'ipv6 off' /etc/modprobe.d/dist.conf > /dev/null 2>&1 ;then
+            cat ${TOP_DIR}/conf/network/ipv6.conf >> /etc/modprobe.d/dist.conf
+        fi
+    fi
+    ## log installed tag
+    echo 'IPV6' >> ${INST_LOG}
+    NEED_REBOOT=1
+fi
     
 ## sysctl
 if ! grep '^SYSCTL' ${INST_LOG} > /dev/null 2>&1 ;then
