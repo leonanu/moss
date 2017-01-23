@@ -8,7 +8,8 @@ Moss Changelog
 
 2.1.1
 =====
-2017-MM-DD
+2017-01-23
+! Final release for CentOS 6;
 + You cloud disable IPv6 in moss.conf;
 - Remove custom CentOS YUM repository config;
 * Add Server-ID HTTP header in Nginx configuration. The Server-ID is
