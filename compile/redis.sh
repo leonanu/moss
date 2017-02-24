@@ -28,7 +28,7 @@ if ! grep '^REDIS$' ${INST_LOG} > /dev/null 2>&1 ;then
     chmod 600 /root/.moss/redis.pass
     succ_msg "Begin to install ${SRC_DIR} config files"
     ## user add
-    id redis >/dev/null 2>&1 || useradd redis -u 1003 -M -s /sbin/nologin -d ${RDS_DATA_DIR}
+    id redis >/dev/null 2>&1 || useradd redis -u 1003 -M -s /sbin/nologin
     ## data dir
     [ ! -d ${RDS_DATA_DIR} ] && mkdir -m 0755 -p ${RDS_DATA_DIR}
     chown redis:redis -R ${RDS_DATA_DIR}

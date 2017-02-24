@@ -23,7 +23,7 @@ REDISPASS=password
 EXEC=/usr/local/redis/bin/redis-server
 CLIEXEC=/usr/local/redis/bin/redis-cli
 
-PIDFILE=/var/run/redis.pid
+PIDFILE=/tmp/redis.pid
 CONF="/usr/local/redis/etc/redis.conf"
 
 case "$1" in
